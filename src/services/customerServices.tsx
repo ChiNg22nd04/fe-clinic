@@ -1,6 +1,5 @@
-import axios from "axios";
-
-const API_URL = "http://localhost:3500";
+import axiosInstance from "axios";
+import { API_ENDPOINTS } from "../config/apiConfig";
 
 interface AppointmentPayload {
     doctorId: string;
@@ -10,12 +9,7 @@ interface AppointmentPayload {
 
 export const scheduleAppointment = async (payload: AppointmentPayload) => {
     try {
-        const token = localStorage.getItem("token");
-        const response = await axios.post(`${API_URL}/user/schedule-appointment`, payload, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
+        const response = await axiosInstance.post(API_ENDPOINTS.user.scheduleAppointment, payload);
         return response.data;
     } catch (error: any) {
         throw error.response?.data || { message: "Unexpected error occurred" };

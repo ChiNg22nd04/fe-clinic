@@ -1,9 +1,6 @@
 import React from "react";
 import Header from "../../../components/Header/Header";
 
-// import Axios from "axios";
-// import { useNavigate } from "react-router-dom";
-
 const ScheduleAppointment: React.FC = () => {
     return (
         <div className="app">

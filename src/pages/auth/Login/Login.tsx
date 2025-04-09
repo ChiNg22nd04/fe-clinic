@@ -16,7 +16,6 @@ const Login: React.FC = () => {
         try {
             setError("");
             const result = await login({ email, password });
-            // giả sử kết quả trả về có token hoặc user info, bạn có thể lưu vào localStorage hoặc context nếu cần
             console.log("Login success:", result);
 
             // Redirect sau khi login thành công
