@@ -1,0 +1,34 @@
+.login {
+    display: flex;
+    height: 100vh;
+    .login__left {
+        width: 50%;
+        .login__left-logo img {
+            width: 30%;
+        }
+    }
+    .login__right {
+        width: 50%;
+        position: relative;
+        .login__right-img {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-size: cover;
+            background-position: 50%;
+        }
+        .login__right-style {
+            background-color: #f1eff2;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            width: 50px;
+            -webkit-clip-path: polygon(0 0, 100% 0, 75% 100%, 0 100%);
+            clip-path: polygon(0 0, 100% 0, 5% 100%, 0 100%);
+        }
+    }
+}
