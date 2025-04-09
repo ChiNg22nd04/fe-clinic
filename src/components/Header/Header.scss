@@ -38,12 +38,12 @@
             display: flex;
             align-items: center;
             justify-self: center;
-            border: 1px solid $white-color;
+            // border: 1px solid $white-color;
             padding: 7px 15px;
-            border-radius: 20px;
+            // border-radius: 20px;
             cursor: pointer;
-            .pl-5 {
-                padding-left: 5px;
+            .pl-10 {
+                padding-left: 10px;
             }
             a {
                 color: $white-color;
@@ -71,6 +71,59 @@
 
                 svg {
                     font-size: 16px;
+                }
+            }
+
+            .header__action-right {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                .book-appoiment {
+                    margin-right: 30px;
+                }
+                .header__user {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    cursor: pointer;
+                    border: 1px solid $white-color;
+                    padding: 7px 15px;
+                    border-radius: 20px;
+
+                    .logout {
+                        padding: 8px 16px;
+                        color: $blue-dark;
+                        &:hover {
+                            background-color: $blue-light;
+                            color: $white-color;
+                        }
+                    }
+                }
+            }
+
+            .header__dropdown {
+                position: absolute;
+                top: 100%;
+                right: 0;
+                background-color: $white-color;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                padding: 10px 0;
+                z-index: 999;
+                min-width: 180px;
+                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+
+                a {
+                    display: block;
+                    padding: 8px 16px;
+                    color: $blue-medium;
+                    text-decoration: none;
+                    transition: background 0.3s;
+
+                    &:hover {
+                        background-color: $blue-light;
+                        color: $white-color;
+                    }
                 }
             }
         }
@@ -149,10 +202,6 @@
 
     .header__logo img {
         width: 100px;
-    }
-
-    .header__contact {
-        font-size: 12px;
     }
 
     .header__actions button {
