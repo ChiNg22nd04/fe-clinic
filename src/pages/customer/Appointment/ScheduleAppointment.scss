@@ -1,0 +1,16 @@
+@import "../../../globalStyle/variables.scss";
+.content-top {
+    padding-top: 10px;
+    .text-main {
+        text-transform: uppercase;
+        text-align: center;
+        color: $blue-dark;
+    }
+    .text-highlight {
+        color: $blue-medium;
+        font-weight: 700;
+    }
+    .text-sub {
+        padding: 0;
+    }
+}
