@@ -1,8 +1,8 @@
 import axios from "axios";
-
+import { API_BASE_URL } from "~/config/apiConfig";
 // Tạo một instance của axios
 const axiosInstance = axios.create({
-    baseURL: "http://localhost:1433",
+    baseURL: API_BASE_URL,
     timeout: 10000, // Giới hạn thời gian cho mỗi request
     headers: {
         "Content-Type": "application/json",
