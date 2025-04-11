@@ -96,19 +96,19 @@ const ScheduleAppointment: React.FC = () => {
                         </label>
                     ))}
 
-                    {selectedClinicId && (
-                        <>
-                            <p>Chọn chuyên khoa</p>
-                            {specialties.map((specialty_id) => {
-                                const specialty = allSpecialties.find((s) => s.specialty_id === specialty_id);
-                                return (
-                                    <option key={specialty_id} value={specialty_id}>
-                                        {specialty ? specialty.specialty_name : `Chuyên khoa #${specialty_id}`}
-                                    </option>
-                                );
-                            })}
-                        </>
-                    )}
+                    <select>
+                        <option value="" disabled>
+                            -- Chọn chuyên khoa --
+                        </option>
+                        {specialties.map((specialty_id) => {
+                            const specialty = allSpecialties.find((s) => s.specialty_id === specialty_id);
+                            return (
+                                <option key={specialty_id} value={specialty_id}>
+                                    {specialty ? specialty.specialty_name : `Chuyên khoa #${specialty_id}`}
+                                </option>
+                            );
+                        })}
+                    </select>
                 </div>
             </div>
         </div>

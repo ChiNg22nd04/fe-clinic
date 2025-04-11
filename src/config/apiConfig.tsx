@@ -8,6 +8,7 @@ export const API_ENDPOINTS = {
         specialties: "/page/specialties",
         clinics: "/page/clinics",
         specialtiesClinicId: "/page/specialties/clinic-id",
+        shiftDoctor: "/page/shifts-all",
     },
     auth: {
         login: "/login",

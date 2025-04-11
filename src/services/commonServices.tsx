@@ -31,3 +31,13 @@ export const getSpecialtiesByIDClinic = async (clinicId: number) => {
         throw error.response?.data || { message: "Unexpected error occurred" };
     }
 };
+
+export const getAllShiftDoctor = async () => {
+    try {
+        const response = await axiosInstance.get(API_ENDPOINTS.common.shiftDoctor);
+        console.log(response.data.data);
+        return response.data.data;
+    } catch (error: any) {
+        throw error.response?.data || { message: "Unexpected error occurred" };
+    }
+};
