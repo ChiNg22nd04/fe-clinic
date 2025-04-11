@@ -14,3 +14,10 @@
         padding: 0;
     }
 }
+
+.content-bot {
+    .clinics-dropdown {
+        display: flex;
+        flex-direction: column;
+    }
+}

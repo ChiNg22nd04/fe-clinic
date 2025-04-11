@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link, Links } from "react-router-dom";
 import "./Header.scss";
-import logo from "../../assets/images/logo.app.svg";
+import logo from "~/assets/images/logo.app.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightFromBracket, faUser, faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 import Nav from "./Nav";
-import { logout } from "../../services/authService";
-import { scheduleAppointment } from "../../services/customerServices";
+import { logout } from "~/services/authService";
 
 const Header: React.FC = () => {
     const [user, setUser] = useState<any>(null);
@@ -28,14 +27,14 @@ const Header: React.FC = () => {
                         </Link>
                     </div>
 
-                    <div className="header__actions" onMouseEnter={() => setShowDropdown(true)} onMouseLeave={() => setShowDropdown(false)}>
+                    <div className="header__actions">
                         {user ? (
                             <div className="header__action-right">
                                 <Link className="book-appoiment" to="/user/schedule-appointment">
                                     <FontAwesomeIcon icon={faCalendarDays} />
                                     <span className="pl-10">Đặt lịch khám</span>
                                 </Link>
-                                <div className="header__user">
+                                <div className="header__user" onMouseEnter={() => setShowDropdown(true)} onMouseLeave={() => setShowDropdown(false)}>
                                     <FontAwesomeIcon icon={faUser} />
 
                                     <span className="pl-10">{user.fullName}</span>

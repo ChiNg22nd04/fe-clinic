@@ -1,5 +1,5 @@
-import axiosInstance from "axios";
-import { API_ENDPOINTS } from "../config/apiConfig";
+import axiosInstance from "~/Axios/axiosInstance";
+import { API_ENDPOINTS } from "~/config/apiConfig";
 
 interface LoginPayload {
     email: string;
@@ -11,6 +11,7 @@ export const login = async (payload: LoginPayload) => {
     try {
         const response = await axiosInstance.post(API_ENDPOINTS.auth.login, payload);
         const { user, token } = response.data;
+        console.log(user);
         localStorage.setItem("user", JSON.stringify(user));
         localStorage.setItem("token", token);
         return response.data;

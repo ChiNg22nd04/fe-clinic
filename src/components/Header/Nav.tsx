@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 import "./Header.scss";
-
 const Nav: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -23,7 +22,7 @@ const Nav: React.FC = () => {
                         </Link>
                     </li>
                     <li>
-                        <Link to="/chuyen-khoa" onClick={toggleMenu}>
+                        <Link to="/page/specialties" onClick={toggleMenu}>
                             CHUYÊN KHOA
                         </Link>
                     </li>

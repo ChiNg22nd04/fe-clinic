@@ -1,0 +1,4 @@
+[*.{js,ts,json,html,css,tsx}]
+indent_size = 4
+indent_style = tab
+max_line_length = 100

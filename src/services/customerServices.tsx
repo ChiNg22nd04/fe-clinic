@@ -1,5 +1,5 @@
 import axiosInstance from "axios";
-import { API_ENDPOINTS } from "../config/apiConfig";
+import { API_ENDPOINTS } from "~/config/apiConfig";
 
 interface AppointmentPayload {
     doctorId: string;
