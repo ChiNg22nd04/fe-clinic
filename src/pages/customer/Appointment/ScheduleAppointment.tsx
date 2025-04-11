@@ -1,32 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../../components/Header/Header";
-import "./ScheduleAppointment.scss";
-
 import { getAllClinics, getAllSpecialties, getSpecialtiesByIDClinic, getAllSpecialtiesDoctor } from "~/services/commonServices";
+import { Appointment, ProfileStaff, SpecialtyClinicMap, Specialty } from "~/interfaces";
 
-interface Appointment {
-    clinic_id: number;
-    clinic_name: string;
-    specialty_id: number;
-    specialty_name: string;
-}
-
-interface Specialty {
-    specialty_id: number;
-    specialty_name: string;
-}
-
-interface SpecialtyClinicMap {
-    clinic_id: number;
-    specialty_id: number;
-}
-
-interface ProfileStaff {
-    staff_id: number;
-    specialty_id: number;
-    clinic_id: number;
-    full_name: string;
-}
+import "./ScheduleAppointment.scss";
 
 const ScheduleAppointment: React.FC = () => {
     const [clinics, setClinics] = useState<Appointment[]>([]);
