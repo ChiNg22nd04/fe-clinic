@@ -41,3 +41,16 @@ export const getAllShiftDoctor = async () => {
         throw error.response?.data || { message: "Unexpected error occurred" };
     }
 };
+
+export const getAllSpecialtiesDoctor = async (clinicId: number, specialtyId: number) => {
+    try {
+        const response = await axiosInstance.post(API_ENDPOINTS.common.allSpecialtiesDoctor, {
+            clinicId,
+            specialtyId,
+        });
+        console.log(response.data.data);
+        return response.data.data;
+    } catch (error: any) {
+        throw error.response?.data || { message: "Unexpected error occurred" };
+    }
+};

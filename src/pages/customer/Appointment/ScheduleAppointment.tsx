@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../../../components/Header/Header";
 import "./ScheduleAppointment.scss";
 
-import { getAllClinics, getAllSpecialties, getSpecialtiesByIDClinic } from "~/services/commonServices";
+import { getAllClinics, getAllSpecialties, getSpecialtiesByIDClinic, getAllSpecialtiesDoctor } from "~/services/commonServices";
 
 interface Appointment {
     clinic_id: number;
@@ -21,11 +21,21 @@ interface SpecialtyClinicMap {
     specialty_id: number;
 }
 
+interface ProfileStaff {
+    staff_id: number;
+    specialty_id: number;
+    clinic_id: number;
+    full_name: string;
+}
+
 const ScheduleAppointment: React.FC = () => {
     const [clinics, setClinics] = useState<Appointment[]>([]);
     const [specialties, setSpecialties] = useState<number[]>([]);
     const [allSpecialties, setAllSpecialties] = useState<Specialty[]>([]);
     const [selectedClinicId, setSelectedClinicId] = useState<number | null>(null);
+    const [selectedSpecialtyId, setSelectedSpecialtyId] = useState<number | null>(null);
+
+    const [doctor, setDoctor] = useState<ProfileStaff[]>([]);
 
     useEffect(() => {
         const fetchClinic = async () => {
@@ -49,6 +59,23 @@ const ScheduleAppointment: React.FC = () => {
         fetchClinic();
         fetchAllSpecialties();
     }, []);
+
+    useEffect(() => {
+        const fetchDoctors = async () => {
+            if (selectedClinicId && selectedSpecialtyId) {
+                try {
+                    console.log(selectedClinicId, selectedSpecialtyId);
+                    const data = await getAllSpecialtiesDoctor(selectedClinicId, selectedSpecialtyId);
+                    console.log(data);
+                    setDoctor(data);
+                } catch (error) {
+                    console.error("Lỗi khi lấy danh sách bác sĩ:", error);
+                }
+            }
+        };
+
+        fetchDoctors();
+    }, [selectedClinicId, selectedSpecialtyId]);
 
     const handleClinicChange = async (clinicId: number) => {
         setSelectedClinicId(clinicId);
@@ -96,7 +123,13 @@ const ScheduleAppointment: React.FC = () => {
                         </label>
                     ))}
 
-                    <select>
+                    <select
+                        onChange={(e) => {
+                            const id = Number(e.target.value);
+                            setSelectedSpecialtyId(id);
+                        }}
+                        value={selectedSpecialtyId ?? ""}
+                    >
                         <option value="" disabled>
                             -- Chọn chuyên khoa --
                         </option>
@@ -109,6 +142,16 @@ const ScheduleAppointment: React.FC = () => {
                             );
                         })}
                     </select>
+                    {doctor.length > 0 && (
+                        <div className="doctor-list">
+                            <h3>Danh sách bác sĩ</h3>
+                            <ul>
+                                {doctor.map((doc) => (
+                                    <li key={doc.staff_id}>{doc.full_name}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
