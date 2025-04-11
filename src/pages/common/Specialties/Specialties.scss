@@ -1,0 +1,12 @@
+.specialties-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.specialty-item {
+    border: 1px solid #ccc;
+    padding: 12px;
+    border-radius: 8px;
+    width: 300px;
+}
