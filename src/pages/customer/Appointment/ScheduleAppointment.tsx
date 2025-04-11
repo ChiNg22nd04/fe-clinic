@@ -21,6 +21,8 @@ const ScheduleAppointment: React.FC = () => {
 	const [doctor, setDoctor] = useState<ProfileStaff[]>([]);
 	const [selectedDoctor, setSelectedDoctor] = useState<number | null>(null);
 	const [shiftSchedule, setShiftSchedule] = useState<any[]>([]); // sau này bạn có thể define type rõ hơn
+	const [selectedShiftId, setSelectedShiftId] = useState<number | null>(null);
+	const [symptoms, setSymptoms] = useState<string>("");
 
 	useEffect(() => {
 		const fetchClinic = async () => {
@@ -192,16 +194,39 @@ const ScheduleAppointment: React.FC = () => {
 					</div>
 					{shiftSchedule.length > 0 && (
 						<div className="shift-schedule">
-							<h3>Lịch làm việc của bác sĩ</h3>
-							<ul>
-								{shiftSchedule.map((shift, index) => (
-									<li key={index}>
-										Ngày: {shift.work_date} - Ca: {shift.shift_name}
-									</li>
+							<h3>Chọn lịch làm việc của bác sĩ</h3>
+							<div className="shifts-radio">
+								{shiftSchedule.map((shift) => (
+									<label
+										key={shift.shift_id}
+										className={`shift-option ${
+											shift.status === 2 ? "disabled" : ""
+										}`}
+									>
+										<input
+											type="radio"
+											name="shift"
+											value={shift.shift_id}
+											checked={selectedShiftId === shift.shift_id}
+											onChange={() => setSelectedShiftId(shift.shift_id)}
+											disabled={shift.status === 2}
+										/>
+										Ngày: {shift.work_date} - Ca: {shift.shift_name}{" "}
+										{shift.status === 2 && "(Đã kín lịch)"}
+									</label>
 								))}
-							</ul>
+							</div>
 						</div>
 					)}
+					<div className="symptoms-input">
+						<h3>Nhập triệu chứng</h3>
+						<input
+							type="text"
+							placeholder="Nhập triệu chứng (ví dụ: đau đầu, sốt...)"
+							value={symptoms}
+							onChange={(e) => setSymptoms(e.target.value)}
+						/>
+					</div>
 				</div>
 			</div>
 		</div>
