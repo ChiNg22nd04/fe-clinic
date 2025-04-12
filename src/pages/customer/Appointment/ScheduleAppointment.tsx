@@ -13,15 +13,18 @@ import "./ScheduleAppointment.scss";
 
 const ScheduleAppointment: React.FC = () => {
 	const [clinics, setClinics] = useState<Appointment[]>([]);
+	const [selectedClinicId, setSelectedClinicId] = useState<number | null>(null);
+
 	const [specialties, setSpecialties] = useState<number[]>([]);
 	const [allSpecialties, setAllSpecialties] = useState<Specialty[]>([]);
-	const [selectedClinicId, setSelectedClinicId] = useState<number | null>(null);
 	const [selectedSpecialtyId, setSelectedSpecialtyId] = useState<number | null>(null);
 
 	const [doctor, setDoctor] = useState<ProfileStaff[]>([]);
 	const [selectedDoctor, setSelectedDoctor] = useState<number | null>(null);
-	const [shiftSchedule, setShiftSchedule] = useState<any[]>([]); // sau này bạn có thể define type rõ hơn
+
+	const [shiftSchedule, setShiftSchedule] = useState<any[]>([]);
 	const [selectedShiftId, setSelectedShiftId] = useState<number | null>(null);
+
 	const [symptoms, setSymptoms] = useState<string>("");
 
 	useEffect(() => {
@@ -68,7 +71,26 @@ const ScheduleAppointment: React.FC = () => {
 	useEffect(() => {
 		const fetchShiftSchedule = async () => {
 			if (selectedClinicId && selectedSpecialtyId && selectedDoctor) {
-				console.log(selectedClinicId, selectedSpecialtyId, selectedDoctor);
+				try {
+					const shifts = await getAllShiftDoctor(
+						selectedDoctor,
+						selectedSpecialtyId,
+						selectedClinicId
+					);
+					setShiftSchedule(shifts);
+				} catch (error) {
+					console.error("Lỗi khi lấy lịch làm việc:", error);
+				}
+			}
+		};
+
+		fetchShiftSchedule();
+	}, [selectedClinicId, selectedSpecialtyId, selectedDoctor]);
+
+	useEffect(() => {
+		const fetchShiftSchedule = async () => {
+			if (selectedClinicId && selectedSpecialtyId && selectedDoctor && symptoms) {
+				console.log(selectedClinicId, selectedSpecialtyId, selectedDoctor, symptoms);
 				try {
 					const shifts = await getAllShiftDoctor(
 						selectedDoctor,

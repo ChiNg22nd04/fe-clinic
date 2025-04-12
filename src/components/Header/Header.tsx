@@ -58,12 +58,6 @@ const Header: React.FC = () => {
                             </Link>
                         )}
                     </div>
-                    {/* <div className="header__actions">
-                        <Link className="header__logo-link" to="/login">
-                            <FontAwesomeIcon icon={faUser} />
-                            <span className="pl-5">{user ? user.fullName : "Tài khoản"}</span>
-                        </Link>
-                    </div> */}
                 </div>
             </div>
             <Nav />
