@@ -4,6 +4,8 @@ import logo from "~/assets/images/logo.app.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightFromBracket, faUser, faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 import { logout } from "~/services/authService";
+
+import { API_ENDPOINTS } from "~/config/apiConfig";
 import Nav from "./Nav";
 
 import { useUser } from "~/hooks";
@@ -35,7 +37,10 @@ const Header: React.FC = () => {
 					<div className="header__actions">
 						{user ? (
 							<div className="header__action-right">
-								<Link className="book-appoiment" to="/user/schedule-appointment">
+								<Link
+									className="book-appoiment"
+									to={API_ENDPOINTS.user.scheduleAppointment}
+								>
 									<FontAwesomeIcon icon={faCalendarDays} />
 									<span className="pl-10">Đặt lịch khám</span>
 								</Link>
@@ -49,9 +54,11 @@ const Header: React.FC = () => {
 									<span className="pl-10">{user.fullName}</span>
 									{showDropdown && (
 										<div className="header__dropdown">
-											<Link to="/profile">Hồ sơ bệnh nhân</Link>
-											<Link to="/medical-records">Phiếu khám bệnh</Link>
-											<Link to="/notifications">Thông báo</Link>
+											<Link to={API_ENDPOINTS.user.profile}>
+												Hồ sơ bệnh nhân
+											</Link>
+											<Link to="/">Phiếu khám bệnh</Link>
+											<Link to="/">Thông báo</Link>
 											<div className="logout" onClick={handleLogout}>
 												<FontAwesomeIcon icon={faRightFromBracket} />
 												<span className="pl-10">Đăng xuất</span>
@@ -61,7 +68,7 @@ const Header: React.FC = () => {
 								</div>
 							</div>
 						) : (
-							<Link className="header__logo-link" to="/login">
+							<Link className="header__logo-link" to={API_ENDPOINTS.auth.login}>
 								<FontAwesomeIcon icon={faUser} />
 								<span className="pl-10">{user ? user.fullName : "Tài khoản"}</span>
 							</Link>
