@@ -1,105 +1,72 @@
-import React, { useEffect, useState } from "react";
-import Header from "../../../components/Header/Header";
-import {
-	getAllClinics,
-	getAllSpecialties,
-	getSpecialtiesByIDClinic,
-	getAllSpecialtiesDoctor,
-	getAllShiftDoctor,
-} from "~/services/commonServices";
-import { Appointment, ProfileStaff, SpecialtyClinicMap, Specialty } from "~/interfaces";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import Header from "~/components/Header/Header";
+
+import { useUser, useClinics, useSpecialties, useDoctors, useShiftSchedule } from "~/hooks";
+import { scheduleAppointment, AppointmentPayload } from "~/services/customerServices";
 
 import "./ScheduleAppointment.scss";
 
 const ScheduleAppointment: React.FC = () => {
-	const [clinics, setClinics] = useState<Appointment[]>([]);
-	const [specialties, setSpecialties] = useState<number[]>([]);
-	const [allSpecialties, setAllSpecialties] = useState<Specialty[]>([]);
+	const navigate = useNavigate();
+
 	const [selectedClinicId, setSelectedClinicId] = useState<number | null>(null);
 	const [selectedSpecialtyId, setSelectedSpecialtyId] = useState<number | null>(null);
-
-	const [doctor, setDoctor] = useState<ProfileStaff[]>([]);
 	const [selectedDoctor, setSelectedDoctor] = useState<number | null>(null);
-	const [shiftSchedule, setShiftSchedule] = useState<any[]>([]); // sau này bạn có thể define type rõ hơn
 	const [selectedShiftId, setSelectedShiftId] = useState<number | null>(null);
 	const [symptoms, setSymptoms] = useState<string>("");
 
-	useEffect(() => {
-		const fetchClinic = async () => {
-			try {
-				const data = await getAllClinics();
-				setClinics(data[0] || []);
-			} catch (error) {
-				console.error("Lỗi khi lấy danh sách hệ thống:", error);
-			}
-		};
+	// Sử dụng custom hooks
+	const patient = useUser();
+	const clinics = useClinics();
+	const { specialties, allSpecialties } = useSpecialties(selectedClinicId);
+	const doctors = useDoctors(selectedClinicId, selectedSpecialtyId);
+	const shiftSchedule = useShiftSchedule(selectedClinicId, selectedSpecialtyId, selectedDoctor);
 
-		const fetchAllSpecialties = async () => {
-			try {
-				const data = await getAllSpecialties();
-				setAllSpecialties(data[0] || []);
-			} catch (error) {
-				console.error("Lỗi khi lấy danh sách chuyên khoa:", error);
-			}
-		};
-
-		fetchClinic();
-		fetchAllSpecialties();
-	}, []);
-
-	useEffect(() => {
-		const fetchDoctors = async () => {
-			if (selectedClinicId && selectedSpecialtyId) {
-				try {
-					const data = await getAllSpecialtiesDoctor(
-						selectedClinicId,
-						selectedSpecialtyId
-					);
-					setDoctor(data);
-				} catch (error) {
-					console.error("Lỗi khi lấy danh sách bác sĩ:", error);
-				}
-			}
-		};
-
-		fetchDoctors();
-	}, [selectedClinicId, selectedSpecialtyId]);
-
-	useEffect(() => {
-		const fetchShiftSchedule = async () => {
-			if (selectedClinicId && selectedSpecialtyId && selectedDoctor) {
-				console.log(selectedClinicId, selectedSpecialtyId, selectedDoctor);
-				try {
-					const shifts = await getAllShiftDoctor(
-						selectedDoctor,
-						selectedSpecialtyId,
-						selectedClinicId
-					);
-					console.log(shifts);
-					setShiftSchedule(shifts);
-				} catch (error) {
-					console.error("Lỗi khi lấy lịch làm việc:", error);
-				}
-			}
-		};
-
-		fetchShiftSchedule();
-	}, [selectedClinicId, selectedSpecialtyId, selectedDoctor]);
-
+	const user = useUser();
 	const handleClinicChange = async (clinicId: number) => {
 		setSelectedClinicId(clinicId);
-		try {
-			const response = await getSpecialtiesByIDClinic(clinicId);
+	};
+	const handleSubmit = async () => {
+		if (!selectedClinicId || !selectedSpecialtyId || !selectedDoctor || !selectedShiftId) {
+			alert("Vui lòng chọn đầy đủ thông tin trước khi đăng ký.");
+			return;
+		}
 
-			if (Array.isArray(response)) {
-				const specialtyIds = response.map((item: SpecialtyClinicMap) => item.specialty_id);
-				setSpecialties(specialtyIds);
-			} else {
-				console.warn("Dữ liệu chuyên khoa không hợp lệ:", response);
-				setSpecialties([]);
-			}
-		} catch (error) {
-			console.error("Lỗi khi lấy danh sách chuyên khoa:", error);
+		const selectedShift = shiftSchedule.find((shift) => shift.shift_id === selectedShiftId);
+		dayjs.extend(utc);
+		const newdate = dayjs.utc(selectedShift.start_time).format("HH:mm:ss");
+
+		if (!selectedShift) {
+			alert("Không tìm thấy ca làm việc được chọn.");
+			return;
+		}
+
+		const payload: AppointmentPayload = {
+			patientId: patient.id,
+			staffId: selectedDoctor,
+			appointmentDate: dayjs(`${selectedShift.work_date} ${newdate}`).format(
+				"YYYY-MM-DD HH:mm:ss"
+			),
+			symptoms,
+			clinicId: selectedClinicId,
+			specialtyId: selectedSpecialtyId,
+			shiftId: selectedShiftId,
+		};
+
+		try {
+			await scheduleAppointment(payload);
+			alert("Đặt lịch thành công!");
+			setSelectedClinicId(null);
+			setSelectedSpecialtyId(null);
+			setSelectedDoctor(null);
+			setSelectedShiftId(null);
+			setSymptoms("");
+			navigate("/home");
+		} catch (error: any) {
+			alert(error.message || "Đã xảy ra lỗi khi đặt lịch khám.");
 		}
 	};
 
@@ -118,7 +85,7 @@ const ScheduleAppointment: React.FC = () => {
 						Đặt hẹn bằng cách gọi tổng đài Chăm sóc khách hàng tại số{" "}
 						<span className="text-highlight">0287 102 6789 – 093 180 6858</span> (Bệnh
 						viện Đa khoa Piedmont TPHCM) hoặc{" "}
-						<span className="text-highlight"> 024 3872 3872 – 024 7106 6858</span> (Bệnh
+						<span className="text-highlight">024 3872 3872 – 024 7106 6858</span> (Bệnh
 						viện Đa khoa Piedmont Hà Nội)
 					</li>
 					<li>Đặt hẹn trực tuyến bằng cách điền thông tin vào mẫu bên dưới.</li>
@@ -185,16 +152,16 @@ const ScheduleAppointment: React.FC = () => {
 							<option value="" disabled>
 								-- Chọn bác sĩ --
 							</option>
-							{doctor.map((doc) => (
+							{doctors.map((doc) => (
 								<option key={doc.staff_id} value={doc.staff_id}>
 									{doc.full_name}
 								</option>
 							))}
 						</select>
 					</div>
-					{shiftSchedule.length > 0 && (
-						<div className="shift-schedule">
-							<h3>Chọn lịch làm việc của bác sĩ</h3>
+					<div className="shift-schedule">
+						<h3>Chọn lịch làm việc của bác sĩ</h3>
+						{shiftSchedule.length > 0 && (
 							<div className="shifts-radio">
 								{shiftSchedule.map((shift) => (
 									<label
@@ -216,8 +183,8 @@ const ScheduleAppointment: React.FC = () => {
 									</label>
 								))}
 							</div>
-						</div>
-					)}
+						)}
+					</div>
 					<div className="symptoms-input">
 						<h3>Nhập triệu chứng</h3>
 						<input
@@ -226,6 +193,10 @@ const ScheduleAppointment: React.FC = () => {
 							value={symptoms}
 							onChange={(e) => setSymptoms(e.target.value)}
 						/>
+					</div>
+
+					<div className="submit-button">
+						<button onClick={handleSubmit}>Đặt lịch khám</button>
 					</div>
 				</div>
 			</div>
