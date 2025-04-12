@@ -1,8 +1,9 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import publicRoutes from "./common.routes";
-import authRoutes from "./auth.routes";
-import customerRoutes from "./customer.routes";
-import HomePage from "~/pages/common/Home/Home";
+// import publicRoutes from "../public/routes";
+import publicRoutes from "~/public/routes";
+import authRoutes from "~/modules/auth/router";
+import customerRoutes from "~/modules/customer/routes";
+import HomePage from "~/public/pages/Home";
 
 export const router = createBrowserRouter([
 	{
@@ -10,6 +11,6 @@ export const router = createBrowserRouter([
 		element: <HomePage />,
 	},
 	...authRoutes,
-	...customerRoutes,
 	...publicRoutes,
+	...customerRoutes,
 ]);
