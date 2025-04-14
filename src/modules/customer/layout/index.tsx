@@ -4,9 +4,11 @@ import React from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Header from "~/shared/components/Header";
 import "./CustomerLayout.scss";
+import { API_ENDPOINTS } from "~/config";
 
 const CustomerLayout: React.FC = () => {
 	const navigate = useNavigate();
+
 	const userString = localStorage.getItem("user");
 
 	React.useEffect(() => {

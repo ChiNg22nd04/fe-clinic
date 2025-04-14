@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "~/shared/components/Header";
 import { getAllSpecialties } from "~/public/services";
-
+import "./Specialties.scss"
 interface SpecialtyItem {
 	specialty_id: number;
 	specialty_name: string;
@@ -29,54 +29,56 @@ const Specialties: React.FC = () => {
 	return (
 		<div className="app">
 			<Header />
-			<h1>Chuyên khoa</h1>
+			<div className="specialties">
+				<h1>Chuyên khoa</h1>
 
-			{loading && <p>Đang tải dữ liệu...</p>}
-			{error && <p style={{ color: "red" }}>{error}</p>}
+				{loading && <p>Đang tải dữ liệu...</p>}
+				{error && <p style={{ color: "red" }}>{error}</p>}
 
-			<div className="specialties-list">
-				{specialties.map((item) => {
-					let introduces = [];
-					let services = [];
+				<div className="specialties-list">
+					{specialties.map((item) => {
+						let introduces = [];
+						let services = [];
 
-					try {
-						introduces = JSON.parse(item.introduce);
-					} catch (e) {
-						console.warn("Lỗi parse introduce:", e);
-					}
+						try {
+							introduces = JSON.parse(item.introduce);
+						} catch (e) {
+							console.warn("Lỗi parse introduce:", e);
+						}
 
-					try {
-						services = JSON.parse(item.services);
-					} catch (e) {
-						console.warn("Lỗi parse services:", e);
-					}
+						try {
+							services = JSON.parse(item.services);
+						} catch (e) {
+							console.warn("Lỗi parse services:", e);
+						}
 
-					return (
-						<div key={item.specialty_id} className="specialty-item">
-							<h3>{item.specialty_name}</h3>
+						return (
+							<div key={item.specialty_id} className="specialty-item">
+								<h3>{item.specialty_name}</h3>
 
-							<h4>Giới thiệu</h4>
-							{introduces.map((intro: any, index: number) => (
-								<div key={index}>
-									<strong>{intro.type}:</strong>{" "}
-									{Array.isArray(intro.content)
-										? intro.content.join(", ")
-										: intro.content}
-								</div>
-							))}
+								<h4>Giới thiệu</h4>
+								{introduces.map((intro: any, index: number) => (
+									<div key={index}>
+										<strong>{intro.type}:</strong>{" "}
+										{Array.isArray(intro.content)
+											? intro.content.join(", ")
+											: intro.content}
+									</div>
+								))}
 
-							<h4>Dịch vụ</h4>
-							{services.map((service: any, index: number) => (
-								<div key={index}>
-									<strong>{service.type}:</strong>{" "}
-									{Array.isArray(service.content)
-										? service.content.join(", ")
-										: service.content}
-								</div>
-							))}
-						</div>
-					);
-				})}
+								<h4>Dịch vụ</h4>
+								{services.map((service: any, index: number) => (
+									<div key={index}>
+										<strong>{service.type}:</strong>{" "}
+										{Array.isArray(service.content)
+											? service.content.join(", ")
+											: service.content}
+									</div>
+								))}
+							</div>
+						);
+					})}
+				</div>
 			</div>
 		</div>
 	);

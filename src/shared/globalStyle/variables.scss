@@ -19,3 +19,7 @@ $outline-color: #cacaca;
     margin: 0;
     padding: 0 0 100px 0;
 }
+
+$height-header-top: 79px;
+$height-header-nav: 45px;
+$height-header: $height-header-top + $height-header-nav;

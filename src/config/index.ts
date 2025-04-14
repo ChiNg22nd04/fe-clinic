@@ -18,6 +18,6 @@ export const API_ENDPOINTS = {
 	user: {
 		scheduleAppointment: `${USER_BASE}/schedule-appointment`,
 		profile: `${USER_BASE}/profile`,
+		medicalReport: `${USER_BASE}/appointment/get-all`,
 	},
-
 };

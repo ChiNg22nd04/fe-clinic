@@ -25,7 +25,6 @@ const ScheduleAppointment: React.FC = () => {
 	const doctors = useDoctors(selectedClinicId, selectedSpecialtyId);
 	const shiftSchedule = useShiftSchedule(selectedClinicId, selectedSpecialtyId, selectedDoctor);
 
-	const user = useUser();
 	const handleClinicChange = async (clinicId: number) => {
 		setSelectedClinicId(clinicId);
 	};
@@ -35,10 +34,11 @@ const ScheduleAppointment: React.FC = () => {
 			return;
 		}
 
-		const selectedShift = shiftSchedule.find((shift) => shift.shift_id === selectedShiftId);
+		const selectedShift = shiftSchedule.find((shift) => shift.id === selectedShiftId);
 		dayjs.extend(utc);
+		console.log(selectedShift.start_time);
 		const newdate = dayjs.utc(selectedShift.start_time).format("HH:mm:ss");
-
+		console.log(newdate);
 		if (!selectedShift) {
 			alert("Không tìm thấy ca làm việc được chọn.");
 			return;
@@ -53,7 +53,7 @@ const ScheduleAppointment: React.FC = () => {
 			symptoms,
 			clinicId: selectedClinicId,
 			specialtyId: selectedSpecialtyId,
-			shiftId: selectedShiftId,
+			staffShiftsId: selectedShiftId,
 		};
 
 		try {
@@ -64,7 +64,7 @@ const ScheduleAppointment: React.FC = () => {
 			setSelectedDoctor(null);
 			setSelectedShiftId(null);
 			setSymptoms("");
-			navigate("/home");
+			navigate("/");
 		} catch (error: any) {
 			alert(error.message || "Đã xảy ra lỗi khi đặt lịch khám.");
 		}
@@ -163,7 +163,7 @@ const ScheduleAppointment: React.FC = () => {
 						<div className="shifts-radio">
 							{shiftSchedule.map((shift) => (
 								<label
-									key={shift.shift_id}
+									key={shift.id}
 									className={`shift-option ${
 										shift.status === 2 ? "disabled" : ""
 									}`}
@@ -171,9 +171,9 @@ const ScheduleAppointment: React.FC = () => {
 									<input
 										type="radio"
 										name="shift"
-										value={shift.shift_id}
-										checked={selectedShiftId === shift.shift_id}
-										onChange={() => setSelectedShiftId(shift.shift_id)}
+										value={shift.id}
+										checked={selectedShiftId === shift.id}
+										onChange={() => setSelectedShiftId(shift.id)}
 										disabled={shift.status === 2}
 									/>
 									Ngày: {shift.work_date} - Ca: {shift.shift_name}{" "}
