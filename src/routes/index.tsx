@@ -3,6 +3,8 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import publicRoutes from "~/public/routes";
 import authRoutes from "~/modules/auth/router";
 import customerRoutes from "~/modules/customer/routes";
+import receptionistRoutes from "~/modules/receptionist/routes";
+
 import HomePage from "~/public/pages/Home";
 
 export const router = createBrowserRouter([
@@ -13,4 +15,5 @@ export const router = createBrowserRouter([
 	...authRoutes,
 	...publicRoutes,
 	...customerRoutes,
+	...receptionistRoutes,
 ]);

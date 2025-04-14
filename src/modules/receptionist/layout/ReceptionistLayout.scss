@@ -1,0 +1,8 @@
+@import "../../../shared/globalStyle/variables.scss";
+
+.receptionist-main {
+    margin-top: $height-header + 10px;
+    .layout {
+        display: flex;
+    }
+}

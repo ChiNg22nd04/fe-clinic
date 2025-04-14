@@ -17,21 +17,22 @@ const Login: React.FC = () => {
 
 		try {
 			const response = await login(payload);
-			console.log("Login success:", response);
-			// localStorage.setItem("token", response.token);
-			localStorage.setItem("user", JSON.stringify(response.user));
-			navigate("/");
-		} catch (error: any) {
-			console.error("Login error:", error);
+			const user = response.user;
+			console.log(user);
+			localStorage.setItem("user", JSON.stringify(user));
 
-			// Kiểm tra chi tiết lỗi và fallback
-			if (error?.response?.data?.message) {
-				setError(error.response.data.message);
-			} else if (error?.message) {
-				setError(error.message);
-			} else {
-				setError("Đăng nhập thất bại. Vui lòng thử lại.");
+			// Điều hướng theo role
+			switch (user.role) {
+				case 2:
+					navigate("/receptionist/dashboard");
+					break;
+
+				default:
+					navigate("/");
+					break;
 			}
+		} catch (error: any) {
+			setError(error?.message || "Đăng nhập thất bại.");
 		}
 	};
 
