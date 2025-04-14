@@ -24,7 +24,7 @@ const Login: React.FC = () => {
 			// Điều hướng theo role
 			switch (user.role) {
 				case 2:
-					navigate("/receptionist/dashboard");
+					navigate("/receptionist");
 					break;
 
 				default:

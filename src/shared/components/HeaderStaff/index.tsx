@@ -14,6 +14,7 @@ const HeaderStaff: React.FC = () => {
 	const user = useUser();
 	const menuItems = [
 		{ to: API_ENDPOINTS.receptionist.shifts, label: "Thông tin cá nhân" },
+		{ to: API_ENDPOINTS.receptionist.shifts, label: "Lịch làm việc" },
 		{ to: "/", label: "Thông báo" },
 	];
 	const handleLogout = () => {
