@@ -6,14 +6,17 @@ import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { API_ENDPOINTS } from "~/config";
 
 import "./Header.scss";
+interface NavProps {
+	isVisible: boolean;
+}
 
-const Nav: React.FC = () => {
+const Nav: React.FC<NavProps> = ({ isVisible }) => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const toggleMenu = () => setIsOpen(!isOpen);
 
 	return (
-		<nav className="header__nav">
+		<nav className={`header__nav ${isVisible ? "visible" : "hidden"}`}>
 			<div className="container">
 				<div className="header__menu-icon" onClick={toggleMenu}>
 					<FontAwesomeIcon icon={isOpen ? faXmark : faBars} />

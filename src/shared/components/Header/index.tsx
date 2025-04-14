@@ -9,12 +9,15 @@ import { API_ENDPOINTS } from "~/config";
 import Nav from "./Nav";
 import UserMenu from "~/shared/components/UserMenu";
 import { useUser } from "~/shared/hooks";
-
 import "./Header.scss";
 
 const Header: React.FC = () => {
 	const navigate = useNavigate();
-
+	const menuItems = [
+		{ to: API_ENDPOINTS.user.profile, label: "Hồ sơ bệnh nhân" },
+		{ to: API_ENDPOINTS.user.medicalReport, label: "Lịch sử khám bệnh" },
+		{ to: "/", label: "Thông báo" },
+	];
 	const [showDropdown, setShowDropdown] = useState(false);
 
 	const user = useUser();
@@ -23,13 +26,25 @@ const Header: React.FC = () => {
 		logout();
 		navigate("/");
 	};
+	const [showNav, setShowNav] = useState(true);
+	const [lastScrollY, setLastScrollY] = useState(0);
 
-	const menuItems = [
-		{ to: API_ENDPOINTS.user.profile, label: "Hồ sơ bệnh nhân" },
-		{ to: "/", label: "Phiếu khám bệnh" },
-		{ to: "/", label: "Thông báo" },
-	];
+	useEffect(() => {
+		const handleScroll = () => {
+			const currentScrollY = window.scrollY;
 
+			if (currentScrollY > lastScrollY) {
+				setShowNav(false); // Cuộn xuống: ẩn Nav
+			} else {
+				setShowNav(true); // Cuộn lên: hiện Nav
+			}
+
+			setLastScrollY(currentScrollY);
+		};
+
+		window.addEventListener("scroll", handleScroll);
+		return () => window.removeEventListener("scroll", handleScroll);
+	}, [lastScrollY]);
 	return (
 		<header className="header">
 			<div className="header__top">
@@ -87,7 +102,7 @@ const Header: React.FC = () => {
 					</div>
 				</div>
 			</div>
-			<Nav />
+			<Nav isVisible={showNav} />
 		</header>
 	);
 };

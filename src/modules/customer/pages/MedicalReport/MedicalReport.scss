@@ -1,0 +1,51 @@
+@import "../../../../shared/globalStyle/variables.scss";
+.appointments {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-size: 16px !important;
+    margin-top: 20px;
+
+    .appointment-card {
+        border: none;
+        padding: 20px;
+        border-radius: 12px;
+        background: #f9f9f9;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        transition: all 0.3s ease;
+
+        &:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        // .date {
+        //     font-size: 14px;
+        //     color: #888;
+        //     margin-bottom: 10px;
+        // }
+
+        .status {
+            font-weight: bold;
+            padding: 5px 8px;
+            border-radius: 6px;
+            display: inline-block;
+            margin: 0;
+        }
+
+        .status-1 {
+            color: #2ecc71;
+            background: #eafaf1;
+        }
+
+        .status-2 {
+            color: #e74c3c;
+            background: #fdecea;
+        }
+
+        .status-0 {
+            color: #f39c12;
+            background: #fff6e6;
+        }
+    }
+}
