@@ -1,18 +1,29 @@
 import axios from "axios";
 import { API_BASE_URL } from "~/config";
-// Tạo một instance của axios
+
 const axiosInstance = axios.create({
 	baseURL: API_BASE_URL,
-	timeout: 10000, // Giới hạn thời gian cho mỗi request
+	timeout: 10000,
 	headers: {
 		"Content-Type": "application/json",
 	},
 });
+
+// Request Interceptor
 axiosInstance.interceptors.request.use(
 	function (config) {
 		const userString = localStorage.getItem("user");
-		const user = userString ? JSON.parse(userString) : null;
-		const token = user.accessToken;
+		console.log(userString);
+		let token = null;
+		if (userString) {
+			try {
+				const user = JSON.parse(userString);
+				token = user?.accessToken;
+			} catch (err) {
+				console.warn("❌ Lỗi parse user:", err);
+			}
+		}
+
 		if (token && token !== "undefined" && token !== "null") {
 			config.headers.Authorization = `Bearer ${token}`;
 		} else {
@@ -26,18 +37,17 @@ axiosInstance.interceptors.request.use(
 	}
 );
 
-// Thêm Interceptor cho Response
+// Response Interceptor
 axiosInstance.interceptors.response.use(
 	function (response) {
-		// Bất kỳ mã trạng thái nào nằm trong phạm vi 2xx đều kích hoạt hàm này
 		return response;
 	},
 	function (error) {
-		// Bất kỳ mã trạng thái nào nằm ngoài phạm vi 2xx đều kích hoạt hàm này
-		// Bạn có thể xử lý các lỗi chung như token hết hạn ở đây
-		if (error.response.status === 401) {
+		if (error.response?.status === 401) {
+			console.warn("🔐 Token hết hạn hoặc không hợp lệ. Đăng xuất...");
 			localStorage.removeItem("token");
-			window.location.href = "/login"; // Chuyển hướng về trang đăng nhập
+			localStorage.removeItem("user");
+			window.location.href = "/login";
 		}
 
 		return Promise.reject(error);

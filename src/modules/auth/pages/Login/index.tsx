@@ -11,17 +11,27 @@ const Login: React.FC = () => {
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
 
-	const handleLogin = async () => {
-		try {
-			setError("");
-			const result = await login({ email, password });
-			console.log("Login success:", result);
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault();
+		const payload = { email, password };
 
-			// Redirect sau khi login thành công
+		try {
+			const response = await login(payload);
+			console.log("Login success:", response);
+			// localStorage.setItem("token", response.token);
+			localStorage.setItem("user", JSON.stringify(response.user));
 			navigate("/");
-		} catch (err: any) {
-			console.error(err);
-			setError(err.message || "Đăng nhập thất bại");
+		} catch (error: any) {
+			console.error("Login error:", error);
+
+			// Kiểm tra chi tiết lỗi và fallback
+			if (error?.response?.data?.message) {
+				setError(error.response.data.message);
+			} else if (error?.message) {
+				setError(error.message);
+			} else {
+				setError("Đăng nhập thất bại. Vui lòng thử lại.");
+			}
 		}
 	};
 
@@ -32,32 +42,36 @@ const Login: React.FC = () => {
 					<Link className="login__left-logo" to="/">
 						<img src={images.logo} alt="Logo" />
 					</Link>
-					<div className="form-input">
-						<div className="form-title">
-							<span className="title">Email</span>
-							<input
-								type="email"
-								className="input-style"
-								placeholder="Email"
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-							/>
+					<form onSubmit={handleSubmit}>
+						<div className="form-input">
+							<div className="form-title">
+								<span className="title">Email</span>
+								<input
+									type="email"
+									className="input-style"
+									placeholder="Email"
+									value={email}
+									autoComplete="email"
+									onChange={(e) => setEmail(e.target.value)}
+								/>
+							</div>
+							<div className="form-title">
+								<span className="title">Password</span>
+								<input
+									type="password"
+									className="input-style"
+									placeholder="Password"
+									value={password}
+									autoComplete="password"
+									onChange={(e) => setPassword(e.target.value)}
+								/>
+							</div>
 						</div>
-						<div className="form-title">
-							<span className="title">Password</span>
-							<input
-								type="password"
-								className="input-style"
-								placeholder="Password"
-								value={password}
-								onChange={(e) => setPassword(e.target.value)}
-							/>
-						</div>
-					</div>
-					{error && <div className="login__error">{error}</div>}
-					<button className="login__btn" onClick={handleLogin}>
-						Đăng nhập
-					</button>
+						{error && <p className="login__error">{error}</p>}
+						<button className="login__btn" type="submit">
+							Đăng nhập
+						</button>
+					</form>
 				</div>
 			</div>
 			<div className="login__right">

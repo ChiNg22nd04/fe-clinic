@@ -79,7 +79,7 @@ const Header: React.FC = () => {
 								/>
 							</div>
 						) : (
-							<Link className="header__logo-link" to={API_ENDPOINTS.auth.login}>
+							<Link className="header__logo-link" to="/login">
 								<FontAwesomeIcon icon={faUser} />
 								<span className="pl-10">{user ? user.fullName : "Tài khoản"}</span>
 							</Link>
