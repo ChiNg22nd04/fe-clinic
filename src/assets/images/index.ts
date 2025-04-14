@@ -1,7 +1,11 @@
-const images = {
-    logo: require('~/assets/images/logo.svg').default,
-    noImage: require('~/assets/images/no-image.png'),
-};
+import logo from "./logo.app.svg";
+import noImage from "./no-image.png";
+import loginImage from "./record-login.jpg";
 
+const images = {
+	logo,
+	noImage,
+	loginImage,
+};
 
 export default images;

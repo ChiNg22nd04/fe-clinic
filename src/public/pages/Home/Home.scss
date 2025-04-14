@@ -1,0 +1,153 @@
+@import "../../../shared/globalStyle/variables.scss";
+
+.home {
+    font-family: "Arial", sans-serif;
+
+    &__banner {
+        position: relative;
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+
+        &-text {
+            position: absolute;
+            top: 35%;
+            left: 10%;
+            color: $text-white;
+            background: rgba(11, 61, 102, 0.6); // overlay nhẹ với $blue-deep
+            padding: 20px;
+            border-radius: 8px;
+
+            h1 {
+                font-size: 2.5rem;
+                color: $primary-green;
+            }
+
+            p {
+                font-size: 1.2rem;
+            }
+        }
+    }
+
+    &__services {
+        padding: 60px 0;
+        background-color: $blue-light;
+        text-align: center;
+
+        h2 {
+            color: $blue-dark;
+            margin-bottom: 30px;
+        }
+
+        &-list {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        &-item {
+            background: $text-white;
+            padding: 20px;
+            border-radius: 12px;
+            width: 220px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+            img {
+                height: 60px;
+                margin-bottom: 10px;
+            }
+
+            p {
+                font-weight: bold;
+                color: $blue-deep;
+            }
+
+            &:hover {
+                background-color: $primary-green;
+                p {
+                    color: $text-white;
+                }
+            }
+        }
+    }
+
+    &__intro {
+        background: $text-white;
+        padding: 60px 0;
+
+        &-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+
+            img {
+                width: 300px;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            div {
+                max-width: 500px;
+
+                h2 {
+                    color: $blue-dark;
+                    margin-bottom: 15px;
+                }
+
+                p {
+                    color: #333;
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+
+    &__news {
+        padding: 60px 0;
+        background-color: #f4f9fd;
+
+        h2 {
+            text-align: center;
+            color: $primary-green;
+            margin-bottom: 40px;
+        }
+
+        &-list {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        &-item {
+            background: $text-white;
+            width: 300px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+            img {
+                width: 100%;
+                height: 180px;
+                object-fit: cover;
+            }
+
+            h3 {
+                padding: 16px 16px 0 16px;
+                color: $blue-medium;
+                font-size: 18px;
+            }
+
+            p {
+                padding: 0 16px 16px 16px;
+                font-size: 14px;
+                color: #555;
+            }
+        }
+    }
+}
