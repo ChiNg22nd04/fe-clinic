@@ -23,5 +23,6 @@ export const API_ENDPOINTS = {
 	},
 	receptionist: {
 		shifts: `${RECEPTIONIST_BASE}/shifts`,
+		apponitmentList: `${RECEPTIONIST_BASE}/appointment/get-all`,
 	},
 };
