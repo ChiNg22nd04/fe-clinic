@@ -42,6 +42,11 @@
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
         transform: translateY(-2px);
     }
+    .dashboard-card_link {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+    }
 
     .dashboard-card_icon {
         width: 40px;
