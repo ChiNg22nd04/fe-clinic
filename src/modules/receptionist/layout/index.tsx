@@ -26,7 +26,6 @@ const Receptionist: React.FC = () => {
 	return (
 		<div className="receptionist-main">
 			<HeaderStaff />
-			<div>Trang chủ receptionist</div>
 			<div className="layout">
 				<Nav />
 				<Outlet />
