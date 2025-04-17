@@ -12,14 +12,16 @@
 
 // Dashboard
 .dashboard-cards {
-    display: grid;
+    // display: grid;
     // grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 5px;
-    width: 30%;
+    // gap: 5px;
+    display: flex;
+    flex-direction: column;
+    width: 25%;
     margin-right: 10px;
 }
 .content {
-    width: 70%;
+    width: 75%;
     margin-left: 10px;
     background-color: $white-color;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
@@ -31,6 +33,7 @@
     background: white;
     border-radius: 5px;
     padding: 10px 15px;
+    margin-bottom: 8px;
     text-align: center;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     cursor: pointer;

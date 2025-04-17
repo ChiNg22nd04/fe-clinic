@@ -39,14 +39,19 @@ const Nav: React.FC = () => {
 				</div>
 			</div>
 
-			<div className="dashboard-card" onClick={() => navigate("/receptionist")}>
-				<div className="dashboard-card_icon">
-					<FontAwesomeIcon icon={faClipboardList} className="card-icon" />
-				</div>
-				<div className="title">
-					<p className="title-main">Danh sách khám hôm nay</p>
-					<p className="title-sub">Xem danh sách bệnh nhân đã đặt lịch khám trong ngày</p>
-				</div>
+			<div className="dashboard-card">
+				<Link
+					className="dashboard-card_link"
+					to={API_ENDPOINTS.receptionist.examinationList}
+				>
+					<div className="dashboard-card_icon">
+						<FontAwesomeIcon icon={faClipboardList} className="card-icon" />
+					</div>
+					<div className="title">
+						<p className="title-main">Danh sách phiếu khám</p>
+						<p className="title-sub">Xem danh sách phiếu khám trong ngày</p>
+					</div>
+				</Link>
 			</div>
 		</div>
 	);
