@@ -3,6 +3,7 @@ import customerRoutes from "~/modules/customer/routes";
 export const API_BASE_URL = "http://localhost:3500";
 const USER_BASE = "/user";
 const RECEPTIONIST_BASE = "/receptionist";
+const DOCTOR_BASE = "/doctor";
 
 export const API_ENDPOINTS = {
 	common: {
@@ -26,5 +27,10 @@ export const API_ENDPOINTS = {
 		apponitmentList: `${RECEPTIONIST_BASE}/appointment/get-all`,
 		updateAppointment: `${RECEPTIONIST_BASE}/appointment/update-status`,
 		examinationList: `${RECEPTIONIST_BASE}/examination/get-all`,
+	},
+	doctor: {
+		shifts: `${DOCTOR_BASE}/shifts`,
+		examinationList: `${DOCTOR_BASE}/medical-examination/get-all`,
+		detailExamination: `${DOCTOR_BASE}/medical-examination/get-detail`,
 	},
 };
