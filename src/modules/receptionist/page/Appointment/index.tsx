@@ -34,36 +34,34 @@ const Appointment: React.FC = () => {
 	const [error, setError] = useState<string>("");
 	const [selectedAppointment, setSelectedAppointment] = useState<AppointmentPayload | null>(null);
 
-	const handleViewDetail = (id: number) => {
-		const appointment = appointments.find((item) => item.id === id);
-		console.log("appointment", appointment);
-		if (appointment) {
-			setSelectedAppointment(appointment);
+	const fetchAppointments = async () => {
+		try {
+			setLoading(true);
+			const response = await listAppointment();
+			setAppointments(response || []);
+		} catch (err: any) {
+			setError(err.message || "Đã xảy ra lỗi khi lấy lịch hẹn");
+		} finally {
+			setLoading(false);
 		}
 	};
 
 	useEffect(() => {
-		const fetchAppointments = async () => {
-			try {
-				const response = await listAppointment();
-				console.log("response", response);
-				setAppointments(response || []);
-			} catch (err: any) {
-				setError(err.message || "Đã xảy ra lỗi khi lấy lịch hẹn");
-			} finally {
-				setLoading(false);
-			}
-		};
-
 		fetchAppointments();
 	}, []);
+
+	const handleViewDetail = (id: number) => {
+		const appointment = appointments.find((item) => item.id === id);
+		if (appointment) {
+			setSelectedAppointment(appointment);
+		}
+	};
 
 	if (loading) return <div className="content">Đang tải dữ liệu...</div>;
 	if (error) return <div className="content">Lỗi: {error}</div>;
 
 	return (
 		<div className="content appointment-list">
-			<h2>Danh sách lịch hẹn</h2>
 			<table>
 				<thead>
 					<tr>
@@ -72,7 +70,7 @@ const Appointment: React.FC = () => {
 						<th>Bác sĩ</th>
 						<th>Ngày hẹn</th>
 						<th>Trạng thái</th>
-						<th>Hành động</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -99,10 +97,12 @@ const Appointment: React.FC = () => {
 					))}
 				</tbody>
 			</table>
+
 			{selectedAppointment && (
 				<AppointmentDetailModal
 					appointment={selectedAppointment}
 					onClose={() => setSelectedAppointment(null)}
+					onRefresh={fetchAppointments} // 👉 truyền hàm làm mới danh sách
 				/>
 			)}
 		</div>

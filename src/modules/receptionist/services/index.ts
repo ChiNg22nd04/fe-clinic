@@ -46,3 +46,17 @@ export const listAppointment = async (params?: Partial<AppointmentPayload>) => {
 		throw error.response?.data || { message: "Unexpected error occurred" };
 	}
 };
+
+export const updateAppointment = async (params: { id: number; status: number }) => {
+	try {
+		const response = await axiosInstance.put(
+			API_ENDPOINTS.receptionist.updateAppointment,
+			params
+		);
+		console.log("Cập nhật status thành công:", response.data);
+		return response.data;
+	} catch (error: any) {
+		console.error("Lỗi khi cập nhật status:", error.response?.data || error.message);
+		throw error.response?.data || { message: "Unexpected error occurred" };
+	}
+};
