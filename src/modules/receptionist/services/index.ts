@@ -60,3 +60,15 @@ export const updateAppointment = async (params: { id: number; status: number }) 
 		throw error.response?.data || { message: "Unexpected error occurred" };
 	}
 };
+
+export const listExamination = async (params?: Partial<AppointmentPayload>) => {
+	try {
+		const response = await axiosInstance.get(API_ENDPOINTS.receptionist.examinationList);
+		// Convert dữ liệu từ snake_case -> camelCase
+		console.log("response.data", response.data);
+		console.log(response.data);
+		return response.data;
+	} catch (error: any) {
+		throw error.response?.data || { message: "Unexpected error occurred" };
+	}
+};
