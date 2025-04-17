@@ -57,7 +57,7 @@ const Appointment: React.FC = () => {
 		}
 	};
 
-	if (loading) return <div className="content">Đang tải dữ liệu...</div>;
+	// if (loading) return <div className="content">Đang tải dữ liệu...</div>;
 	if (error) return <div className="content">Lỗi: {error}</div>;
 
 	return (
@@ -74,27 +74,33 @@ const Appointment: React.FC = () => {
 					</tr>
 				</thead>
 				<tbody>
-					{appointments.map((item) => (
-						<tr key={item.id}>
-							<td>{item.patientName || "-"}</td>
-							<td>{item.specialtyName || "-"}</td>
-							<td>{item.staffName || "-"}</td>
-							<td>{formatDate(item.appointmentDate)}</td>
-							<td>
-								<button className={`status-btn status-${item.status}`}>
-									{getStatusText(item.status)}
-								</button>
-							</td>
-							<td>
-								<button
-									className="action-btn"
-									onClick={() => handleViewDetail(item.id!)}
-								>
-									Xem chi tiết
-								</button>
-							</td>
+					{appointments.length === 0 ? (
+						<tr>
+							<td colSpan={8}>Không có dữ liệu</td>
 						</tr>
-					))}
+					) : (
+						appointments.map((item) => (
+							<tr key={item.id}>
+								<td>{item.patientName || "-"}</td>
+								<td>{item.specialtyName || "-"}</td>
+								<td>{item.staffName || "-"}</td>
+								<td>{formatDate(item.appointmentDate)}</td>
+								<td>
+									<button className={`status-btn status-${item.status}`}>
+										{getStatusText(item.status)}
+									</button>
+								</td>
+								<td>
+									<button
+										className="action-btn"
+										onClick={() => handleViewDetail(item.id!)}
+									>
+										Xem chi tiết
+									</button>
+								</td>
+							</tr>
+						))
+					)}
 				</tbody>
 			</table>
 
