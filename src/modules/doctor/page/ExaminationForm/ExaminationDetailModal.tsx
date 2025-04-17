@@ -1,31 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import dayjs from "dayjs";
+import { updateExamination, ExaminationPayload } from "~/modules/doctor/services";
 import "./ExaminationForm.scss";
 
-interface ExaminationItem {
-	id: number;
-	numerical: number;
-	medical_record_id: number;
-	id_appointment: number;
-	staff_id: number;
-	diagnosis: string | null;
-	note: string | null;
-	status: number;
-	patient_id: number;
-	patient_name: string;
-	staff_name: string;
-	specialty_id: number;
-	specialty_name: string;
-	symptoms: string;
-	appointment_date: string;
-	examination_date: string;
-	clinic_id: number;
-	clinic_name: string;
-}
-
 interface Props {
-	examination: ExaminationItem | null;
+	examination: ExaminationPayload | null;
 	onClose: () => void;
+	onRefresh?: () => void;
 }
 
 const getStatusText = (status?: number) => {
@@ -41,8 +22,29 @@ const getStatusText = (status?: number) => {
 	}
 };
 
-const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose }) => {
+const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefresh }) => {
+	const [status, setStatus] = useState<number>(examination?.status ?? 0);
+	const [diagnosis, setDiagnosis] = useState<string>(examination?.diagnosis || "");
+	const [note, setNote] = useState<string>(examination?.note || "");
+
 	if (!examination) return null;
+
+	const handleUpdate = async () => {
+		try {
+			await updateExamination({
+				id: examination.id as number,
+				status,
+				diagnosis,
+				note,
+			});
+
+			alert("Cập nhật phiếu khám thành công!");
+			onClose();
+			onRefresh?.();
+		} catch (error: any) {
+			alert("Lỗi khi cập nhật: " + (error.message || "Vui lòng thử lại sau."));
+		}
+	};
 
 	return (
 		<div className="modal-overlay">
@@ -50,40 +52,62 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose }) => {
 				<h3>Chi tiết khám bệnh</h3>
 				<div className="modal-content">
 					<p>
-						<strong>Bệnh nhân:</strong> {examination.patient_name}
+						<strong>Bệnh nhân:</strong> {examination.patientName}
 					</p>
 					<p>
-						<strong>Bác sĩ:</strong> {examination.staff_name}
+						<strong>Bác sĩ:</strong> {examination.staffName}
 					</p>
 					<p>
-						<strong>Chuyên khoa:</strong> {examination.specialty_name}
+						<strong>Chuyên khoa:</strong> {examination.specialtyName}
 					</p>
 					<p>
-						<strong>Phòng khám:</strong> {examination.clinic_name}
+						<strong>Phòng khám:</strong> {examination.clinicName}
 					</p>
 					<p>
 						<strong>Ngày hẹn:</strong>{" "}
-						{dayjs(examination.appointment_date).format("DD/MM/YYYY HH:mm")}
+						{dayjs(examination.appointmentDate).format("DD/MM/YYYY HH:mm")}
 					</p>
 					<p>
 						<strong>Ngày khám:</strong>{" "}
-						{dayjs(examination.examination_date).format("DD/MM/YYYY HH:mm")}
+						{dayjs(examination.examinationDate).format("DD/MM/YYYY HH:mm")}
 					</p>
-					<p>
-						<strong>Triệu chứng:</strong> {examination.symptoms}
-					</p>
-					<p>
-						<strong>Chuẩn đoán:</strong> {examination.diagnosis || "Chưa có"}
-					</p>
-					<p>
-						<strong>Ghi chú:</strong> {examination.note || "Không có"}
-					</p>
-					<p>
-						<strong>Trạng thái:</strong> {getStatusText(examination.status)}
-					</p>
+
+					<label>
+						<strong>Triệu chứng:</strong>
+						<div>{examination.symptoms}</div>
+					</label>
+
+					<label>
+						<strong>Chuẩn đoán:</strong>
+						<input
+							type="text"
+							value={diagnosis}
+							onChange={(e) => setDiagnosis(e.target.value)}
+							placeholder="Nhập chuẩn đoán"
+						/>
+					</label>
+
+					<label>
+						<strong>Ghi chú:</strong>
+						<textarea
+							value={note}
+							onChange={(e) => setNote(e.target.value)}
+							placeholder="Ghi chú thêm"
+						/>
+					</label>
+
+					<label>
+						<strong>Trạng thái:</strong>
+						<select value={status} onChange={(e) => setStatus(Number(e.target.value))}>
+							<option value={0}>Chờ khám</option>
+							<option value={1}>Đã hoàn thành</option>
+							<option value={2}>Đã đóng</option>
+						</select>
+					</label>
 				</div>
+
 				<div className="modal-actions">
-					<button onClick={onClose}>Đóng</button>
+					<button onClick={handleUpdate}>Lưu thay đổi</button>
 				</div>
 			</div>
 		</div>

@@ -32,5 +32,6 @@ export const API_ENDPOINTS = {
 		shifts: `${DOCTOR_BASE}/shifts`,
 		examinationList: `${DOCTOR_BASE}/medical-examination/get-all`,
 		detailExamination: `${DOCTOR_BASE}/medical-examination/get-detail`,
+		updateExamination: `${DOCTOR_BASE}/medical-examination/update`,
 	},
 };

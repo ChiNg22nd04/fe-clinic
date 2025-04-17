@@ -133,77 +133,29 @@
 }
 
 // modal examination
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
+.modal-content label {
+    display: block;
+    margin-bottom: 12px;
+}
+
+.modal-content input,
+.modal-content textarea,
+.modal-content select {
     width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-}
-
-.modal {
-    background-color: #fff;
-    border-radius: 12px;
-    padding: 30px;
-    width: 800px;
-    max-width: 90%;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    font-family: "Segoe UI", sans-serif;
-}
-
-.modal h3 {
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #ccc;
-    padding-bottom: 10px;
-}
-
-.modal-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    font-size: 16px;
-}
-
-.modal-content p {
-    margin: 5px 0;
-}
-
-.modal-content strong {
-    color: #333;
+    padding: 8px;
+    margin-top: 4px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
 }
 
 .modal-actions {
-    margin-top: 30px;
+    margin-top: 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
+    gap: 10px;
 }
 
-.modal-actions button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s;
-}
-
-.modal-actions button:hover {
-    background-color: #0056b3;
-}
-
-.modal-actions button:last-child {
-    background-color: #6c757d;
-}
-
-.modal-actions button:last-child:hover {
-    background-color: #5a6268;
+.modal-actions .cancel-btn {
+    background-color: #ccc;
 }
