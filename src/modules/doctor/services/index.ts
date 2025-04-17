@@ -86,3 +86,30 @@ export const updateExamination = async (params: {
 		throw error.response?.data || { message: "Unexpected error occurred" };
 	}
 };
+
+export const updatePrescription = async (params: {
+	id: number;
+	medicineId: number;
+	quantity: number;
+	usage: string;
+}) => {
+	try {
+		const response = await axiosInstance.post(API_ENDPOINTS.doctor.updatePrescription, params);
+		console.log("Thêm đơn thuốc thành công:", response.data);
+		return response.data;
+	} catch (error: any) {
+		console.error("Lỗi khi thêm đơn thuốc:", error.response?.data || error.message);
+		throw error.response?.data || { message: "Unexpected error occurred" };
+	}
+};
+
+export const detailPrescription = async (params: { examinationFormId: number }) => {
+	try {
+		const response = await axiosInstance.post(API_ENDPOINTS.doctor.detailPrescription, params);
+		// Convert dữ liệu từ snake_case -> camelCase
+		console.log("response.data", response.data);
+		return response.data;
+	} catch (error: any) {
+		throw error.response?.data || { message: "Unexpected error occurred" };
+	}
+};

@@ -33,5 +33,7 @@ export const API_ENDPOINTS = {
 		examinationList: `${DOCTOR_BASE}/medical-examination/get-all`,
 		detailExamination: `${DOCTOR_BASE}/medical-examination/get-detail`,
 		updateExamination: `${DOCTOR_BASE}/medical-examination/update`,
+		updatePrescription: `${DOCTOR_BASE}/prescription/update-form`,
+		detailPrescription: `${DOCTOR_BASE}/prescription/form`,
 	},
 };

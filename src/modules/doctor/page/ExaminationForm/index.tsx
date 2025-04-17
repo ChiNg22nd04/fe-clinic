@@ -71,6 +71,7 @@ const ExaminationForm: React.FC = () => {
 						<th>Chuyên khoa</th>
 						<th>Bác sĩ</th>
 						<th>Trạng thái</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -94,7 +95,10 @@ const ExaminationForm: React.FC = () => {
 									</span>
 								</td>
 								<td>
-									<button onClick={() => setSelectedExamination(item)}>
+									<button
+										className="action-btn"
+										onClick={() => setSelectedExamination(item)}
+									>
 										Xem chi tiết
 									</button>
 								</td>
