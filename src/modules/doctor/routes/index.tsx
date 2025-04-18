@@ -17,6 +17,7 @@ const receptionistRoutes: RouteObject[] = [
 			{ path: "medical-examination/get-detail", element: <ExaminationForm /> },
 			{ path: "prescription/update-form", element: <ExaminationDetailModal /> },
 			{ path: "prescription/form", element: <ExaminationDetailModal /> },
+			{ path: "medicine/get-all", element: <ExaminationDetailModal /> },
 		],
 	},
 ];

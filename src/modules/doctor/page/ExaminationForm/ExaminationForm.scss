@@ -254,3 +254,19 @@
         opacity: 0.9;
     }
 }
+.prescription-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.prescription-list th,
+.prescription-list td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+.prescription-list th {
+    background-color: #f0f0f0;
+}

@@ -42,23 +42,6 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 	const [prescriptions, setPrescriptions] = useState<any[]>([]);
 	const [examinationDetails, setExaminationDetails] = useState<any>(null); // State to store the fetched examination details
 
-	// useEffect(() => {
-	// 	// Ensure that the effect runs only when examination.id exists
-	// 	if (examination?.id) {
-	// 		console.log(examination);
-	// 		const fetchPrescription = async () => {
-	// 			try {
-	// 				const res = await detailPrescription({ examinationFormId: examination.id! });
-	// 				setPrescriptions(res.data || []); // đảm bảo an toàn
-	// 			} catch (error) {
-	// 				console.error("Lỗi khi lấy đơn thuốc:", error);
-	// 			}
-	// 		};
-
-	// 		fetchPrescription();
-	// 	}
-	// }, [examination?.id]); // Dependency is only examination.id to fetch prescriptions when it changes
-
 	const handleUpdate = async () => {
 		try {
 			await updateExamination({
@@ -89,14 +72,21 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 				usage,
 			});
 			alert("Thêm đơn thuốc thành công!");
-			setShowPrescriptionForm(false);
-
-			// Call `detailExamination` after adding the prescription to update the examination details
-			// const newExaminationDetails = await detailExamination();
-			// setExaminationDetails(newExaminationDetails);
+			setShowPrescriptionForm(true); // Đảm bảo form vẫn hiện
+			await fetchPrescription(); // <-- Gọi lại sau khi thêm
 		} catch (error: any) {
 			console.error("Thêm đơn thuốc thất bại:", error);
 			alert("Thêm đơn thuốc thất bại. Vui lòng thử lại.");
+		}
+	};
+
+	const fetchPrescription = async () => {
+		try {
+			const res = await detailPrescription({ examinationFormId: examination?.id! });
+			console.log(res);
+			setPrescriptions(res.data || []); // đảm bảo an toàn
+		} catch (error) {
+			console.error("Lỗi khi lấy đơn thuốc:", error);
 		}
 	};
 
@@ -163,69 +153,87 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 						<>
 							<button
 								className="add-prescription-btn"
-								onClick={() => setShowPrescriptionForm(!showPrescriptionForm)}
+								onClick={async () => {
+									const newShow = !showPrescriptionForm;
+									setShowPrescriptionForm(newShow);
+
+									if (newShow) {
+										await fetchPrescription(); // gọi API khi mở form
+									}
+								}}
 							>
 								{showPrescriptionForm ? "Ẩn đơn thuốc" : "Thêm đơn thuốc"}
 							</button>
 
 							{showPrescriptionForm && (
-								<div className="prescription-form">
-									<h4>Thêm đơn thuốc</h4>
-									<label>
-										<strong>ID thuốc:</strong>
-										<input
-											type="number"
-											value={medicineId}
-											onChange={(e) => setMedicineId(Number(e.target.value))}
-										/>
-									</label>
-									<label>
-										<strong>Số lượng:</strong>
-										<input
-											type="number"
-											value={quantity}
-											onChange={(e) => setQuantity(Number(e.target.value))}
-										/>
-									</label>
-									<label>
-										<strong>Cách dùng:</strong>
-										<input
-											type="text"
-											value={usage}
-											onChange={(e) => setUsage(e.target.value)}
-											placeholder="Ví dụ: Uống sau khi ăn"
-										/>
-									</label>
-									<button onClick={handleAddPrescription}>Xác nhận thêm</button>
+								<div className="prescription">
+									<div className="prescription-form">
+										<h4>Thêm đơn thuốc</h4>
+										<label>
+											<strong>ID thuốc:</strong>
+											<input
+												type="number"
+												value={medicineId}
+												onChange={(e) =>
+													setMedicineId(Number(e.target.value))
+												}
+											/>
+										</label>
+										<label>
+											<strong>Số lượng:</strong>
+											<input
+												type="number"
+												value={quantity}
+												onChange={(e) =>
+													setQuantity(Number(e.target.value))
+												}
+											/>
+										</label>
+										<label>
+											<strong>Cách dùng:</strong>
+											<input
+												type="text"
+												value={usage}
+												onChange={(e) => setUsage(e.target.value)}
+												placeholder="Ví dụ: Uống sau khi ăn"
+											/>
+										</label>
+										<button onClick={handleAddPrescription}>
+											Xác nhận thêm
+										</button>
+									</div>
+
+									{/* Hiển thị danh sách đơn thuốc */}
+									{prescriptions.length > 0 && (
+										<div className="prescription-list">
+											<h4>Danh sách đơn thuốc</h4>
+											<table>
+												<thead>
+													<tr>
+														<th>STT</th>
+														<th>Tên thuốc</th>
+														<th>Số lượng</th>
+														<th>Giá (đ)</th>
+														<th>Cách dùng</th>
+													</tr>
+												</thead>
+												<tbody>
+													{prescriptions.map((item, index) => (
+														<tr key={index}>
+															<td>{index + 1}</td>
+															<td>{item.medicine_name}</td>
+															<td>{item.quantity}</td>
+															<td>{item.price}</td>
+															<td>{item.usage}</td>
+														</tr>
+													))}
+												</tbody>
+											</table>
+										</div>
+									)}
 								</div>
 							)}
 						</>
-					)}
-
-					{/* Display the updated examination details (including prescriptions) */}
-					{examinationDetails && (
-						<div className="examination-details">
-							<h4>Thông tin khám bệnh cập nhật</h4>
-							{/* Render the updated details from examinationDetails */}
-							<div>
-								<strong>Đơn thuốc:</strong>
-								{examinationDetails.prescriptions &&
-								examinationDetails.prescriptions.length > 0 ? (
-									<ul>
-										{examinationDetails.prescriptions.map(
-											(prescription: any, index: number) => (
-												<li key={index}>
-													Thuốc: {prescription.medicineName}, Số lượng:{" "}
-													{prescription.quantity}
-												</li>
-											)
-										)}
-									</ul>
-								) : (
-									<p>Không có đơn thuốc nào.</p>
-								)}
-							</div>
-						</div>
 					)}
 				</div>
 
