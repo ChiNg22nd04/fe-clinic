@@ -107,7 +107,17 @@ export const detailPrescription = async (params: { examinationFormId: number }) 
 	try {
 		const response = await axiosInstance.post(API_ENDPOINTS.doctor.detailPrescription, params);
 		// Convert dữ liệu từ snake_case -> camelCase
-		console.log("response.data", response.data);
+		console.log("responsive prescription", response.data);
+		return response.data;
+	} catch (error: any) {
+		throw error.response?.data || { message: "Unexpected error occurred" };
+	}
+};
+
+export const getMedicine = async () => {
+	try {
+		const response = await axiosInstance.get(API_ENDPOINTS.doctor.medicineList);
+		console.log("responsive medicine", response.data);
 		return response.data;
 	} catch (error: any) {
 		throw error.response?.data || { message: "Unexpected error occurred" };

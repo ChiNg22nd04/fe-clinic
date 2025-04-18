@@ -1,3 +1,4 @@
+@import "../../../../shared/globalStyle/variables.scss";
 .appointment-list {
     // padding: 20px;
     background: #f2f5f7;
@@ -17,7 +18,7 @@
         border-spacing: 0 12px;
 
         thead {
-            background-color: #007bff;
+            background-color: $blue-dark;
 
             th {
                 color: #fff;
@@ -184,7 +185,8 @@
         text-align: right;
 
         button {
-            background-color: #007bff;
+            // background-color: #007bff;
+            background-color: $blue-deep;
             color: white;
             border: none;
             padding: 10px 18px;

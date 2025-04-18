@@ -27,6 +27,8 @@ export const API_ENDPOINTS = {
 		apponitmentList: `${RECEPTIONIST_BASE}/appointment/get-all`,
 		updateAppointment: `${RECEPTIONIST_BASE}/appointment/update-status`,
 		examinationList: `${RECEPTIONIST_BASE}/examination/get-all`,
+		invoiceList: `${RECEPTIONIST_BASE}/invoice/get-all`,
+		invoiceCreate: `${RECEPTIONIST_BASE}/invoice/create`,
 	},
 	doctor: {
 		shifts: `${DOCTOR_BASE}/shifts`,
@@ -35,5 +37,6 @@ export const API_ENDPOINTS = {
 		updateExamination: `${DOCTOR_BASE}/medical-examination/update`,
 		updatePrescription: `${DOCTOR_BASE}/prescription/update-form`,
 		detailPrescription: `${DOCTOR_BASE}/prescription/form`,
+		medicineList: `${DOCTOR_BASE}/medicine/get-all`,
 	},
 };
