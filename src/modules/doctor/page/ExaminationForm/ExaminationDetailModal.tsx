@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import dayjs from "dayjs";
 import {
 	updateExamination,
-	ExaminationPayload,
 	updatePrescription,
 	detailPrescription,
-	detailExamination, // Import the detailExamination function
+	getMedicine,
+	ExaminationPayload,
 } from "~/modules/doctor/services";
-import axios from "axios";
+import PrescriptionTable from "~/modules/doctor/page/PrescriptionTable";
+
 import "./ExaminationForm.scss";
 
 interface Props {
@@ -16,40 +17,39 @@ interface Props {
 	onRefresh?: () => void;
 }
 
-const getStatusText = (status?: number) => {
-	switch (status) {
-		case 0:
-			return "Chờ khám";
-		case 1:
-			return "Đã hoàn thành";
-		case 2:
-			return "Đã đóng";
-		default:
-			return "Không rõ";
-	}
-};
-
 const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefresh }) => {
 	const [status, setStatus] = useState<number>(examination?.status ?? 0);
-	const [diagnosis, setDiagnosis] = useState<string>(examination?.diagnosis || "");
-	const [note, setNote] = useState<string>(examination?.note || "");
+	const [diagnosis, setDiagnosis] = useState<string>(examination?.diagnosis ?? "");
+	const [note, setNote] = useState<string>(examination?.note ?? "");
 
 	const [showPrescriptionForm, setShowPrescriptionForm] = useState(false);
-	const [medicineId, setMedicineId] = useState<number>(1);
+	const [medicineId, setMedicineId] = useState<number>(0);
 	const [quantity, setQuantity] = useState<number>(1);
 	const [usage, setUsage] = useState<string>("");
 
 	const [prescriptions, setPrescriptions] = useState<any[]>([]);
-	const [examinationDetails, setExaminationDetails] = useState<any>(null); // State to store the fetched examination details
+	const [medicineList, setMedicineList] = useState<any[]>([]);
+
+	useEffect(() => {
+		getMedicine()
+			.then((res) => setMedicineList(res.data ?? []))
+			.catch((err) => console.error("Lỗi lấy danh sách thuốc:", err));
+	}, []);
+
+	const fetchPrescriptions = useCallback(async () => {
+		if (!examination?.id) return;
+		try {
+			const res = await detailPrescription({ examinationFormId: examination.id });
+			setPrescriptions(res.data ?? []);
+		} catch (err) {
+			console.error("Lỗi khi lấy đơn thuốc:", err);
+		}
+	}, [examination?.id]);
 
 	const handleUpdate = async () => {
+		if (!examination?.id) return;
 		try {
-			await updateExamination({
-				id: examination?.id as number,
-				status,
-				diagnosis,
-				note,
-			});
+			await updateExamination({ id: examination.id, status, diagnosis, note });
 			alert("Cập nhật phiếu khám thành công!");
 			onClose();
 			onRefresh?.();
@@ -66,28 +66,23 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 
 		try {
 			await updatePrescription({
-				id: examination?.id as number,
+				id: examination?.id!,
 				medicineId,
 				quantity,
 				usage,
 			});
 			alert("Thêm đơn thuốc thành công!");
-			setShowPrescriptionForm(true); // Đảm bảo form vẫn hiện
-			await fetchPrescription(); // <-- Gọi lại sau khi thêm
+			await fetchPrescriptions();
 		} catch (error: any) {
 			console.error("Thêm đơn thuốc thất bại:", error);
 			alert("Thêm đơn thuốc thất bại. Vui lòng thử lại.");
 		}
 	};
 
-	const fetchPrescription = async () => {
-		try {
-			const res = await detailPrescription({ examinationFormId: examination?.id! });
-			console.log(res);
-			setPrescriptions(res.data || []); // đảm bảo an toàn
-		} catch (error) {
-			console.error("Lỗi khi lấy đơn thuốc:", error);
-		}
+	const togglePrescriptionForm = async () => {
+		const newState = !showPrescriptionForm;
+		setShowPrescriptionForm(newState);
+		if (newState) await fetchPrescriptions();
 	};
 
 	return (
@@ -118,7 +113,7 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 
 					<label>
 						<strong>Triệu chứng:</strong>
-						<div>{examination?.symptoms}</div>
+						<div>{examination?.symptoms ?? "Không có"}</div>
 					</label>
 
 					<label>
@@ -152,37 +147,37 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 					{status === 1 && (
 						<>
 							<button
-								className="add-prescription-btn"
-								onClick={async () => {
-									const newShow = !showPrescriptionForm;
-									setShowPrescriptionForm(newShow);
-
-									if (newShow) {
-										await fetchPrescription(); // gọi API khi mở form
-									}
-								}}
+								className="btn-toggle-prescription"
+								onClick={togglePrescriptionForm}
 							>
 								{showPrescriptionForm ? "Ẩn đơn thuốc" : "Thêm đơn thuốc"}
 							</button>
 
 							{showPrescriptionForm && (
-								<div className="prescription">
+								<div className="prescription-section">
+									<h4>Thêm đơn thuốc</h4>
 									<div className="prescription-form">
-										<h4>Thêm đơn thuốc</h4>
 										<label>
-											<strong>ID thuốc:</strong>
-											<input
-												type="number"
+											<strong>Thuốc:</strong>
+											<select
 												value={medicineId}
 												onChange={(e) =>
 													setMedicineId(Number(e.target.value))
 												}
-											/>
+											>
+												<option value={0}>-- Chọn thuốc --</option>
+												{medicineList.map((med) => (
+													<option key={med.id} value={med.id}>
+														{med.name}
+													</option>
+												))}
+											</select>
 										</label>
 										<label>
 											<strong>Số lượng:</strong>
 											<input
 												type="number"
+												min={1}
 												value={quantity}
 												onChange={(e) =>
 													setQuantity(Number(e.target.value))
@@ -195,7 +190,7 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 												type="text"
 												value={usage}
 												onChange={(e) => setUsage(e.target.value)}
-												placeholder="Ví dụ: Uống sau khi ăn"
+												placeholder="VD: Uống sau khi ăn"
 											/>
 										</label>
 										<button onClick={handleAddPrescription}>
@@ -203,8 +198,7 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 										</button>
 									</div>
 
-									{/* Hiển thị danh sách đơn thuốc */}
-									{prescriptions.length > 0 && (
+									{/* {prescriptions.length > 0 && (
 										<div className="prescription-list">
 											<h4>Danh sách đơn thuốc</h4>
 											<table>
@@ -219,17 +213,24 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 												</thead>
 												<tbody>
 													{prescriptions.map((item, index) => (
-														<tr key={index}>
+														<tr key={item.id ?? index}>
 															<td>{index + 1}</td>
 															<td>{item.medicine_name}</td>
 															<td>{item.quantity}</td>
-															<td>{item.price}</td>
+															<td>
+																{item.price?.toLocaleString(
+																	"vi-VN"
+																)}
+															</td>
 															<td>{item.usage}</td>
 														</tr>
 													))}
 												</tbody>
 											</table>
 										</div>
+									)} */}
+									{prescriptions.length > 0 && (
+										<PrescriptionTable data={prescriptions} />
 									)}
 								</div>
 							)}
@@ -239,6 +240,9 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 
 				<div className="modal-actions">
 					<button onClick={handleUpdate}>Lưu thay đổi</button>
+					<button onClick={onClose} className="btn-cancel">
+						Hủy
+					</button>
 				</div>
 			</div>
 		</div>
