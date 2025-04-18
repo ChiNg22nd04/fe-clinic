@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
-import { listExamination } from "~/modules/receptionist/services";
+import {
+	listExamination,
+	ExaminationPayload,
+	invoiceCreate,
+} from "~/modules/receptionist/services";
 
 import "./ExaminationForm.scss";
 
@@ -11,35 +15,15 @@ const formatDate = (dateString: string) => {
 	return dayjs(dateString).format("DD/MM/YYYY HH:mm");
 };
 
-interface ExaminationItem {
-	id: number;
-	numerical: number;
-	medical_record_id: number;
-	id_appointment: number;
-	staff_id: number;
-	diagnosis: string | null;
-	note: string | null;
-	status: number;
-	patient_id: number;
-	patient_name: string;
-	staff_name: string;
-	specialty_id: number;
-	specialty_name: string;
-	symptoms: string;
-	appointment_date: string;
-	examination_date: string;
-	clinic_id: number;
-	clinic_name: string;
-}
-
 const ExaminationForm: React.FC = () => {
 	const [error, setError] = useState<string>("");
-	const [examinations, setExaminations] = useState<ExaminationItem[]>([]);
+	const [examinations, setExaminations] = useState<ExaminationPayload[]>([]);
+	const [loadingId, setLoadingId] = useState<number | null>(null);
 
 	const fetchAppointments = async () => {
 		try {
 			const response = await listExamination();
-			setExaminations(response.data);
+			setExaminations(response);
 		} catch (err: any) {
 			setError(err.message || "Đã xảy ra lỗi khi lấy lịch hẹn");
 		}
@@ -48,6 +32,22 @@ const ExaminationForm: React.FC = () => {
 	useEffect(() => {
 		fetchAppointments();
 	}, []);
+
+	const handleCreateInvoice = async (examinationFormId: number) => {
+		setLoadingId(examinationFormId);
+		try {
+			await invoiceCreate({ examinationFormId });
+
+			// Cập nhật trạng thái đã tạo hóa đơn tại client
+			setExaminations((prev) =>
+				prev.map((item) => (item.id === examinationFormId ? { ...item, status: 2 } : item))
+			);
+		} catch (err: any) {
+			setError(err.message || "Không thể tạo hóa đơn");
+		} finally {
+			setLoadingId(null);
+		}
+	};
 
 	if (error) return <div className="content">Lỗi: {error}</div>;
 
@@ -63,10 +63,11 @@ const ExaminationForm: React.FC = () => {
 						<th>Chuyên khoa</th>
 						<th>Bác sĩ</th>
 						<th>Trạng thái</th>
+						<th>Hành động</th>
 					</tr>
 				</thead>
 				<tbody>
-					{examinations.length === 0 ? (
+					{examinations?.length === 0 ? (
 						<tr>
 							<td colSpan={8}>Không có dữ liệu</td>
 						</tr>
@@ -74,11 +75,11 @@ const ExaminationForm: React.FC = () => {
 						examinations.map((item, index) => (
 							<tr key={item.id}>
 								<td>{index + 1}</td>
-								<td>{item.patient_name}</td>
-								<td>{formatDate(item.examination_date)}</td>
+								<td>{item.patientName}</td>
+								<td>{formatDate(item.examinationDate)}</td>
 								<td>{item.diagnosis}</td>
-								<td>{item.specialty_name}</td>
-								<td>{item.staff_name}</td>
+								<td>{item.specialtyName}</td>
+								<td>{item.staffName}</td>
 								<td>
 									<span className={`status-pill status-${item.status}`}>
 										{item.status === 0
@@ -87,6 +88,23 @@ const ExaminationForm: React.FC = () => {
 											? "Đã khám"
 											: "Đã đóng"}
 									</span>
+								</td>
+								<td>
+									{item.status === 1 ? (
+										<button
+											onClick={() => handleCreateInvoice(item.id!)}
+											disabled={loadingId === item.id}
+											className="btn-create"
+										>
+											{loadingId === item.id ? "Đang tạo..." : "Tạo hóa đơn"}
+										</button>
+									) : item.status === 2 ? (
+										<span style={{ color: "green", fontWeight: "bold" }}>
+											Đã tạo hóa đơn
+										</span>
+									) : (
+										<span style={{ color: "#aaa" }}>Không khả dụng</span>
+									)}
 								</td>
 							</tr>
 						))

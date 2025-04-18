@@ -193,7 +193,10 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 												placeholder="VD: Uống sau khi ăn"
 											/>
 										</label>
-										<button onClick={handleAddPrescription}>
+										<button
+											className="btn-toggle-prescription"
+											onClick={handleAddPrescription}
+										>
 											Xác nhận thêm
 										</button>
 									</div>
@@ -239,10 +242,10 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 				</div>
 
 				<div className="modal-actions">
-					<button onClick={handleUpdate}>Lưu thay đổi</button>
 					<button onClick={onClose} className="btn-cancel">
 						Hủy
 					</button>
+					<button onClick={handleUpdate}>Lưu thay đổi</button>
 				</div>
 			</div>
 		</div>

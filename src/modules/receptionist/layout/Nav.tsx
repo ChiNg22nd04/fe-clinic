@@ -53,6 +53,17 @@ const Nav: React.FC = () => {
 					</div>
 				</Link>
 			</div>
+			<div className="dashboard-card">
+				<Link className="dashboard-card_link" to={API_ENDPOINTS.receptionist.invoiceList}>
+					<div className="dashboard-card_icon">
+						<FontAwesomeIcon icon={faClipboardList} className="card-icon" />
+					</div>
+					<div className="title">
+						<p className="title-main">Danh sách hóa đơn</p>
+						<p className="title-sub">Xem danh sách hóa đơn trong ngày</p>
+					</div>
+				</Link>
+			</div>
 		</div>
 	);
 };
