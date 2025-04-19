@@ -12,6 +12,7 @@ const Invoice: React.FC = () => {
 	const fetchInvoices = async () => {
 		try {
 			const data = await listInvoices();
+			console.log(data);
 			setInvoices(data);
 		} catch (err: any) {
 			setError(err.message || "Lỗi khi lấy hóa đơn");
@@ -26,11 +27,11 @@ const Invoice: React.FC = () => {
 
 	return (
 		<div className="content invoice-list">
-			<h2>Danh sách hóa đơn</h2>
 			<table className="invoice-table">
 				<thead>
 					<tr>
 						<th>STT</th>
+						<th>Bệnh nhân</th>
 						<th>Mã phiếu khám</th>
 						<th>Tổng tiền</th>
 						<th>Ngày tạo</th>
@@ -45,8 +46,9 @@ const Invoice: React.FC = () => {
 						invoices.map((invoice, index) => (
 							<tr key={invoice.id}>
 								<td>{index + 1}</td>
-								<td>{invoice.examination_form_id}</td>
-								<td>{(invoice.total_amount * 1000).toLocaleString("vi-VN")}</td>
+								<td>{invoice.patientName}</td>
+								<td>{invoice.examinationFormId}</td>
+								<td>{(invoice.totalAmount * 1000).toLocaleString("vi-VN")}</td>
 								<td>{formatDate(invoice.createdAt)}</td>
 							</tr>
 						))
