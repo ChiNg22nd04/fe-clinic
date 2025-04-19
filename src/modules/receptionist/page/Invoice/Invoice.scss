@@ -1,24 +1,69 @@
+@import "../../../../shared/globalStyle/variables.scss";
+
 .invoice-list {
+    background: #f2f5f7;
+    min-height: 100vh;
+
     h2 {
-        margin-bottom: 1rem;
-        color: #333;
+        text-align: center;
+        margin-bottom: 24px;
+        font-size: 28px;
+        font-weight: 600;
+        color: #222;
     }
 
-    .invoice-table {
+    table {
         width: 100%;
-        border-collapse: collapse;
-        border: 1px solid #ccc;
+        border-collapse: separate;
+        border-spacing: 0 12px;
 
-        th,
-        td {
-            border: 1px solid #ccc;
-            padding: 8px 12px;
-            text-align: center;
+        thead {
+            background-color: $blue-dark;
+
+            th {
+                color: #fff;
+                padding: 14px 18px;
+                font-size: 14px;
+                text-transform: uppercase;
+                border-radius: 8px 8px 0 0;
+                text-align: left;
+            }
         }
 
-        th {
-            background-color: #f5f5f5;
-            font-weight: 600;
+        tbody {
+            tr {
+                background-color: #fff;
+                border-radius: 8px;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+                transition: all 0.2s ease;
+
+                &:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+                }
+
+                td {
+                    padding: 14px 18px;
+                    font-size: 15px;
+                    border-bottom: 1px solid #eee;
+                }
+
+                td:first-child {
+                    border-top-left-radius: 8px;
+                    border-bottom-left-radius: 8px;
+                }
+
+                td:last-child {
+                    border-top-right-radius: 8px;
+                    border-bottom-right-radius: 8px;
+                }
+            }
         }
+    }
+
+    .error {
+        color: red;
+        margin-top: 10px;
+        text-align: center;
     }
 }

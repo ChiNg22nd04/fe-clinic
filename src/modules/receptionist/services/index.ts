@@ -40,6 +40,18 @@ export interface AppointmentPayload {
 	status?: number;
 }
 
+export interface InvoicePayload {
+	id: number;
+	totalAmount: number;
+	examinationFormId: number;
+	createdAt: string;
+	updatedAt: string;
+	paymentStatus: number;
+	paymentMethod: number;
+	patientName: string;
+	patientId: number;
+}
+
 export const listAppointment = async (params?: Partial<AppointmentPayload>) => {
 	try {
 		const response = await axiosInstance.get(API_ENDPOINTS.receptionist.apponitmentList);
@@ -113,19 +125,24 @@ export const listExamination = async (params?: Partial<ExaminationPayload>) => {
 	}
 };
 
-export interface InvoicePayload {
-	id: number;
-	examination_form_id: number;
-	total_amount: number;
-	createdAt: string;
-	updatedAt: string;
-}
-
 export const listInvoices = async (params?: Partial<InvoicePayload>) => {
 	try {
 		const response = await axiosInstance.get(API_ENDPOINTS.receptionist.invoiceList); // Đường dẫn tương ứng route backend
 		console.log(response.data);
-		return response.data.data;
+		const data = response.data.data?.map(
+			(item: any): InvoicePayload => ({
+				id: item.id,
+				examinationFormId: item.examination_form_id,
+				totalAmount: item.total_amount,
+				createdAt: item.created_at,
+				updatedAt: item.updated_at,
+				paymentStatus: item.payment_status,
+				paymentMethod: item.payment_method,
+				patientName: item.patient_name,
+				patientId: item.patient_id,
+			})
+		);
+		return data;
 	} catch (error: any) {
 		throw new Error(error.response?.data?.message || "Lỗi khi lấy danh sách hóa đơn");
 	}
@@ -135,6 +152,16 @@ export const invoiceCreate = async (params: { examinationFormId: number }) => {
 	try {
 		const response = await axiosInstance.post(API_ENDPOINTS.receptionist.invoiceCreate, params);
 		console.log(response.data);
+		// const data = response.data.data?.map(
+		// 	(item: any): InvoicePayload => ({
+		// 		id: item.id,
+		// 		examinationFormId: item.examination_form_id,
+		// 		totalAmount: item.total_amount,
+		// 		createdAt: item.createdAt,
+		// 		updatedAt: item.updatedAt,
+		// 	})
+		// );
+		console.log(response.data.data);
 		return response.data.data;
 	} catch (error: any) {
 		throw new Error(error.response?.data?.message || "Lỗi khi lấy danh sách hóa đơn");
