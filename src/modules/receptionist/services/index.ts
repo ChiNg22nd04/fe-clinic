@@ -46,8 +46,8 @@ export interface InvoicePayload {
 	examinationFormId: number;
 	createdAt: string;
 	updatedAt: string;
-	paymentStatus: string;
-	paymentMethod: string;
+	paymentStatus: number;
+	paymentMethod: number;
 	patientName: string;
 	patientId: number;
 }

@@ -4,6 +4,33 @@ import dayjs from "dayjs";
 import "./Invoice.scss";
 
 const formatDate = (date: string) => dayjs(date).format("DD/MM/YYYY HH:mm");
+const getStatusText = (status: number) => {
+	switch (status) {
+		case 0:
+			return "Đang chờ";
+		case 1:
+			return "Hoàn tất";
+		case 2:
+			return "Thất bại";
+		default:
+			return "Không xác định";
+	}
+};
+
+const getMethodText = (method: number) => {
+	switch (method) {
+		case 0:
+			return "Tiền mặt";
+		case 1:
+			return "Thẻ";
+		case 2:
+			return "Chuyển khoản";
+		case 3:
+			return "Khác";
+		default:
+			return "Không xác định";
+	}
+};
 
 const Invoice: React.FC = () => {
 	const [invoices, setInvoices] = useState<InvoicePayload[]>([]);
@@ -35,6 +62,8 @@ const Invoice: React.FC = () => {
 						<th>Mã phiếu khám</th>
 						<th>Tổng tiền</th>
 						<th>Ngày tạo</th>
+						<th>Trạng thái</th>
+						<th>PTTT</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -50,6 +79,8 @@ const Invoice: React.FC = () => {
 								<td>{invoice.examinationFormId}</td>
 								<td>{(invoice.totalAmount * 1000).toLocaleString("vi-VN")}</td>
 								<td>{formatDate(invoice.createdAt)}</td>
+								<td>{getStatusText(invoice.paymentStatus)}</td>
+								<td>{getMethodText(invoice.paymentMethod)}</td>
 							</tr>
 						))
 					)}
