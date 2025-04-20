@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { listInvoices, InvoicePayload } from "~/modules/receptionist/services";
+import { createPayment } from "~/shared/services/paymentService";
+
 import dayjs from "dayjs";
 import "./Invoice.scss";
 
@@ -36,6 +38,17 @@ const Invoice: React.FC = () => {
 	const [invoices, setInvoices] = useState<InvoicePayload[]>([]);
 	const [error, setError] = useState<string>("");
 
+	const handlePayment = async (amount: number) => {
+		try {
+			const res = await createPayment(amount); // Ví dụ: 100000 = 100,000 VND
+			if (res.paymentUrl) {
+				window.location.href = res.paymentUrl;
+			}
+		} catch (error) {
+			console.error("Thanh toán lỗi:", error);
+		}
+	};
+
 	const fetchInvoices = async () => {
 		try {
 			const data = await listInvoices();
@@ -64,6 +77,7 @@ const Invoice: React.FC = () => {
 						<th>Ngày tạo</th>
 						<th>Trạng thái</th>
 						<th>PTTT</th>
+						<th>Thanh toán</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -81,6 +95,13 @@ const Invoice: React.FC = () => {
 								<td>{formatDate(invoice.createdAt)}</td>
 								<td>{getStatusText(invoice.paymentStatus)}</td>
 								<td>{getMethodText(invoice.paymentMethod)}</td>
+								<td>
+									<button
+										onClick={() => handlePayment(invoice.totalAmount * 1000)}
+									>
+										Thanh toán
+									</button>
+								</td>
 							</tr>
 						))
 					)}
