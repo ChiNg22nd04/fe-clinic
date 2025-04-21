@@ -29,6 +29,7 @@ export const API_ENDPOINTS = {
 		examinationList: `${RECEPTIONIST_BASE}/examination/get-all`,
 		invoiceList: `${RECEPTIONIST_BASE}/invoice/get-all`,
 		invoiceCreate: `${RECEPTIONIST_BASE}/invoice/create`,
+		shiftList: `${RECEPTIONIST_BASE}/shifts/get-detail`,
 	},
 	doctor: {
 		shifts: `${DOCTOR_BASE}/shifts`,

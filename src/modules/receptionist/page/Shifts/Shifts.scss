@@ -31,3 +31,57 @@
 .shift-option input:disabled {
     cursor: not-allowed;
 }
+
+.shifts-container {
+    padding: 24px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    .title {
+        margin-bottom: 20px;
+        font-size: 1.8rem;
+        color: $blue-dark;
+        font-weight: bold;
+    }
+
+    .error {
+        color: red;
+        margin-bottom: 12px;
+    }
+}
+
+.shifts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.shift-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 16px;
+    background-color: #f9fbff;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    .shift-name {
+        font-size: 1.2rem;
+        color: $blue-medium;
+        margin-bottom: 8px;
+        font-weight: 600;
+    }
+
+    .shift-time,
+    .shift-date {
+        margin: 4px 0;
+        color: #555;
+        font-size: 0.95rem;
+    }
+}

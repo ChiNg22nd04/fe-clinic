@@ -14,12 +14,12 @@ const receptionistRoutes: RouteObject[] = [
 		path: RECEPTIONIST_BASE,
 		element: <Receptionist />,
 		children: [
-			{ path: "shifts", element: <Shifts /> },
 			{ path: "appointment/get-all", element: <Appointment /> },
 			{ path: "appointment/update-status", element: <Appointment /> },
 			{ path: "examination/get-all", element: <ExaminationForm /> },
 			{ path: "invoice/get-all", element: <Invoice /> },
 			{ path: "invoice/create", element: <Invoice /> },
+			{ path: "shifts/get-detail", element: <Shifts /> },
 		],
 	},
 ];
