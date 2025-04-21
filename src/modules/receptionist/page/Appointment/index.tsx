@@ -3,7 +3,9 @@ import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import AppointmentDetailModal from "./AppointmentDetailModal";
 
-import { listAppointment, AppointmentPayload } from "~/modules/receptionist/services";
+import { listAppointment } from "~/modules/receptionist/services";
+import { AppointmentPayload } from "~/shared/interfaces";
+
 import "./Appointment.scss";
 
 dayjs.extend(localizedFormat);

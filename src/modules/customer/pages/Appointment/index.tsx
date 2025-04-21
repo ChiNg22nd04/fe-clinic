@@ -99,15 +99,15 @@ const ScheduleAppointment: React.FC = () => {
 					<h3>Chọn địa điểm khám</h3>
 					<div className="clinics-dropdown">
 						{clinics.map((item) => (
-							<label key={item.clinic_id} className="clinic-radio">
+							<label key={item.clinicId} className="clinic-radio">
 								<input
 									type="radio"
 									name="clinic"
-									value={item.clinic_id}
-									onChange={() => handleClinicChange(item.clinic_id)}
-									checked={selectedClinicId === item.clinic_id}
+									value={item.clinicId}
+									onChange={() => handleClinicChange(item.clinicId)}
+									checked={selectedClinicId === item.clinicId}
 								/>
-								{item.clinic_name}
+								{item.clinicName}
 							</label>
 						))}
 					</div>

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useUser } from "~/shared/hooks";
-import { ShiftsPayload, getShift } from "~/modules/receptionist/services";
+import { getShift } from "~/modules/receptionist/services";
+import { ShiftsPayload } from "~/shared/interfaces";
+
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";

@@ -1,5 +1,7 @@
 import React from "react";
-import { AppointmentPayload, updateAppointment } from "~/modules/receptionist/services";
+import { updateAppointment } from "~/modules/receptionist/services";
+import { AppointmentPayload } from "~/shared/interfaces";
+
 import "./Appointment.scss";
 
 interface Props {

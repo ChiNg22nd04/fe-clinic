@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
-import { listExamination, ExaminationPayload } from "~/modules/doctor/services";
+import { listExamination } from "~/modules/doctor/services";
+import { ExaminationPayload } from "~/shared/interfaces";
+
 import ExaminationDetailModal from "./ExaminationDetailModal";
 import "./ExaminationForm.scss";
 

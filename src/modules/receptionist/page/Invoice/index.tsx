@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { listInvoices, InvoicePayload } from "~/modules/receptionist/services";
+import { listInvoices } from "~/modules/receptionist/services";
+import { InvoicePayload } from "~/shared/interfaces";
+
 import dayjs from "dayjs";
 import "./Invoice.scss";
 
