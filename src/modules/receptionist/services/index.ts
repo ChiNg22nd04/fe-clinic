@@ -1,66 +1,14 @@
 import axiosInstance from "~/Axios/axiosInstance";
 import { API_ENDPOINTS } from "~/config";
 import dayjs from "dayjs";
+import {
+	ExaminationPayload,
+	AppointmentPayload,
+	InvoicePayload,
+	ShiftsPayload,
+} from "~/shared/interfaces";
 
 const today = dayjs().format("YYYY-MM-DD");
-
-export interface ExaminationPayload {
-	id?: number;
-	numerical: number;
-	medicalRecordId: number;
-	idAppointment: number;
-	staffId: number;
-	diagnosis: string;
-	note: string;
-	status?: number;
-	patientId: number;
-	patientName?: string;
-	staffName?: string;
-	specialtyId: number;
-	specialtyName?: string;
-	symptoms?: string;
-	appointmentDate: string;
-	examinationDate: string;
-	clinicId: number;
-	clinicName?: string;
-}
-
-export interface AppointmentPayload {
-	id?: number;
-	patientId: number;
-	patientName?: string;
-	staffId: number;
-	staffName?: string;
-	specialtyId: number;
-	specialtyName?: string;
-	symptoms?: string;
-	appointmentDate: string;
-	clinicId: number;
-	clinicName?: string;
-	status?: number;
-}
-
-export interface InvoicePayload {
-	id: number;
-	totalAmount: number;
-	examinationFormId: number;
-	createdAt: string;
-	updatedAt: string;
-	paymentStatus: number;
-	paymentMethod: number;
-	patientName: string;
-	patientId: number;
-}
-
-export interface ShiftsPayload {
-	staffShiftsId: number;
-	shiftName: string;
-	shiftId: number;
-	startTime: string;
-	endTime: string;
-	workDate: string;
-	status: number;
-}
 
 export const listAppointment = async (params?: Partial<AppointmentPayload>) => {
 	try {
