@@ -1,6 +1,6 @@
 export * from "./specialtyClinicMap";
 export * from "./profileStaff";
-export * from "./specialty";
+export * from "./SpecialtyPayload";
 export * from "./AppointmentPayload";
 export * from "./ShiftsPayload";
 export * from "./InvoicePayload";

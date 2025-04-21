@@ -126,12 +126,12 @@ const ScheduleAppointment: React.FC = () => {
 						</option>
 						{specialties.map((specialty_id) => {
 							const specialty = allSpecialties.find(
-								(s) => s.specialty_id === specialty_id
+								(s) => s.specialtyId === specialty_id
 							);
 							return (
 								<option key={specialty_id} value={specialty_id}>
 									{specialty
-										? specialty.specialty_name
+										? specialty.specialtyName
 										: `Chuyên khoa #${specialty_id}`}
 								</option>
 							);

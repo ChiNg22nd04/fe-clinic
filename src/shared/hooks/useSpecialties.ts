@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import { getAllSpecialties, getSpecialtiesByIDClinic } from "~/public/services";
-import { SpecialtyClinicMap, Specialty } from "~/shared/interfaces";
+import { SpecialtyClinicMap, SpecialtyPayload } from "~/shared/interfaces";
 
 export const useSpecialties = (clinicId: number | null) => {
 	const [specialties, setSpecialties] = useState<number[]>([]);
-	const [allSpecialties, setAllSpecialties] = useState<Specialty[]>([]);
+	const [allSpecialties, setAllSpecialties] = useState<SpecialtyPayload[]>([]);
 
 	useEffect(() => {
 		const fetchAllSpecialties = async () => {
 			try {
 				const data = await getAllSpecialties();
-				setAllSpecialties(data[0] || []);
+				setAllSpecialties(data || []);
 			} catch (error) {
 				console.error("Lỗi khi lấy danh sách chuyên khoa:", error);
 			}
