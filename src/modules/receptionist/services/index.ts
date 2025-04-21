@@ -52,6 +52,16 @@ export interface InvoicePayload {
 	patientId: number;
 }
 
+export interface ShiftsPayload {
+	staffShiftsId: number;
+	shiftName: string;
+	shiftId: number;
+	startTime: string;
+	endTime: string;
+	workDate: string;
+	status: number;
+}
+
 export const listAppointment = async (params?: Partial<AppointmentPayload>) => {
 	try {
 		const response = await axiosInstance.get(API_ENDPOINTS.receptionist.apponitmentList);
@@ -165,5 +175,27 @@ export const invoiceCreate = async (params: { examinationFormId: number }) => {
 		return response.data.data;
 	} catch (error: any) {
 		throw new Error(error.response?.data?.message || "Lỗi khi lấy danh sách hóa đơn");
+	}
+};
+
+export const getShift = async (params: { staffId: number }) => {
+	try {
+		const response = await axiosInstance.put(API_ENDPOINTS.receptionist.shiftList, params);
+		console.log(response.data);
+		const data = response.data.data?.map(
+			(item: any): ShiftsPayload => ({
+				staffShiftsId: item.staff_shifts_id,
+				endTime: item.end_time,
+				shiftId: item.shift_id,
+				shiftName: item.shift_name,
+				startTime: item.start_time,
+				status: item.status,
+				workDate: item.work_date,
+			})
+		);
+		console.log(data);
+		return data;
+	} catch (error: any) {
+		throw new Error(error.response?.data?.message || "Lỗi khi lấy lịch làm việc");
 	}
 };
