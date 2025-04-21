@@ -1,29 +1,6 @@
 import axiosInstance from "~/Axios/axiosInstance";
 import { API_ENDPOINTS } from "~/config";
-import dayjs from "dayjs";
-
-const today = dayjs().format("YYYY-MM-DD");
-
-export interface ExaminationPayload {
-	id?: number;
-	numerical: number;
-	medicalRecordId: number;
-	idAppointment: number;
-	staffId: number;
-	diagnosis: string;
-	note: string;
-	status?: number;
-	patientId: number;
-	patientName?: string;
-	staffName?: string;
-	specialtyId: number;
-	specialtyName?: string;
-	symptoms?: string;
-	appointmentDate: string;
-	examinationDate: string;
-	clinicId: number;
-	clinicName?: string;
-}
+import { ExaminationPayload } from "~/shared/interfaces";
 
 export const listExamination = async (params?: Partial<ExaminationPayload>) => {
 	try {

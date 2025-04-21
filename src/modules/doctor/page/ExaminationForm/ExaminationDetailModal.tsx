@@ -5,8 +5,9 @@ import {
 	updatePrescription,
 	detailPrescription,
 	getMedicine,
-	ExaminationPayload,
 } from "~/modules/doctor/services";
+import { ExaminationPayload } from "~/shared/interfaces";
+
 import PrescriptionTable from "~/modules/doctor/page/PrescriptionTable";
 
 import "./ExaminationForm.scss";
