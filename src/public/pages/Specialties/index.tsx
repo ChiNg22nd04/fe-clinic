@@ -1,7 +1,8 @@
 import React from "react";
 import Header from "~/shared/components/Header";
-import { useSpecialties } from "~/shared/hooks/useSpecialties"; // đúng path hook bạn để
+import { useSpecialties } from "~/shared/hooks/useSpecialties";
 import "./Specialties.scss";
+import { ContentItem, SubContentItem } from "~/shared/interfaces/";
 
 const Specialties: React.FC = () => {
 	// Giả sử đang không chọn clinic cụ thể
@@ -28,12 +29,32 @@ const Specialties: React.FC = () => {
 								{item.introduce?.length > 0 && (
 									<>
 										<h4>Giới thiệu</h4>
-										{item.introduce.map((intro, index) => (
-											<div key={index}>
-												<strong>{intro.type}:</strong>{" "}
-												{Array.isArray(intro.content)
-													? intro.content.join(", ")
-													: intro.content}
+										{item.introduce.map((intro: ContentItem, index: number) => (
+											<div key={index} className="introduce-item">
+												<strong>{intro.type}:</strong>
+
+												{/* Render content nếu có */}
+												{typeof intro.content === "string" && (
+													<p>{intro.content}</p>
+												)}
+												{Array.isArray(intro.content) &&
+													intro.content.map((c, i) => <p key={i}>{c}</p>)}
+
+												{/* Render items nếu có */}
+												{intro.items &&
+													Array.isArray(intro.items) &&
+													intro.items.length > 0 && (
+														<ul>
+															{intro.items.map((itm, idx) => (
+																<li key={idx}>
+																	<strong>{itm.type}:</strong>{" "}
+																	{Array.isArray(itm.content)
+																		? itm.content.join(", ")
+																		: itm.content}
+																</li>
+															))}
+														</ul>
+													)}
 											</div>
 										))}
 									</>
@@ -42,14 +63,16 @@ const Specialties: React.FC = () => {
 								{item.services?.length > 0 && (
 									<>
 										<h4>Dịch vụ</h4>
-										{item.services.map((service, index) => (
-											<div key={index}>
-												<strong>{service.type}:</strong>{" "}
-												{Array.isArray(service.content)
-													? service.content.join(", ")
-													: service.content}
-											</div>
-										))}
+										{item.services.map(
+											(service: ContentItem, index: number) => (
+												<div key={index} className="service-item">
+													<strong>{service.type}:</strong>{" "}
+													{Array.isArray(service.content)
+														? service.content.join(", ")
+														: service.content}
+												</div>
+											)
+										)}
 									</>
 								)}
 							</div>
