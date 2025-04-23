@@ -17,7 +17,6 @@ const Profile: React.FC = () => {
 				const response = await getProfile({ id: patient.id });
 				console.log(response);
 				setProfile(response[0] || null);
-
 			} catch (err: any) {
 				setError(err.message || "Có lỗi xảy ra khi lấy thông tin cá nhân");
 			} finally {
@@ -26,6 +25,8 @@ const Profile: React.FC = () => {
 		};
 		fetchProfile();
 	}, [patient?.id]);
+
+	console.log("profile", profile);
 
 	const roleText = (role: number) => {
 		switch (role) {
@@ -74,14 +75,17 @@ const Profile: React.FC = () => {
 						<strong>Email:</strong> {profile.email}
 					</div>
 					<div className="profile-item">
+						<strong>Username:</strong> {profile.username}
+					</div>
+					<div className="profile-item">
 						<strong>Họ và Tên:</strong> {profile.fullName}
 					</div>
 					<div className="profile-item">
 						<strong>Số điện thoại:</strong> {profile.phone || "Chưa có"}
 					</div>
-					<div className="profile-item">
+					{/* <div className="profile-item">
 						<strong>Chức vụ:</strong> {roleText(profile.role)}
-					</div>
+					</div> */}
 					<div className="profile-item">
 						<strong>Trạng thái:</strong>{" "}
 						{profile.isActive ? "Đang hoạt động" : "Ngừng hoạt động"}
@@ -90,10 +94,10 @@ const Profile: React.FC = () => {
 						<strong>Đã xác minh:</strong>{" "}
 						{profile.isVerified ? "Đã xác minh" : "Chưa xác minh"}
 					</div>
-					<div className="profile-item">
+					{/* <div className="profile-item">
 						<strong>Ngày tạo:</strong>{" "}
 						{new Date(profile.createdAt).toLocaleDateString()}
-					</div>
+					</div> */}
 					<div className="profile-item">
 						<strong>Số lần OTP đã gửi:</strong> {profile.otpSentCount}
 					</div>

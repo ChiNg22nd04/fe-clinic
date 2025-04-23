@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { getProfile, updateUser } from "../../services";
+import { getProfile, updateUserProfile } from "../../services";
 import { useUser } from "~/shared/hooks";
 import { UserPayload } from "~/shared/interfaces";
-// import "./Profile.scss";
+import { compressImage } from "~/utils/compressImage";
+import "./Upload.scss";
 
 const Upload: React.FC = () => {
 	const patient = useUser();
@@ -47,32 +48,43 @@ const Upload: React.FC = () => {
 		setFormData({ ...formData, [name]: value });
 	};
 
-	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files && e.target.files[0]) {
-			setAvatarFile(e.target.files[0]);
+			const file = e.target.files[0];
+
+			try {
+				const compressed = await compressImage(file);
+				setAvatarFile(compressed);
+			} catch (error) {
+				console.error("Không thể nén ảnh:", error);
+			}
 		}
 	};
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
+		const userId = profile?.id ?? 0;
+
+		if (userId === 0) {
+			alert("ID người dùng không hợp lệ.");
+			return;
+		}
+
 		try {
-			let imageUrl = formData.image;
-
-			if (!profile?.id) {
-				alert("Không tìm thấy thông tin người dùng!");
-				return;
-			}
-
-			await updateUser({
-				id: profile.id, // ✅ thêm id vào payload
-				email: formData.email,
-				fullName: formData.full_name,
-				username: formData.username,
-				role: formData.role,
-				image: imageUrl,
-			});
+			await updateUserProfile(
+				{
+					id: userId,
+					email: formData.email,
+					fullName: formData.full_name,
+					username: formData.username,
+					role: formData.role,
+					image: formData.image,
+				},
+				avatarFile || undefined
+			);
 
 			alert("Cập nhật thành công!");
+			window.location.reload(); // ✅ F5 lại trang nếu thành công
 		} catch (err: any) {
 			alert(err.message || "Cập nhật thất bại!");
 		}

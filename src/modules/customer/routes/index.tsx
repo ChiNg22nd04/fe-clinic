@@ -23,7 +23,8 @@ const customerRoutes: RouteObject[] = [
 			{ path: "schedule-appointment", element: <ScheduleAppointment /> },
 			{ path: "profile", element: <Profile /> },
 			{ path: "appointment/get-all", element: <MedicalReport /> },
-			{ path: "update", element: <Upload /> },
+			{ path: "upload-profile", element: <Upload /> },
+			{ path: "upload-avatar", element: <Upload /> },
 		],
 	},
 ];

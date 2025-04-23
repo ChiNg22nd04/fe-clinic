@@ -63,10 +63,30 @@ export const getProfile = async (payload: Pick<UserPayload, "id">) => {
 	}
 };
 
-export const updateUser = async (payload: Partial<UserPayload> & { id: number }) => {
+export const updateUserProfile = async (
+	payload: Partial<UserPayload> & { id: number },
+	avatarFile?: File
+) => {
 	try {
-		const response = await axiosInstance.post(API_ENDPOINTS.user.update, payload);
+		const formData = new FormData();
+
+		if (avatarFile) {
+			formData.append("image", avatarFile);
+		}
+
+		// Append các thông tin khác
+		Object.entries(payload).forEach(([key, value]) => {
+			if (value !== undefined && value !== null) {
+				formData.append(key, value.toString());
+			}
+		});
+
+		const response = await axiosInstance.put(API_ENDPOINTS.user.updateUserAvatar, formData, {
+			headers: { "Content-Type": "multipart/form-data" },
+		});
+
 		const updatedData = response.data.data;
+
 		const updatedUser: UserPayload = {
 			id: updatedData.id,
 			email: updatedData.email,
@@ -83,10 +103,10 @@ export const updateUser = async (payload: Partial<UserPayload> & { id: number })
 			otpLastSentAt: updatedData.otp_last_sent_at,
 		};
 
-		console.log("User updated successfully:", updatedUser);
+		console.log("User profile updated successfully:", updatedUser);
 		return updatedUser;
 	} catch (error: any) {
-		console.error("Error updating user:", error);
+		console.error("Error updating user profile:", error);
 		throw error.response?.data || { message: "Unexpected error occurred" };
 	}
 };

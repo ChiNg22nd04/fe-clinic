@@ -20,7 +20,8 @@ export const API_ENDPOINTS = {
 	user: {
 		scheduleAppointment: `${USER_BASE}/schedule-appointment`,
 		profile: `${USER_BASE}/profile`,
-		update: `${USER_BASE}/update`,
+		updateUserInfo: `${USER_BASE}/upload-profile`,
+		updateUserAvatar: `${USER_BASE}/upload-avatar`,
 		medicalReport: `${USER_BASE}/appointment/get-all`,
 	},
 	receptionist: {

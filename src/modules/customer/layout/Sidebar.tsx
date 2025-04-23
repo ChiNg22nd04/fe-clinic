@@ -14,7 +14,7 @@ const Sidebar: React.FC = () => {
 	return (
 		<div className="dashboard-cards">
 			<div className="dashboard-card">
-				<Link className="dashboard-card_link" to={API_ENDPOINTS.user.update}>
+				<Link className="dashboard-card_link" to={API_ENDPOINTS.user.updateUserInfo}>
 					<div className="dashboard-card_icon">
 						<FontAwesomeIcon icon={faClipboardList} className="card-icon" />
 					</div>
