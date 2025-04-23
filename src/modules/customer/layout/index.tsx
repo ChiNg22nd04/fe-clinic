@@ -3,8 +3,10 @@
 import React from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Header from "~/shared/components/Header";
-import "./CustomerLayout.scss";
 import { API_ENDPOINTS } from "~/config";
+import Sidebar from "./Sidebar";
+
+import "./CustomerLayout.scss";
 
 const CustomerLayout: React.FC = () => {
 	const navigate = useNavigate();
@@ -24,12 +26,11 @@ const CustomerLayout: React.FC = () => {
 	}, []);
 
 	return (
-		<div>
+		<div className="customer-main">
 			<Header />
-			<div className="customer-main">
-				<div className="customer-content">
-					<Outlet />
-				</div>
+			<div className="layout">
+				<Sidebar />
+				<Outlet />
 			</div>
 		</div>
 	);
