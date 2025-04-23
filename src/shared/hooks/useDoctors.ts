@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { getAllSpecialtiesDoctor } from "~/public/services";
-import { ProfileStaff } from "~/shared/interfaces";
+import { ProfileStaffPayload } from "~/shared/interfaces";
 
 export const useDoctors = (clinicId: number | null, specialtyId: number | null) => {
-	const [doctors, setDoctors] = useState<ProfileStaff[]>([]);
+	const [doctors, setDoctors] = useState<ProfileStaffPayload[]>([]);
 
 	useEffect(() => {
 		const fetchDoctors = async () => {

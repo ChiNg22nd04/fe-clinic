@@ -5,7 +5,8 @@ import utc from "dayjs/plugin/utc";
 import Header from "~/shared/components/Header";
 
 import { useUser, useClinics, useSpecialties, useDoctors, useShiftSchedule } from "~/shared/hooks";
-import { scheduleAppointment, AppointmentPayload } from "~/modules/customer/services";
+import { scheduleAppointment } from "~/modules/customer/services";
+import { AppointmentPayload } from "~/shared/interfaces";
 
 import "./ScheduleAppointment.scss";
 
@@ -151,8 +152,8 @@ const ScheduleAppointment: React.FC = () => {
 							-- Chọn bác sĩ --
 						</option>
 						{doctors.map((doc) => (
-							<option key={doc.staff_id} value={doc.staff_id}>
-								{doc.full_name}
+							<option key={doc.staffId} value={doc.staffId}>
+								{doc.fullName}
 							</option>
 						))}
 					</select>

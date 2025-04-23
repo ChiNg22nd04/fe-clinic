@@ -1,14 +1,16 @@
 import axiosInstance from "~/Axios/axiosInstance";
 import { API_ENDPOINTS } from "~/config";
-export interface AppointmentPayload {
-	staffId: number;
-	appointmentDate: string; // định dạng "YYYY-MM-DD HH:mm:ss"
-	symptoms?: string;
-	clinicId: number;
-	specialtyId: number;
-	staffShiftsId: number;
-	patientId: number;
-}
+import { AppointmentPayload, UserPayload } from "~/shared/interfaces";
+
+// export interface AppointmentPayload {
+// 	staffId: number;
+// 	appointmentDate: string; // định dạng "YYYY-MM-DD HH:mm:ss"
+// 	symptoms?: string;
+// 	clinicId: number;
+// 	specialtyId: number;
+// 	staffShiftsId: number;
+// 	patientId: number;
+// }
 
 export const scheduleAppointment = async (payload: AppointmentPayload) => {
 	try {
@@ -19,9 +21,20 @@ export const scheduleAppointment = async (payload: AppointmentPayload) => {
 		throw error.response?.data || { message: "Unexpected error occurred" };
 	}
 };
+
 export const getAllAppointment = async (payload: Pick<AppointmentPayload, "patientId">) => {
 	try {
 		const response = await axiosInstance.post(API_ENDPOINTS.user.medicalReport, payload);
+		console.log(response);
+		return response.data;
+	} catch (error: any) {
+		throw error.response?.data || { message: "Unexpected error occurred" };
+	}
+};
+
+export const getProfile = async (payload: Pick<UserPayload, "id">) => {
+	try {
+		const response = await axiosInstance.put(API_ENDPOINTS.user.profile, payload);
 		console.log(response);
 		return response.data;
 	} catch (error: any) {

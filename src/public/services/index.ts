@@ -1,7 +1,12 @@
 import { Console } from "console";
 import axiosInstance from "~/Axios/axiosInstance";
 import { API_ENDPOINTS } from "~/config";
-import { SpecialtyPayload } from "~/shared/interfaces";
+import {
+	SpecialtyPayload,
+	StaffShiftsPayload,
+	ClinicPayload,
+	ProfileStaffPayload,
+} from "~/shared/interfaces";
 
 export const getAllSpecialties = async (params?: Partial<SpecialtyPayload>) => {
 	try {
@@ -52,11 +57,30 @@ export const getAllSpecialties = async (params?: Partial<SpecialtyPayload>) => {
 	}
 };
 
+// export const getAllClinics = async () => {
+// 	try {
+// 		const response = await axiosInstance.get(API_ENDPOINTS.common.clinics);
+// 		console.log(response.data.data);
+// 		return response.data.data;
+// 	} catch (error: any) {
+// 		throw error.response?.data || { message: "Unexpected error occurred" };
+// 	}
+// };
+
 export const getAllClinics = async () => {
 	try {
 		const response = await axiosInstance.get(API_ENDPOINTS.common.clinics);
-		console.log(response.data.data);
-		return response.data.data;
+		const dataRes = response.data.data[0];
+		console.log("dataRes", dataRes);
+		const clinics: ClinicPayload[] = dataRes.map((clinic: any) => {
+			return {
+				clinicId: clinic.clinic_id,
+				clinicName: clinic.clinic_name,
+			};
+		});
+
+		console.log(clinics);
+		return clinics;
 	} catch (error: any) {
 		throw error.response?.data || { message: "Unexpected error occurred" };
 	}
@@ -73,28 +97,62 @@ export const getSpecialtiesByIDClinic = async (clinicId: number) => {
 	}
 };
 
-export const getAllShiftDoctor = async (staffId: number, specialtyId: number, clinicId: number) => {
+// export const getAllShiftDoctor = async (staffId: number, specialtyId: number, clinicId: number) => {
+// 	try {
+// 		const response = await axiosInstance.post(API_ENDPOINTS.common.shiftDoctor, {
+// 			staffId,
+// 			specialtyId,
+// 			clinicId,
+// 		});
+// 		console.log(response.data.data);
+// 		return response.data.data;
+// 	} catch (error: any) {
+// 		throw error.response?.data || { message: "Unexpected error occurred" };
+// 	}
+// };
+
+export const getAllShiftDoctor = async (
+	staffId: number,
+	specialtyId: number,
+	clinicId: number
+): Promise<StaffShiftsPayload[]> => {
 	try {
 		const response = await axiosInstance.post(API_ENDPOINTS.common.shiftDoctor, {
 			staffId,
 			specialtyId,
 			clinicId,
 		});
-		console.log(response.data.data);
-		return response.data.data;
+
+		const data: StaffShiftsPayload[] = response.data.data;
+		console.log(data);
+		return data;
 	} catch (error: any) {
 		throw error.response?.data || { message: "Unexpected error occurred" };
 	}
 };
 
-export const getAllSpecialtiesDoctor = async (clinicId: number, specialtyId: number) => {
+export const getAllSpecialtiesDoctor = async (
+	clinicId: number,
+	specialtyId: number
+): Promise<ProfileStaffPayload[]> => {
 	try {
 		const response = await axiosInstance.post(API_ENDPOINTS.common.allSpecialtiesDoctor, {
 			clinicId,
 			specialtyId,
 		});
-		console.log(response.data.data);
-		return response.data.data;
+
+		console.log("response", response);
+
+		const rawData = response.data.data;
+
+		const data: ProfileStaffPayload[] = rawData.map((item: any) => ({
+			staffId: item.staff_id,
+			fullName: item.full_name,
+			clinicId: item.clinic_id,
+			specialtyId: item.specialty_id,
+		}));
+		console.log(data);
+		return data;
 	} catch (error: any) {
 		throw error.response?.data || { message: "Unexpected error occurred" };
 	}
