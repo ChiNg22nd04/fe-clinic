@@ -20,7 +20,11 @@ const customerRoutes: RouteObject[] = [
 		path: USER_BASE,
 		element: <CustomerLayout />,
 		children: [
-			{ path: "schedule-appointment", element: <ScheduleAppointment /> },
+			{
+				path: "schedule-appointment",
+				element: <ScheduleAppointment />,
+				handle: { hideSidebar: true },
+			},
 			{ path: "profile", element: <Profile /> },
 			{ path: "appointment/get-all", element: <MedicalReport /> },
 			{ path: "upload-profile", element: <Upload /> },
