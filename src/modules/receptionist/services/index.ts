@@ -28,7 +28,8 @@ export const listAppointment = async (params?: Partial<AppointmentPayload>) => {
 				appointmentDate: item.appointment_date,
 				clinicId: item.clinic_id,
 				clinicName: item.clinic_name,
-				status: item.status, // nếu status là number, convert sang string (tuỳ thuộc interface của bạn)
+				status: item.status,
+				staffShiftsId: item.staff_shifts_id,
 			})
 		);
 		console.log(data);

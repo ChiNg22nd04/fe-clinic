@@ -11,4 +11,5 @@ export interface AppointmentPayload {
 	clinicId: number;
 	clinicName?: string;
 	status?: number;
+	staffShiftsId: number;
 }

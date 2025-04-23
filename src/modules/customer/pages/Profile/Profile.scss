@@ -30,3 +30,23 @@
 .shift-option input:disabled {
     cursor: not-allowed;
 }
+
+// profile
+.container {
+    padding: 20px;
+}
+
+.profile-card {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-item {
+    margin-bottom: 10px;
+}
+
+.profile-item strong {
+    font-weight: bold;
+}
