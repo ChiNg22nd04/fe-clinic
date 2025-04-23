@@ -1,7 +1,7 @@
 // modules/customer/layout/CustomerLayout.tsx
 
 import React from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useMatches } from "react-router-dom";
 import Header from "~/shared/components/Header";
 import { API_ENDPOINTS } from "~/config";
 import Sidebar from "./Sidebar";
@@ -9,7 +9,11 @@ import Sidebar from "./Sidebar";
 import "./CustomerLayout.scss";
 
 const CustomerLayout: React.FC = () => {
+	const matches = useMatches();
 	const navigate = useNavigate();
+	const hideSidebar =
+		(matches[matches.length - 1] as { handle?: { hideSidebar?: boolean } })?.handle
+			?.hideSidebar || false;
 
 	const userString = localStorage.getItem("user");
 
@@ -29,7 +33,7 @@ const CustomerLayout: React.FC = () => {
 		<div className="customer-main">
 			<Header />
 			<div className="layout">
-				<Sidebar />
+				{!hideSidebar && <Sidebar />}
 				<Outlet />
 			</div>
 		</div>

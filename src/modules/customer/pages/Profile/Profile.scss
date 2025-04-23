@@ -1,4 +1,13 @@
 @import "../../../../shared/globalStyle/variables.scss";
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    h2 {
+        border-bottom: 1px solid $blue-dark;
+        color: $blue-dark;
+    }
+}
 .content-top {
     padding-top: 10px;
     .text-main {
@@ -34,19 +43,91 @@
 // profile
 .container {
     padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.profile-card {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.profile-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.avatar-container {
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar {
+    // width: 120px;
+    // height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+}
+
+.profile-details {
+    width: 80%;
+    flex: 1;
+    // background-color: #fff;
+    // box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-details h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: $blue-dark;
 }
 
 .profile-item {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    // justify-content: space-between;
+    font-size: 16px;
+    color: #333;
 }
 
 .profile-item strong {
     font-weight: bold;
+    margin-right: 20px;
+    color: $blue-dark;
+}
+
+.profile-item span {
+    color: #666;
+}
+
+// Hover effect for the profile item
+.profile-item:hover {
+    background-color: #f9f9f9;
+    cursor: pointer;
+    // padding: 5px;
+    border-radius: 4px;
+}
+
+// Profile status
+.profile-status {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-weight: bold;
+}
+
+.status-active {
+    color: green;
+}
+
+.status-inactive {
+    color: red;
+}
+
+.profile-item strong {
+    font-weight: bold;
+    color: #333;
+}
+
+.profile-item span {
+    font-weight: normal;
+    color: #555;
 }
