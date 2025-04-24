@@ -8,7 +8,8 @@ import {
 } from "~/modules/doctor/services";
 import { ExaminationPayload } from "~/shared/interfaces";
 import { compressImage } from "~/utils/compressImage";
-import PrescriptionTable from "~/modules/doctor/page/PrescriptionTable";
+import PrescriptionTable from "~/shared/components/PrescriptionTable";
+
 import "./ExaminationForm.scss";
 
 interface Props {
@@ -65,6 +66,7 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 		if (!examination?.id) return;
 		try {
 			const res = await detailPrescription({ examinationFormId: examination.id });
+			console.log(res.data);
 			setPrescriptions(res.data ?? []);
 		} catch (err) {
 			console.error("Lỗi khi lấy đơn thuốc:", err);
@@ -337,6 +339,9 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 											Thêm đơn thuốc
 										</button>
 									</div>
+									{prescriptions.length > 0 && (
+										<PrescriptionTable data={prescriptions} />
+									)}
 								</div>
 							)}
 						</>
