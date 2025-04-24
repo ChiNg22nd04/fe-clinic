@@ -80,7 +80,6 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 		}
 	}, [examination?.id]);
 
-	
 	const handleUpdate = async () => {
 		if (!examination?.id) return;
 
@@ -153,32 +152,6 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 		if (newState) await fetchPrescriptions();
 	};
 
-	// Handle multiple file selection
-	// const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-	// 	if (e.target.files) {
-	// 		const files = Array.from(e.target.files);
-	// 		const compressedFiles = await Promise.all(
-	// 			files.map(async (file) => {
-	// 				try {
-	// 					if (!file.type.startsWith("image/")) {
-	// 						throw new Error("Tệp phải là ảnh");
-	// 					}
-
-	// 					return await compressImage(file);
-	// 				} catch (error) {
-	// 					console.error("Không thể nén ảnh:", error);
-	// 					return file;
-	// 				}
-	// 			})
-	// 		);
-	// 		setRecordFiles((prevFiles) => [...prevFiles, ...compressedFiles]);
-
-	// 		setExistingImages((prevImages) => [
-	// 			...(prevImages || []),
-	// 			...compressedFiles.map((file) => URL.createObjectURL(file)),
-	// 		]);
-	// 	}
-	// };
 	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files) {
 			const files = Array.from(e.target.files);

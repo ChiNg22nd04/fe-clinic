@@ -118,7 +118,7 @@ const Upload: React.FC = () => {
 						alt="Profile"
 						className="avatar"
 					/>
-					<input type="file" accept="image/*" onChange={handleFileChange} />
+					<input type="file" name="avatar" accept="image/*" onChange={handleFileChange} />
 				</div>
 				<div className="profile-details">
 					<h2>Cập nhật thông tin cá nhân</h2>

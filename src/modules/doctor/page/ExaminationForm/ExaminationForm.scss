@@ -111,7 +111,7 @@
 // }
 
 .modal {
-    max-width: 700px;
+    max-width: 1200px;
     width: 100%;
     max-height: 90vh; // Chiều cao tối đa của modal
     overflow: hidden;
@@ -188,6 +188,37 @@
         font-size: 15px;
         transition: background-color 0.3s;
     }
+
+    .examination-header {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0 20px 0;
+        border-bottom: 1px solid $outline-color;
+
+        .examination-left img {
+            width: 65%;
+        }
+        p {
+            text-align: end;
+            color: $blue-dark;
+        }
+    }
+
+    h3 {
+        font-size: 30px;
+        color: $text-dark;
+        text-align: center;
+        margin: 15px 0 0 0;
+    }
+
+    .examination-header_sub {
+        display: flex;
+        justify-content: space-between;
+        p strong {
+            width: auto;
+            padding-right: 10px;
+        }
+    }
 }
 
 .modal-actions {
@@ -249,6 +280,25 @@
     }
 
     .record-preview-img {
+        margin-top: 0.25rem;
+        max-width: 100%;
+        max-height: 200px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+    }
+}
+
+.existing-record {
+    margin-top: 0.5rem;
+
+    p {
+        margin-bottom: 0.25rem;
+        font-style: italic;
+        font-size: 0.9rem;
+        color: #333;
+    }
+
+    .record-existing-img {
         margin-top: 0.25rem;
         max-width: 100%;
         max-height: 200px;

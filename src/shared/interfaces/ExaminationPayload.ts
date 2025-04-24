@@ -17,5 +17,8 @@ export interface ExaminationPayload {
 	examinationDate: string;
 	clinicId: number;
 	clinicName?: string;
+	address?: string;
+	phoneNumber?: string;
+	emailAddress?: string;
 	image?: string[] | [];
 }

@@ -76,9 +76,24 @@ export const listExamination = async (params?: Partial<ExaminationPayload>) => {
 				examinationDate: item.examination_date,
 				clinicId: item.clinic_id,
 				clinicName: item.clinic_name,
+				image: item.image,
+				address: item.address,
+				phoneNumber: item.phone_number,
+				emailAddress: item.email_address,
 			})
 		);
 		return data;
+	} catch (error: any) {
+		throw error.response?.data || { message: "Unexpected error occurred" };
+	}
+};
+
+export const detailExamination = async () => {
+	try {
+		const response = await axiosInstance.get(API_ENDPOINTS.receptionist.detailExamination);
+		console.log("response.data", response.data);
+		console.log(response.data);
+		return response.data;
 	} catch (error: any) {
 		throw error.response?.data || { message: "Unexpected error occurred" };
 	}
