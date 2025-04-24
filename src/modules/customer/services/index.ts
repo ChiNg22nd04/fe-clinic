@@ -71,7 +71,7 @@ export const updateUserProfile = async (
 		const formData = new FormData();
 
 		if (avatarFile) {
-			formData.append("image", avatarFile);
+			formData.append("avatar", avatarFile);
 		}
 
 		// Append các thông tin khác

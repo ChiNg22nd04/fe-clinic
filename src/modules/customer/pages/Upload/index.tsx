@@ -110,7 +110,7 @@ const Upload: React.FC = () => {
 	if (!profile) return <div>Profile not found.</div>;
 
 	return (
-		<div className="content">
+		<div className="content content-customer">
 			<div className="profile-container">
 				<div className="avatar-container">
 					<img

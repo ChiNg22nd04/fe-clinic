@@ -27,6 +27,7 @@ export const listExamination = async (params?: Partial<ExaminationPayload>) => {
 				examinationDate: item.examination_date,
 				clinicId: item.clinic_id,
 				clinicName: item.clinic_name,
+				image: item.image,
 			})
 		);
 		console.log(data);
@@ -48,18 +49,68 @@ export const detailExamination = async () => {
 	}
 };
 
-export const updateExamination = async (params: {
-	id: number;
-	status: number;
-	diagnosis: string;
-	note: string;
-}) => {
+// params: {
+// 	id: number;
+// 	status: number;
+// 	diagnosis: string;
+// 	note: string;
+// }
+// try {
+// 	const response = await axiosInstance.put(API_ENDPOINTS.doctor.updateExamination, payload);
+// 	console.log("Cập nhật phiếu khám thành công:", response.data);
+// 	return response.data;
+// } catch (error: any) {
+// 	console.error("Lỗi khi cập nhật phiếu khám:", error.response?.data || error.message);
+// 	throw error.response?.data || { message: "Unexpected error occurred" };
+// }
+
+export const updateExamination = async (
+	payload: Partial<ExaminationPayload> & { id: number },
+	recordFile?: File
+) => {
 	try {
-		const response = await axiosInstance.put(API_ENDPOINTS.doctor.updateExamination, params);
-		console.log("Cập nhật phiếu khám thành công:", response.data);
-		return response.data;
+		const formData = new FormData();
+		if (recordFile) {
+			formData.append("record", recordFile);
+		}
+
+		Object.entries(payload).forEach(([key, value]) => {
+			if (value !== undefined && value !== null) {
+				formData.append(key, value.toString());
+			}
+		});
+
+		const response = await axiosInstance.put(API_ENDPOINTS.doctor.updateExamination, formData, {
+			headers: { "Content-Type": "multipart/form-data" },
+		});
+
+		const updatedData = response.data.data;
+
+		const updatedExamination: ExaminationPayload = {
+			id: updatedData.id,
+			numerical: updatedData.numerical,
+			medicalRecordId: updatedData.medicalRecordId,
+			idAppointment: updatedData.idAppointment,
+			staffId: updatedData.staffId,
+			diagnosis: updatedData.diagnosis,
+			note: updatedData.note,
+			status: updatedData.status,
+			patientId: updatedData.patientId,
+			patientName: updatedData.patientName,
+			staffName: updatedData.staffName,
+			specialtyId: updatedData.specialtyId,
+			specialtyName: updatedData.specialtyName,
+			symptoms: updatedData.symptoms,
+			appointmentDate: updatedData.appointmentDate,
+			examinationDate: updatedData.examinationDate,
+			clinicId: updatedData.clinicId,
+			clinicName: updatedData.clinicName,
+		};
+
+		console.log("Examination updated successfully:", updatedExamination);
+		return updatedExamination;
 	} catch (error: any) {
-		console.error("Lỗi khi cập nhật phiếu khám:", error.response?.data || error.message);
+		console.error("Error updating examination:", error);
 		throw error.response?.data || { message: "Unexpected error occurred" };
 	}
 };
