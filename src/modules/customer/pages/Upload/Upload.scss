@@ -37,6 +37,9 @@
 
 .avatar-container {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    padding-left: 2rem;
 
     img.avatar {
         width: 120px;
@@ -71,6 +74,7 @@
 .profile-item {
     display: flex;
     // flex-direction: column;
+    justify-content: space-between;
 
     label {
         margin-bottom: 0.4rem;
@@ -84,6 +88,7 @@
         border: 1px solid #ccc;
         border-radius: 8px;
         font-size: 1rem;
+        width: 80%;
     }
 }
 

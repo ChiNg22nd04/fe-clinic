@@ -112,16 +112,13 @@ const Upload: React.FC = () => {
 	return (
 		<div className="content">
 			<div className="profile-container">
-				<div className="profile-sidebar">
-					<div className="avatar-container">
-						<img
-							src={formData.image || "/default-avatar.png"}
-							alt="Profile"
-							className="avatar"
-						/>
-						<input type="file" accept="image/*" onChange={handleFileChange} />
-					</div>
-					<h3>{profile.fullName}</h3>
+				<div className="avatar-container">
+					<img
+						src={formData.image || "/default-avatar.png"}
+						alt="Profile"
+						className="avatar"
+					/>
+					<input type="file" accept="image/*" onChange={handleFileChange} />
 				</div>
 				<div className="profile-details">
 					<h2>Cập nhật thông tin cá nhân</h2>
