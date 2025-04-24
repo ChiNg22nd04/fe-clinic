@@ -7,9 +7,8 @@ import {
 	getMedicine,
 } from "~/modules/doctor/services";
 import { ExaminationPayload } from "~/shared/interfaces";
-
+import { compressImage } from "~/utils/compressImage";
 import PrescriptionTable from "~/modules/doctor/page/PrescriptionTable";
-
 import "./ExaminationForm.scss";
 
 interface Props {
@@ -31,6 +30,31 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 	const [prescriptions, setPrescriptions] = useState<any[]>([]);
 	const [medicineList, setMedicineList] = useState<any[]>([]);
 
+	// Change recordFile to store an array of files
+	const [recordFiles, setRecordFiles] = useState<File[]>([]);
+	const [existingImages, setExistingImages] = useState<string[]>([]);
+
+	useEffect(() => {
+		if (examination?.image) {
+			// Check if the image data is a string, and parse it to an array if necessary
+			try {
+				const parsedImages =
+					typeof examination.image === "string"
+						? JSON.parse(examination.image) // Parse if it's a JSON string
+						: examination.image; // Otherwise assume it's already an array
+
+				if (Array.isArray(parsedImages)) {
+					setExistingImages(parsedImages);
+				} else {
+					setExistingImages([]); // If it's not an array, set an empty array
+				}
+			} catch (e) {
+				console.error("Error parsing image data", e);
+				setExistingImages([]); // Default to empty array in case of error
+			}
+		}
+	}, [examination?.image]);
+
 	useEffect(() => {
 		getMedicine()
 			.then((res) => setMedicineList(res.data ?? []))
@@ -50,7 +74,25 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 	const handleUpdate = async () => {
 		if (!examination?.id) return;
 		try {
-			await updateExamination({ id: examination.id, status, diagnosis, note });
+			// Create FormData for files
+			const formData = new FormData();
+			if (recordFiles.length > 0) {
+				recordFiles.forEach((file) => {
+					formData.append("record", file);
+				});
+			}
+
+			// Prepare the rest of the payload
+			const payload = {
+				id: examination.id,
+				diagnosis,
+				note,
+				status,
+			};
+
+			// Send the FormData along with the payload
+			const response = await updateExamination(payload, formData);
+
 			alert("Cập nhật phiếu khám thành công!");
 			onClose();
 			onRefresh?.();
@@ -84,6 +126,42 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 		const newState = !showPrescriptionForm;
 		setShowPrescriptionForm(newState);
 		if (newState) await fetchPrescriptions();
+	};
+
+	// Handle multiple file selection
+	const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.files) {
+			const files = Array.from(e.target.files);
+			const compressedFiles = await Promise.all(
+				files.map(async (file) => {
+					try {
+						// Kiểm tra xem file có phải là ảnh không
+						if (!file.type.startsWith("image/")) {
+							throw new Error("Tệp phải là ảnh");
+						}
+
+						// Nén ảnh
+						return await compressImage(file);
+					} catch (error) {
+						console.error("Không thể nén ảnh:", error);
+						// Trả về file gốc nếu có lỗi
+						return file;
+					}
+				})
+			);
+			setRecordFiles((prevFiles) => [...prevFiles, ...compressedFiles]);
+
+			// Thêm ảnh mới vào existingImages
+			setExistingImages((prevImages) => [
+				...(prevImages || []),
+				...compressedFiles.map((file) => URL.createObjectURL(file)),
+			]);
+		}
+	};
+
+	const handleRemoveExistingImage = (index: number) => {
+		const updatedImages = existingImages.filter((_, i) => i !== index);
+		setExistingImages(updatedImages);
 	};
 
 	return (
@@ -147,6 +225,64 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 
 					{status === 1 && (
 						<>
+							<label>
+								<strong>File đính kèm (X-quang, siêu âm,...):</strong>
+								<div className="file-input-with-preview">
+									{/* Form input file */}
+									<input
+										type="file"
+										name="record"
+										multiple
+										accept="image/*"
+										onChange={handleFileChange}
+									/>
+
+									{/* Hiển thị ảnh đã có (existingImages) */}
+									{existingImages.length > 0 && (
+										<div className="preview-records">
+											{existingImages.map((image, index) => (
+												<div key={index} className="preview-record">
+													<p>
+														<strong>Ảnh đã có:</strong> {image}
+													</p>
+													<img
+														src={image}
+														alt="Preview"
+														className="record-preview-img"
+													/>
+													<button
+														className="remove-image-btn"
+														onClick={() =>
+															handleRemoveExistingImage(index)
+														}
+													>
+														Xóa
+													</button>
+												</div>
+											))}
+										</div>
+									)}
+
+									{/* Hiển thị ảnh mới đã chọn (recordFiles) */}
+									{recordFiles.length > 0 && (
+										<div className="preview-records">
+											{recordFiles.map((file, index) => (
+												<div key={index} className="preview-record">
+													<p>
+														<strong>Đã chọn:</strong> {file.name}
+													</p>
+													<img
+														src={URL.createObjectURL(file)}
+														alt="Preview"
+														className="record-preview-img"
+													/>
+												</div>
+											))}
+										</div>
+									)}
+								</div>
+							</label>
+
 							<button
 								className="btn-toggle-prescription"
 								onClick={togglePrescriptionForm}
@@ -198,55 +334,22 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 											className="btn-toggle-prescription"
 											onClick={handleAddPrescription}
 										>
-											Xác nhận thêm
+											Thêm đơn thuốc
 										</button>
 									</div>
-
-									{/* {prescriptions.length > 0 && (
-										<div className="prescription-list">
-											<h4>Danh sách đơn thuốc</h4>
-											<table>
-												<thead>
-													<tr>
-														<th>STT</th>
-														<th>Tên thuốc</th>
-														<th>Số lượng</th>
-														<th>Giá (đ)</th>
-														<th>Cách dùng</th>
-													</tr>
-												</thead>
-												<tbody>
-													{prescriptions.map((item, index) => (
-														<tr key={item.id ?? index}>
-															<td>{index + 1}</td>
-															<td>{item.medicine_name}</td>
-															<td>{item.quantity}</td>
-															<td>
-																{item.price?.toLocaleString(
-																	"vi-VN"
-																)}
-															</td>
-															<td>{item.usage}</td>
-														</tr>
-													))}
-												</tbody>
-											</table>
-										</div>
-									)} */}
-									{prescriptions.length > 0 && (
-										<PrescriptionTable data={prescriptions} />
-									)}
 								</div>
 							)}
 						</>
 					)}
-				</div>
 
-				<div className="modal-actions">
-					<button onClick={onClose} className="btn-cancel">
-						Hủy
-					</button>
-					<button onClick={handleUpdate}>Lưu thay đổi</button>
+					<div className="buttons">
+						<button className="btn" onClick={handleUpdate}>
+							Cập nhật
+						</button>
+						<button className="btn" onClick={onClose}>
+							Đóng
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
