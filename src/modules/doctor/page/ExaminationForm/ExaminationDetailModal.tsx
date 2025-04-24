@@ -8,9 +8,7 @@ import {
 } from "~/modules/doctor/services";
 import { ExaminationPayload } from "~/shared/interfaces";
 import { compressImage } from "~/utils/compressImage";
-
 import PrescriptionTable from "~/modules/doctor/page/PrescriptionTable";
-
 import "./ExaminationForm.scss";
 
 interface Props {
@@ -32,8 +30,30 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 	const [prescriptions, setPrescriptions] = useState<any[]>([]);
 	const [medicineList, setMedicineList] = useState<any[]>([]);
 
-	const [recordFile, setRecordFile] = useState<File | null>(null);
-	const [existingImage, setExistingImage] = useState<string | null>(examination?.image ?? null);
+	// Change recordFile to store an array of files
+	const [recordFiles, setRecordFiles] = useState<File[]>([]);
+	const [existingImages, setExistingImages] = useState<string[]>([]);
+
+	useEffect(() => {
+		if (examination?.image) {
+			// Check if the image data is a string, and parse it to an array if necessary
+			try {
+				const parsedImages =
+					typeof examination.image === "string"
+						? JSON.parse(examination.image) // Parse if it's a JSON string
+						: examination.image; // Otherwise assume it's already an array
+
+				if (Array.isArray(parsedImages)) {
+					setExistingImages(parsedImages);
+				} else {
+					setExistingImages([]); // If it's not an array, set an empty array
+				}
+			} catch (e) {
+				console.error("Error parsing image data", e);
+				setExistingImages([]); // Default to empty array in case of error
+			}
+		}
+	}, [examination?.image]);
 
 	useEffect(() => {
 		getMedicine()
@@ -54,10 +74,25 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 	const handleUpdate = async () => {
 		if (!examination?.id) return;
 		try {
-			await updateExamination(
-				{ id: examination.id, status, diagnosis, note },
-				recordFile || undefined
-			);
+			// Create FormData for files
+			const formData = new FormData();
+			if (recordFiles.length > 0) {
+				recordFiles.forEach((file) => {
+					formData.append("record", file);
+				});
+			}
+
+			// Prepare the rest of the payload
+			const payload = {
+				id: examination.id,
+				diagnosis,
+				note,
+				status,
+			};
+
+			// Send the FormData along with the payload
+			const response = await updateExamination(payload, formData);
+
 			alert("Cập nhật phiếu khám thành công!");
 			onClose();
 			onRefresh?.();
@@ -93,36 +128,40 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 		if (newState) await fetchPrescriptions();
 	};
 
-	// const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-	// 	if (e.target.files && e.target.files[0]) {
-	// 		const file = e.target.files[0];
-
-	// 		try {
-	// 			const compressed = await compressImage(file);
-	// 			setRecordFile(compressed);
-	// 		} catch (error) {
-	// 			console.error("Không thể nén ảnh:", error);
-	// 		}
-	// 	}
-	// };
-
+	// Handle multiple file selection
 	const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (e.target.files && e.target.files[0]) {
-			const file = e.target.files[0];
+		if (e.target.files) {
+			const files = Array.from(e.target.files);
+			const compressedFiles = await Promise.all(
+				files.map(async (file) => {
+					try {
+						// Kiểm tra xem file có phải là ảnh không
+						if (!file.type.startsWith("image/")) {
+							throw new Error("Tệp phải là ảnh");
+						}
 
-			try {
-				const compressed = await compressImage(file);
-				setRecordFile(compressed);
-				// Khi upload file mới thì ảnh cũ không hiển thị nữa
-				setExistingImage(null);
-			} catch (error) {
-				console.error("Không thể nén ảnh:", error);
-			}
+						// Nén ảnh
+						return await compressImage(file);
+					} catch (error) {
+						console.error("Không thể nén ảnh:", error);
+						// Trả về file gốc nếu có lỗi
+						return file;
+					}
+				})
+			);
+			setRecordFiles((prevFiles) => [...prevFiles, ...compressedFiles]);
+
+			// Thêm ảnh mới vào existingImages
+			setExistingImages((prevImages) => [
+				...(prevImages || []),
+				...compressedFiles.map((file) => URL.createObjectURL(file)),
+			]);
 		}
 	};
 
-	const handleRemoveExistingImage = () => {
-		setExistingImage(null);
+	const handleRemoveExistingImage = (index: number) => {
+		const updatedImages = existingImages.filter((_, i) => i !== index);
+		setExistingImages(updatedImages);
 	};
 
 	return (
@@ -188,44 +227,60 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 						<>
 							<label>
 								<strong>File đính kèm (X-quang, siêu âm,...):</strong>
-								<input type="file" accept="image/*" onChange={handleFileChange} />
+								<div className="file-input-with-preview">
+									{/* Form input file */}
+									<input
+										type="file"
+										name="record"
+										multiple
+										accept="image/*"
+										onChange={handleFileChange}
+									/>
 
-								{/* Ảnh mới vừa chọn */}
-								{recordFile && (
-									<div className="preview-record">
-										<p>
-											<strong>Đã chọn:</strong> {recordFile.name}
-										</p>
-										{recordFile.type.startsWith("image/") && (
-											<img
-												src={URL.createObjectURL(recordFile)}
-												alt="Preview"
-												className="record-preview-img"
-											/>
-										)}
-									</div>
-								)}
+									{/* Hiển thị ảnh đã có (existingImages) */}
+									{existingImages.length > 0 && (
+										<div className="preview-records">
+											{existingImages.map((image, index) => (
+												<div key={index} className="preview-record">
+													<p>
+														<strong>Ảnh đã có:</strong> {image}
+													</p>
+													<img
+														src={image}
+														alt="Preview"
+														className="record-preview-img"
+													/>
+													<button
+														className="remove-image-btn"
+														onClick={() =>
+															handleRemoveExistingImage(index)
+														}
+													>
+														Xóa
+													</button>
+												</div>
+											))}
+										</div>
+									)}
 
-								{/* Ảnh đã lưu trước đó nếu chưa bị xóa hoặc ghi đè */}
-								{!recordFile && existingImage && (
-									<div className="preview-record">
-										<p>
-											<strong>Ảnh đã lưu:</strong>
-										</p>
-										<img
-											src={existingImage}
-											alt="Examination record"
-											className="record-preview-img"
-										/>
-										<button
-											type="button"
-											onClick={handleRemoveExistingImage}
-											className="btn-delete-img"
-										>
-											Xóa ảnh
-										</button>
-									</div>
-								)}
+									{/* Hiển thị ảnh mới đã chọn (recordFiles) */}
+									{recordFiles.length > 0 && (
+										<div className="preview-records">
+											{recordFiles.map((file, index) => (
+												<div key={index} className="preview-record">
+													<p>
+														<strong>Đã chọn:</strong> {file.name}
+													</p>
+													<img
+														src={URL.createObjectURL(file)}
+														alt="Preview"
+														className="record-preview-img"
+													/>
+												</div>
+											))}
+										</div>
+									)}
+								</div>
 							</label>
 
 							<button
@@ -279,24 +334,22 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 											className="btn-toggle-prescription"
 											onClick={handleAddPrescription}
 										>
-											Xác nhận thêm
+											Thêm đơn thuốc
 										</button>
 									</div>
-
-									{prescriptions.length > 0 && (
-										<PrescriptionTable data={prescriptions} />
-									)}
 								</div>
 							)}
 						</>
 					)}
-				</div>
 
-				<div className="modal-actions">
-					<button onClick={onClose} className="btn-cancel">
-						Hủy
-					</button>
-					<button onClick={handleUpdate}>Lưu thay đổi</button>
+					<div className="buttons">
+						<button className="btn" onClick={handleUpdate}>
+							Cập nhật
+						</button>
+						<button className="btn" onClick={onClose}>
+							Đóng
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
