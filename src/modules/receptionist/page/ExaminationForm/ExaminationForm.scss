@@ -1,3 +1,4 @@
+@import "../../../../shared/globalStyle/variables.scss";
 .form-list {
     background: #f2f5f7;
     min-height: 100vh;
@@ -85,5 +86,42 @@
         color: red;
         margin-top: 10px;
         text-align: center;
+    }
+}
+
+// detail
+.examination-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0 20px 0;
+    border-bottom: 1px solid $outline-color;
+
+    .examination-left img {
+        width: 65%;
+    }
+    p {
+        text-align: end;
+        color: $blue-dark;
+    }
+}
+h3 {
+    font-size: 30px;
+    color: $text-dark;
+    text-align: center;
+    margin: 15px 0 0 0;
+}
+
+.examination-header_sub {
+    display: flex;
+    justify-content: space-between;
+    p strong {
+        width: auto;
+        padding-right: 10px;
+    }
+}
+
+.examination-info {
+    p {
+        padding: 5px 0;
     }
 }

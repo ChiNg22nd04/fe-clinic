@@ -8,9 +8,8 @@ import {
 } from "~/modules/doctor/services";
 import { ExaminationPayload } from "~/shared/interfaces";
 import { compressImage } from "~/utils/compressImage";
-import logo from "~/assets/images/logo.app.svg";
+import PrescriptionTable from "~/shared/components/PrescriptionTable";
 
-import PrescriptionTable from "~/modules/doctor/page/PrescriptionTable";
 import "./ExaminationForm.scss";
 
 interface Props {
@@ -35,13 +34,6 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 	// Change recordFile to store an array of files
 	const [recordFiles, setRecordFiles] = useState<File[]>([]);
 	const [existingImages, setExistingImages] = useState<string[]>([]);
-	let phoneList: { type: string; text: string }[] = [];
-
-	try {
-		phoneList = examination?.phoneNumber ? JSON.parse(examination.phoneNumber) : [];
-	} catch (e) {
-		console.error("Lỗi parse phoneNumber:", e);
-	}
 
 	useEffect(() => {
 		if (examination?.image) {
@@ -74,40 +66,25 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 		if (!examination?.id) return;
 		try {
 			const res = await detailPrescription({ examinationFormId: examination.id });
+			console.log(res.data);
 			setPrescriptions(res.data ?? []);
 		} catch (err) {
 			console.error("Lỗi khi lấy đơn thuốc:", err);
 		}
 	}, [examination?.id]);
 
-	
 	const handleUpdate = async () => {
 		if (!examination?.id) return;
-
 		try {
+			// Create FormData for files
 			const formData = new FormData();
-
 			if (recordFiles.length > 0) {
-				const compressedFiles = await Promise.all(
-					recordFiles.map(async (file) => {
-						if (!file.type.startsWith("image/")) {
-							throw new Error("Tệp phải là ảnh");
-						}
-						return await compressImage(file);
-					})
-				);
-
-				compressedFiles.forEach((file) => {
+				recordFiles.forEach((file) => {
 					formData.append("record", file);
 				});
-
-				// Nếu muốn hiển thị ảnh sau khi upload thành công:
-				setExistingImages((prevImages) => [
-					...(prevImages || []),
-					...compressedFiles.map((file) => URL.createObjectURL(file)),
-				]);
 			}
 
+			// Prepare the rest of the payload
 			const payload = {
 				id: examination.id,
 				diagnosis,
@@ -115,13 +92,13 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 				status,
 			};
 
-			await updateExamination(payload, formData);
+			// Send the FormData along with the payload
+			const response = await updateExamination(payload, formData);
 
 			alert("Cập nhật phiếu khám thành công!");
 			onClose();
 			onRefresh?.();
 		} catch (error: any) {
-			console.error("Lỗi cập nhật:", error);
 			alert("Lỗi khi cập nhật: " + (error.message || "Vui lòng thử lại sau."));
 		}
 	};
@@ -154,35 +131,33 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 	};
 
 	// Handle multiple file selection
-	// const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-	// 	if (e.target.files) {
-	// 		const files = Array.from(e.target.files);
-	// 		const compressedFiles = await Promise.all(
-	// 			files.map(async (file) => {
-	// 				try {
-	// 					if (!file.type.startsWith("image/")) {
-	// 						throw new Error("Tệp phải là ảnh");
-	// 					}
-
-	// 					return await compressImage(file);
-	// 				} catch (error) {
-	// 					console.error("Không thể nén ảnh:", error);
-	// 					return file;
-	// 				}
-	// 			})
-	// 		);
-	// 		setRecordFiles((prevFiles) => [...prevFiles, ...compressedFiles]);
-
-	// 		setExistingImages((prevImages) => [
-	// 			...(prevImages || []),
-	// 			...compressedFiles.map((file) => URL.createObjectURL(file)),
-	// 		]);
-	// 	}
-	// };
-	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files) {
 			const files = Array.from(e.target.files);
-			setRecordFiles((prev) => [...prev, ...files]);
+			const compressedFiles = await Promise.all(
+				files.map(async (file) => {
+					try {
+						// Kiểm tra xem file có phải là ảnh không
+						if (!file.type.startsWith("image/")) {
+							throw new Error("Tệp phải là ảnh");
+						}
+
+						// Nén ảnh
+						return await compressImage(file);
+					} catch (error) {
+						console.error("Không thể nén ảnh:", error);
+						// Trả về file gốc nếu có lỗi
+						return file;
+					}
+				})
+			);
+			setRecordFiles((prevFiles) => [...prevFiles, ...compressedFiles]);
+
+			// Thêm ảnh mới vào existingImages
+			setExistingImages((prevImages) => [
+				...(prevImages || []),
+				...compressedFiles.map((file) => URL.createObjectURL(file)),
+			]);
 		}
 	};
 
@@ -194,44 +169,19 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 	return (
 		<div className="modal-overlay">
 			<div className="modal">
+				<h3>Chi tiết khám bệnh</h3>
 				<div className="modal-content">
-					<div className="examination-header">
-						<div className="examination-left">
-							<img src={logo} alt="Logo" />
-						</div>
-						<div className="examination-right">
-							<p>{examination?.clinicName}</p>
-							<p>{examination?.address}</p>
-							<p>{examination?.emailAddress}</p>
-							<p>
-								{phoneList?.map((phone, index) => (
-									<span className="phone-number" key={index}>
-										{phone.text}
-										{index < phoneList.length - 1 && " - "}
-									</span>
-								))}
-							</p>
-						</div>
-					</div>
-					<div className="examination-header_sub">
-						<p>
-							<strong>ID:</strong>
-							{examination?.id}
-						</p>
-						<p>
-							TP Hồ Chí Minh,
-							{dayjs(examination?.examinationDate).format("HH:mm DD/MM/YYYY")}
-						</p>
-					</div>
-					<h3>Phiếu khám bệnh</h3>
-					<p>
-						<strong>Chuyên khoa:</strong> {examination?.specialtyName}
-					</p>
 					<p>
 						<strong>Bệnh nhân:</strong> {examination?.patientName}
 					</p>
 					<p>
 						<strong>Bác sĩ:</strong> {examination?.staffName}
+					</p>
+					<p>
+						<strong>Chuyên khoa:</strong> {examination?.specialtyName}
+					</p>
+					<p>
+						<strong>Phòng khám:</strong> {examination?.clinicName}
 					</p>
 					<p>
 						<strong>Ngày hẹn:</strong>{" "}
@@ -289,17 +239,18 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 										onChange={handleFileChange}
 									/>
 
+									{/* Hiển thị ảnh đã có (existingImages) */}
 									{existingImages.length > 0 && (
-										<div className="existing-records">
+										<div className="preview-records">
 											{existingImages.map((image, index) => (
-												<div key={index} className="existing-record">
+												<div key={index} className="preview-record">
 													<p>
 														<strong>Ảnh đã có:</strong> {image}
 													</p>
 													<img
 														src={image}
-														alt="Existing"
-														className="record-existing-img"
+														alt="Preview"
+														className="record-preview-img"
 													/>
 													<button
 														className="remove-image-btn"
@@ -388,6 +339,9 @@ const ExaminationDetailModal: React.FC<Props> = ({ examination, onClose, onRefre
 											Thêm đơn thuốc
 										</button>
 									</div>
+									{prescriptions.length > 0 && (
+										<PrescriptionTable data={prescriptions} />
+									)}
 								</div>
 							)}
 						</>

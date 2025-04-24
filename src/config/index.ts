@@ -33,6 +33,7 @@ export const API_ENDPOINTS = {
 		invoiceList: `${RECEPTIONIST_BASE}/invoice/get-all`,
 		invoiceCreate: `${RECEPTIONIST_BASE}/invoice/create`,
 		shiftList: `${RECEPTIONIST_BASE}/shifts/get-detail`,
+		detailPrescription: `${RECEPTIONIST_BASE}/prescription/form`,
 	},
 	doctor: {
 		shifts: `${DOCTOR_BASE}/shifts`,

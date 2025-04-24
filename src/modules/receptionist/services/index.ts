@@ -99,6 +99,20 @@ export const detailExamination = async () => {
 	}
 };
 
+export const detailPrescription = async (params: { examinationFormId: number }) => {
+	try {
+		const response = await axiosInstance.post(
+			API_ENDPOINTS.receptionist.detailPrescription,
+			params
+		);
+		// Convert dữ liệu từ snake_case -> camelCase
+		console.log("responsive prescription", response.data);
+		return response.data;
+	} catch (error: any) {
+		throw error.response?.data || { message: "Unexpected error occurred" };
+	}
+};
+
 export const listInvoices = async (params?: Partial<InvoicePayload>) => {
 	try {
 		const response = await axiosInstance.get(API_ENDPOINTS.receptionist.invoiceList); // Đường dẫn tương ứng route backend

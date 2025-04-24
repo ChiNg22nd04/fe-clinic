@@ -21,6 +21,7 @@ const receptionistRoutes: RouteObject[] = [
 			{ path: "invoice/get-all", element: <Invoice /> },
 			{ path: "invoice/create", element: <Invoice /> },
 			{ path: "shifts/get-detail", element: <Shifts /> },
+			{ path: "prescription/form", element: <ExaminationDetailModal /> },
 		],
 	},
 ];
