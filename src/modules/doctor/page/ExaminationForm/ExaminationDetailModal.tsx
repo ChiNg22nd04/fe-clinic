@@ -7,7 +7,7 @@ import {
 	getMedicine,
 } from "~/modules/doctor/services";
 import { ExaminationPayload } from "~/shared/interfaces";
-import { compressImage } from "~/utils/compressImage";
+import { compressImage } from "~/shared/utils/compressImage";
 import PrescriptionTable from "~/shared/components/PrescriptionTable";
 
 import "./ExaminationForm.scss";

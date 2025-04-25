@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getProfile, updateUserProfile } from "../../services";
 import { useUser } from "~/shared/hooks";
 import { UserPayload } from "~/shared/interfaces";
-import { compressImage } from "~/utils/compressImage";
+import { compressImage } from "~/shared/utils/compressImage";
 import "./Upload.scss";
 
 const Upload: React.FC = () => {

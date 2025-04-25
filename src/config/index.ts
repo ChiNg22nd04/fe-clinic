@@ -4,6 +4,7 @@ export const API_BASE_URL = "http://localhost:3500";
 const USER_BASE = "/user";
 const RECEPTIONIST_BASE = "/receptionist";
 const DOCTOR_BASE = "/doctor";
+const ADMIN_BASE = "/admin";
 
 export const API_ENDPOINTS = {
 	common: {
@@ -43,5 +44,9 @@ export const API_ENDPOINTS = {
 		updatePrescription: `${DOCTOR_BASE}/prescription/update-form`,
 		detailPrescription: `${DOCTOR_BASE}/prescription/form`,
 		medicineList: `${DOCTOR_BASE}/medicine/get-all`,
+	},
+	admin: {
+		dashboard: `${ADMIN_BASE}`,
+		userDashboard: `${ADMIN_BASE}/users`,
 	},
 };

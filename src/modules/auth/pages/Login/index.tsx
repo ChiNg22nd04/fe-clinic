@@ -23,6 +23,9 @@ const Login: React.FC = () => {
 
 			// Điều hướng theo role
 			switch (user.role) {
+				case 0:
+					navigate("/admin");
+					break;
 				case 1:
 					navigate("/doctor");
 					break;
