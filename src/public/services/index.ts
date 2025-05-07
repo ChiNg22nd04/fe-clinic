@@ -6,6 +6,7 @@ import {
 	StaffShiftsPayload,
 	ClinicPayload,
 	ProfileStaffPayload,
+	ArticlesPayload,
 } from "~/shared/interfaces";
 
 export const getAllSpecialties = async (params?: Partial<SpecialtyPayload>) => {
@@ -161,11 +162,22 @@ export const getAllSpecialtiesDoctor = async (
 
 export const getAllArticles = async () => {
 	try {
-		const response = await axiosInstance.post(API_ENDPOINTS.common.allArticles);
+		const response = await axiosInstance.get(API_ENDPOINTS.common.articles);
+		const dataRes = response.data.data;
 
-		console.log("response", response);
+		const data: ArticlesPayload[] = dataRes.map((articles: any) => {
+			return {
+				articleId: articles.article_id,
+				title: articles.title,
+				content: articles.content,
+				author: articles.author,
+				publishedDate: articles.published_date,
+				category: articles.category,
+			};
+		});
 
-		return response;
+		console.log(data);
+		return data;
 	} catch (error: any) {
 		throw error.response?.data || { message: "Unexpected error occurred" };
 	}

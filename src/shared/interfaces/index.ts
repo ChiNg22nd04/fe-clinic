@@ -8,3 +8,4 @@ export * from "./ExaminationPayload";
 export * from "./UserPayload";
 export * from "./ClinicPayload";
 export * from "./StaffShiftsPayload";
+export * from "./ArticlesPayload";

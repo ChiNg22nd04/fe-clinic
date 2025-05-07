@@ -44,7 +44,7 @@ const Nav: React.FC<NavProps> = ({ isVisible }) => {
 						</Link>
 					</li>
 					<li>
-						<Link to="/" onClick={toggleMenu}>
+						<Link to={API_ENDPOINTS.common.articles} onClick={toggleMenu}>
 							TIN TỨC
 						</Link>
 					</li>
