@@ -1,6 +1,7 @@
 @import "../../../../shared/globalStyle/variables.scss";
 .content-top {
     padding-top: 10px;
+    margin-bottom: 20px;
     .text-main {
         text-transform: uppercase;
         text-align: center;
@@ -20,13 +21,82 @@
         display: flex;
         flex-direction: column;
     }
+    h2 {
+        margin: 0;
+        padding: 15px 20px;
+        background-color: $blue-dark;
+        color: $white-color;
+        font-weight: 500;
+        text-transform: uppercase;
+        font-size: 20px;
+    }
+    .content-bot_main {
+        background-color: $blue-light;
+        padding: 15px 20px;
+        h3 {
+            font-weight: 500;
+            margin: 0;
+            text-align: start;
+            font-size: 17px;
+            padding-bottom: 5px;
+        }
+        select {
+            margin-left: 5px;
+            width: 100%;
+            padding: 7px 15px;
+            border: 1px solid $blue-dark;
+            border-radius: 8px;
+            background-color: $white-color;
+            color: $text-dark;
+            font-size: 16px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+            &:focus {
+                outline: none;
+                border-color: $blue-medium;
+                box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+            }
+
+            option {
+                padding: 10px;
+            }
+        }
+        .symptoms-input {
+            margin-top: 15px;
+
+            input {
+                margin-left: 5px;
+                width: 50%;
+                padding: 10px 15px;
+                font-size: 16px;
+                border: 1px solid $blue-dark;
+                border-radius: 8px;
+                background-color: $white-color;
+                color: $text-dark;
+                transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+                &::placeholder {
+                    color: $text-sub;
+                    font-style: italic;
+                }
+
+                &:focus {
+                    outline: none;
+                    border-color: $blue-medium;
+                    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+                }
+            }
+        }
+    }
 }
 
-.shift-option.disabled {
-    color: #999;
-    cursor: not-allowed;
-    opacity: 0.6;
-}
-.shift-option input:disabled {
-    cursor: not-allowed;
+.shift-schedule {
+    .shifts-radio {
+        margin-left: 5px;
+    }
+    .shift-option.disabled {
+        color: $text-dark;
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
 }
