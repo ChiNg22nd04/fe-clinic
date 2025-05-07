@@ -15,6 +15,7 @@ export const API_ENDPOINTS = {
 		specialtiesClinicId: "/specialties/clinic-id",
 		shiftDoctor: "/shifts-all",
 		allSpecialtiesDoctor: "/specialties/doctor-all",
+		allArticles: "/articles-all",
 	},
 	auth: {
 		login: "/login",

@@ -158,3 +158,15 @@ export const getAllSpecialtiesDoctor = async (
 		throw error.response?.data || { message: "Unexpected error occurred" };
 	}
 };
+
+export const getAllArticles = async () => {
+	try {
+		const response = await axiosInstance.post(API_ENDPOINTS.common.allArticles);
+
+		console.log("response", response);
+
+		return response;
+	} catch (error: any) {
+		throw error.response?.data || { message: "Unexpected error occurred" };
+	}
+};
