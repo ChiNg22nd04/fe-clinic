@@ -5,6 +5,7 @@ import images from "~/assets/images";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightFromBracket, faUser, faCalendarDays } from "@fortawesome/free-solid-svg-icons";
+
 import { logout } from "~/modules/auth/services";
 
 import { API_ENDPOINTS } from "~/config";

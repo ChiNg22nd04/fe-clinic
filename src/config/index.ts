@@ -12,9 +12,11 @@ export const API_ENDPOINTS = {
 		home: "/",
 		specialties: "/specialties",
 		clinics: "/clinics",
+		articles: "/articles",
 		specialtiesClinicId: "/specialties/clinic-id",
 		shiftDoctor: "/shifts-all",
 		allSpecialtiesDoctor: "/specialties/doctor-all",
+		// allArticles: "/articles-all",
 	},
 	auth: {
 		login: "/login",
