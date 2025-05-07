@@ -1,14 +1,15 @@
 @import "../../../shared/globalStyle/variables.scss";
 
-.specialties {
+.articles {
     margin-top: $height-header + 10px;
+    padding-bottom: 10px;
+    background: $white-color;
     .text-center {
-        background: $white-color;
         position: relative;
         padding: 30px 0 60px 0;
         margin-bottom: 20px;
 
-        .specialties-text {
+        .articles-text {
             font-size: 24px;
             text-align: center;
             text-transform: uppercase;
@@ -16,7 +17,7 @@
             font-weight: 700;
             margin: 0;
         }
-        .specialties-text::after {
+        .articles-text::after {
             position: absolute;
             content: "";
             left: 0;
@@ -28,69 +29,56 @@
         }
     }
 
-    .specialties-bg {
-        width: 100%;
-        object-fit: cover;
-        // margin-bottom: 30px;
-    }
+    .articles-container {
+        margin: 40px auto;
 
-    .specialties-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        // justify-content: space-around; /* Cân chỉnh các item */
-    }
+        .article-card {
+            display: flex;
+            padding: 16px;
+            border-bottom: 1px solid #ccc;
 
-    .specialty-item {
-        border: 1px solid #ccc;
-        padding: 20px;
-        border-radius: 10px;
-        width: 280px; /* Kích thước của mỗi item */
-        background-color: #fff;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ cho items */
-        transition: transform 0.3s ease; /* Thêm hiệu ứng khi hover */
-
-        // &:hover {
-        //     transform: translateY(-10px); /* Đẩy item lên khi hover */
-        // }
-
-        .specialty-item_image {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-            object-fit: cover;
-            margin-bottom: 15px;
+            .article-card_img {
+                width: 30%;
+            }
+            .article-content {
+                display: flex;
+                flex-direction: column;
+                margin-left: 20px;
+            }
+            .article-tag {
+                font-size: 14px;
+                background: #f6f6f7;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                color: $text-dark;
+                padding: 5px 5px;
+                margin-right: 3px;
+                display: inline-block;
+                margin-top: 3px;
+                width: 20%;
+            }
         }
 
-        h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #2c3e50;
+        .article-link {
+            text-decoration: none;
+            color: black;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+        .article-content-meta {
+            font-size: 14px;
+            color: $text-sub;
+            font-style: italic;
             margin-bottom: 10px;
         }
-
-        h4 {
-            font-size: 1.2rem;
-            font-weight: 500;
-            color: #34495e;
+        .article-meta {
+            font-size: 14px;
+            color: gray;
             margin-bottom: 10px;
-        }
 
-        p {
-            font-size: 1rem;
-            color: #7f8c8d;
-            line-height: 1.5;
-        }
-
-        ul {
-            list-style-type: disc;
-            padding-left: 20px;
-            margin-top: 10px;
-
-            li {
-                font-size: 1rem;
-                color: #7f8c8d;
-                margin-bottom: 5px;
+            .article-meta-icon {
+                margin-right: 5px;
             }
         }
     }
