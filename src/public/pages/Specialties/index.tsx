@@ -3,6 +3,8 @@ import Header from "~/shared/components/Header";
 import { useSpecialties } from "~/shared/hooks/useSpecialties";
 import "./Specialties.scss";
 import { ContentItem, SubContentItem } from "~/shared/interfaces/";
+import { API_BASE_BE } from "~/config";
+import images from "~/assets/images";
 
 const Specialties: React.FC = () => {
 	// Giả sử đang không chọn clinic cụ thể
@@ -12,7 +14,10 @@ const Specialties: React.FC = () => {
 		<div className="app">
 			<Header />
 			<div className="specialties">
-				<h1>Chuyên khoa</h1>
+				<img className="specialties-bg" src={images.specialtyBg} alt="Chuyên khoa" />
+				<div className="text-center">
+					<p className="specialties-text">Danh sách chuyên khoa</p>
+				</div>
 
 				<div className="specialties-list">
 					{allSpecialties.map((item) => {
@@ -25,6 +30,15 @@ const Specialties: React.FC = () => {
 						return (
 							<div key={item.specialtyId} className="specialty-item">
 								<h3>{item.specialtyName}</h3>
+								<div>
+									{item.image?.length > 0 && (
+										<img
+											className="specialty-item_image"
+											src={`http://localhost:8055/assets/${item.image}`}
+											alt="Hình ảnh khoa"
+										/>
+									)}
+								</div>
 
 								{item.introduce?.length > 0 && (
 									<>
@@ -32,7 +46,6 @@ const Specialties: React.FC = () => {
 										{item.introduce.map((intro: ContentItem, index: number) => (
 											<div key={index} className="introduce-item">
 												<strong>{intro.type}:</strong>
-
 												{/* Render content nếu có */}
 												{typeof intro.content === "string" && (
 													<p>{intro.content}</p>

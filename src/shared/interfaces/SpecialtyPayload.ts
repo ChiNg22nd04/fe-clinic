@@ -10,6 +10,7 @@ export interface ContentItem {
 }
 
 export interface SpecialtyPayload {
+	image: string;
 	specialtyId: number;
 	specialtyName: string;
 	introduce: ContentItem[];
