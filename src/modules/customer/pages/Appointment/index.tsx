@@ -96,106 +96,108 @@ const ScheduleAppointment: React.FC = () => {
 			</div>
 			<div className="content-bot">
 				<h2>Phiếu đăng ký khám bệnh</h2>
-				<div className="clinic-list">
-					<h3>Chọn địa điểm khám</h3>
-					<div className="clinics-dropdown">
-						{clinics.map((item) => (
-							<label key={item.clinicId} className="clinic-radio">
-								<input
-									type="radio"
-									name="clinic"
-									value={item.clinicId}
-									onChange={() => handleClinicChange(item.clinicId)}
-									checked={selectedClinicId === item.clinicId}
-								/>
-								{item.clinicName}
-							</label>
-						))}
-					</div>
-				</div>
-				<div className="specialty-list">
-					<h3>Chọn chuyên khoa</h3>
-					<select
-						onChange={(e) => {
-							const id = Number(e.target.value);
-							setSelectedSpecialtyId(id);
-						}}
-						value={selectedSpecialtyId ?? ""}
-					>
-						<option value="" disabled>
-							-- Chọn chuyên khoa --
-						</option>
-						{specialties.map((specialty_id) => {
-							const specialty = allSpecialties.find(
-								(s) => s.specialtyId === specialty_id
-							);
-							return (
-								<option key={specialty_id} value={specialty_id}>
-									{specialty
-										? specialty.specialtyName
-										: `Chuyên khoa #${specialty_id}`}
-								</option>
-							);
-						})}
-					</select>
-				</div>
-				<div className="doctor-list">
-					<h3>Chọn bác sĩ</h3>
-					<select
-						onChange={(e) => {
-							const id = Number(e.target.value);
-							setSelectedDoctor(id);
-						}}
-						value={selectedDoctor ?? ""}
-					>
-						<option value="" disabled>
-							-- Chọn bác sĩ --
-						</option>
-						{doctors.map((doc) => (
-							<option key={doc.staffId} value={doc.staffId}>
-								{doc.fullName}
-							</option>
-						))}
-					</select>
-				</div>
-				<div className="shift-schedule">
-					<h3>Chọn lịch làm việc của bác sĩ</h3>
-					{shiftSchedule.length > 0 && (
-						<div className="shifts-radio">
-							{shiftSchedule.map((shift) => (
-								<label
-									key={shift.id}
-									className={`shift-option ${
-										shift.status === 2 ? "disabled" : ""
-									}`}
-								>
+				<div className="content-bot_main">
+					<div className="clinic-list">
+						<h3>Chọn địa điểm khám</h3>
+						<div className="clinics-dropdown">
+							{clinics.map((item) => (
+								<label key={item.clinicId} className="clinic-radio">
 									<input
 										type="radio"
-										name="shift"
-										value={shift.id}
-										checked={selectedShiftId === shift.id}
-										onChange={() => setSelectedShiftId(shift.id)}
-										disabled={shift.status === 2}
+										name="clinic"
+										value={item.clinicId}
+										onChange={() => handleClinicChange(item.clinicId)}
+										checked={selectedClinicId === item.clinicId}
 									/>
-									Ngày: {shift.work_date} - Ca: {shift.shift_name}{" "}
-									{shift.status === 2 && "(Đã kín lịch)"}
+									{item.clinicName}
 								</label>
 							))}
 						</div>
-					)}
-				</div>
-				<div className="symptoms-input">
-					<h3>Nhập triệu chứng</h3>
-					<input
-						type="text"
-						placeholder="Nhập triệu chứng (ví dụ: đau đầu, sốt...)"
-						value={symptoms}
-						onChange={(e) => setSymptoms(e.target.value)}
-					/>
-				</div>
+					</div>
+					<div className="specialty-list">
+						<h3>Chọn chuyên khoa</h3>
+						<select
+							onChange={(e) => {
+								const id = Number(e.target.value);
+								setSelectedSpecialtyId(id);
+							}}
+							value={selectedSpecialtyId ?? ""}
+						>
+							<option value="" disabled>
+								-- Chọn chuyên khoa --
+							</option>
+							{specialties.map((specialty_id) => {
+								const specialty = allSpecialties.find(
+									(s) => s.specialtyId === specialty_id
+								);
+								return (
+									<option key={specialty_id} value={specialty_id}>
+										{specialty
+											? specialty.specialtyName
+											: `Chuyên khoa #${specialty_id}`}
+									</option>
+								);
+							})}
+						</select>
+					</div>
+					<div className="doctor-list">
+						<h3>Chọn bác sĩ</h3>
+						<select
+							onChange={(e) => {
+								const id = Number(e.target.value);
+								setSelectedDoctor(id);
+							}}
+							value={selectedDoctor ?? ""}
+						>
+							<option value="" disabled>
+								-- Chọn bác sĩ --
+							</option>
+							{doctors.map((doc) => (
+								<option key={doc.staffId} value={doc.staffId}>
+									{doc.fullName}
+								</option>
+							))}
+						</select>
+					</div>
+					<div className="shift-schedule">
+						<h3>Chọn lịch làm việc của bác sĩ</h3>
+						{shiftSchedule.length > 0 && (
+							<div className="shifts-radio">
+								{shiftSchedule.map((shift) => (
+									<label
+										key={shift.id}
+										className={`shift-option ${
+											shift.status === 2 ? "disabled" : ""
+										}`}
+									>
+										<input
+											type="radio"
+											name="shift"
+											value={shift.id}
+											checked={selectedShiftId === shift.id}
+											onChange={() => setSelectedShiftId(shift.id)}
+											disabled={shift.status === 2}
+										/>
+										Ngày: {shift.work_date} - Ca: {shift.shift_name}{" "}
+										{shift.status === 2 && "(Đã kín lịch)"}
+									</label>
+								))}
+							</div>
+						)}
+					</div>
+					<div className="symptoms-input">
+						<h3>Nhập triệu chứng</h3>
+						<input
+							type="text"
+							placeholder="Nhập triệu chứng (ví dụ: đau đầu, sốt...)"
+							value={symptoms}
+							onChange={(e) => setSymptoms(e.target.value)}
+						/>
+					</div>
 
-				<div className="submit-button">
-					<button onClick={handleSubmit}>Đặt lịch khám</button>
+					<div className="submit-button">
+						<button onClick={handleSubmit}>Đặt lịch khám</button>
+					</div>
 				</div>
 			</div>
 		</div>
