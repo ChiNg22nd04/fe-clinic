@@ -1,6 +1,7 @@
 // src/config/apiConfig.ts
 import customerRoutes from "~/modules/customer/routes";
 export const API_BASE_URL = "http://localhost:3500";
+export const API_BASE_BE = "http://localhost:8055";
 const USER_BASE = "/user";
 const RECEPTIONIST_BASE = "/receptionist";
 const DOCTOR_BASE = "/doctor";

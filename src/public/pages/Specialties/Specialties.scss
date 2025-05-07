@@ -2,6 +2,9 @@
 
 .specialties {
     margin-top: $height-header + 10px;
+    .specialties-bg {
+        width: 100%;
+    }
     .specialties-list {
         display: flex;
         flex-wrap: wrap;
@@ -13,5 +16,8 @@
         padding: 12px;
         border-radius: 8px;
         width: 300px;
+        .specialty-item_image {
+            width: 35%;
+        }
     }
 }

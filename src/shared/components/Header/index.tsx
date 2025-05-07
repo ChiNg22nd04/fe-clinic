@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "~/assets/images/logo.app.svg";
+// import logo from "~/assets/images/logo.app.svg";
+import images from "~/assets/images";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightFromBracket, faUser, faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 import { logout } from "~/modules/auth/services";
@@ -52,7 +54,7 @@ const Header: React.FC = () => {
 				<div className="container">
 					<div className="header__logo">
 						<Link className="header__logo-link" to="/">
-							<img src={logo} alt="Logo" />
+							<img src={images.logo} alt="Logo" />
 						</Link>
 					</div>
 

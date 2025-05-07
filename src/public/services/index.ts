@@ -43,6 +43,7 @@ export const getAllSpecialties = async (params?: Partial<SpecialtyPayload>) => {
 			}
 
 			return {
+				image: item.image,
 				specialtyId: item.specialty_id,
 				specialtyName: item.specialty_name,
 				introduce: introduceParsed,

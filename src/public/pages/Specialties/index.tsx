@@ -3,6 +3,8 @@ import Header from "~/shared/components/Header";
 import { useSpecialties } from "~/shared/hooks/useSpecialties";
 import "./Specialties.scss";
 import { ContentItem, SubContentItem } from "~/shared/interfaces/";
+import { API_BASE_BE } from "~/config";
+import images from "~/assets/images";
 
 const Specialties: React.FC = () => {
 	// Giả sử đang không chọn clinic cụ thể
@@ -12,6 +14,7 @@ const Specialties: React.FC = () => {
 		<div className="app">
 			<Header />
 			<div className="specialties">
+				<img className="specialties-bg" src={images.specialtyBg} alt="Logo" />
 				<h1>Chuyên khoa</h1>
 
 				<div className="specialties-list">
@@ -25,6 +28,13 @@ const Specialties: React.FC = () => {
 						return (
 							<div key={item.specialtyId} className="specialty-item">
 								<h3>{item.specialtyName}</h3>
+								{item.image?.length > 0 && (
+									<img
+										className="specialty-item_image"
+										src={`http://localhost:8055/assets/${item.image}`}
+										alt="Hình ảnh khoa"
+									/>
+								)}
 
 								{item.introduce?.length > 0 && (
 									<>
