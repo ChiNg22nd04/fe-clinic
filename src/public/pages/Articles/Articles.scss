@@ -66,12 +66,7 @@
                 cursor: pointer;
             }
         }
-        .article-content-meta {
-            font-size: 14px;
-            color: $text-sub;
-            font-style: italic;
-            margin-bottom: 10px;
-        }
+
         .article-meta {
             font-size: 14px;
             color: gray;
@@ -79,6 +74,130 @@
 
             .article-meta-icon {
                 margin-right: 5px;
+            }
+        }
+    }
+}
+.article-content-meta {
+    font-size: 14px;
+    color: $text-sub;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+// Article Detail Styles
+.article-detail {
+    margin-top: $height-header + 10px;
+    padding: 40px 0;
+    background: $white-color;
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .article-detail-header {
+        margin-bottom: 15px;
+
+        .article-detail-title h2 {
+            font-weight: 500;
+            color: $blue-dark;
+            margin-bottom: 16px;
+            margin: 0;
+            font-size: 22px;
+            text-transform: uppercase;
+        }
+
+        .article-detail-meta {
+            display: flex;
+            justify-content: space-between;
+            gap: 24px;
+            color: $text-sub;
+            font-size: 14px;
+
+            .meta-item {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            .border-circle {
+                color: $white-color;
+                padding: 5px 12px;
+                border: 1px solid $blue-dark;
+                border-radius: 20px;
+                background-color: $blue-dark;
+            }
+        }
+    }
+
+    .article-detail-content {
+        .article-detail-images {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            position: relative;
+            width: 100%;
+
+            img {
+                width: 100%;
+                height: auto;
+                object-fit: cover;
+                display: block;
+            }
+
+            .image-caption {
+                margin-top: 8px;
+                font-size: 14px;
+                color: $text-sub;
+                font-style: italic;
+                text-align: center;
+            }
+        }
+
+        .article-detail-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: $text-dark;
+            margin-top: 10px;
+            h4 {
+                margin: 0;
+                text-align: start;
+                color: $text-dark;
+                font-weight: 500;
+                font-size: 16px;
+                line-height: 1.8;
+            }
+            h3 {
+                font-size: 22px;
+                font-weight: 500;
+                color: $blue-dark;
+                margin-top: 10px;
+                text-align: start;
+            }
+            p {
+                margin: 5px 0;
+            }
+            img {
+                max-width: 100%;
+                height: auto;
+            }
+
+            ul,
+            ol {
+                margin: 16px 0;
+                padding-left: 24px;
+
+                li {
+                    margin-bottom: 8px;
+                }
+            }
+
+            blockquote {
+                border-left: 4px solid $blue-medium;
+                padding: 16px;
+                margin: 24px 0;
+                background: #f8f9fa;
+                font-style: italic;
             }
         }
     }
