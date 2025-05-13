@@ -9,3 +9,4 @@ export * from "./UserPayload";
 export * from "./ClinicPayload";
 export * from "./StaffShiftsPayload";
 export * from "./ArticlesPayload";
+export * from "./DoctorPayload";
