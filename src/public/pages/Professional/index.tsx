@@ -2,16 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "~/shared/components/Header";
 import { getAllDoctor } from "~/public/services";
-import "./Professional.scss";
 import { DoctorPayload } from "~/shared/interfaces";
 import { slugify } from "~/shared/utils/slugify";
+
+import images from "~/assets/images";
+import "./Professional.scss";
 
 const Professional: React.FC = () => {
 	const [doctors, setDoctors] = useState<DoctorPayload[]>([]);
 	const navigate = useNavigate();
 
-	const banner = "EC7DEC37-CEA3-4BD5-B587-428E16A9918F.jpg";
-	const title = "Banner Chuyen Gia Bac Si Desk.jpg";
+	// const banner = "EC7DEC37-CEA3-4BD5-B587-428E16A9918F.jpg";
+	// const title = "Banner Chuyen Gia Bac Si Desk.jpg";
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
@@ -35,9 +37,9 @@ const Professional: React.FC = () => {
 			<Header />
 			<div className="professional">
 				<img
-					src={`http://localhost:8055/assets/${banner}`}
+					src={`http://localhost:8055/assets/${images.professionalBaner.filename}`}
 					className="professional-banner"
-					alt={title}
+					alt={images.specialtiesBaner.title}
 				/>
 				<div className="text-center">
 					<p className="professional-text">Chuyên gia - bác sĩ</p>

@@ -14,7 +14,11 @@ const Specialties: React.FC = () => {
 		<div className="app">
 			<Header />
 			<div className="specialties">
-				<img className="specialties-bg" src={images.specialtyBg} alt="Chuyên khoa" />
+				<img
+					className="specialties-bg"
+					src={`http://localhost:8055/assets/${images.specialtiesBaner.filename}`}
+					alt={images.professionalBaner.title}
+				/>
 				<div className="text-center">
 					<p className="specialties-text">Danh sách chuyên khoa</p>
 				</div>
