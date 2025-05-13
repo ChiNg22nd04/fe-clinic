@@ -3,6 +3,7 @@ import { API_ENDPOINTS } from "~/config";
 
 import HomePage from "~/public/pages/Home";
 import Specialties from "~/public/pages/Specialties";
+import SpecialtyDetail from "~/public/pages/Specialties/SpecialtiesDetail";
 import Articles from "~/public/pages/Articles";
 import Professional from "~/public/pages/Professional";
 import DoctorDetail from "~/public/pages/Professional/DoctorDetail";
@@ -17,6 +18,10 @@ const publicRoutes: RouteObject[] = [
 		element: <Specialties />,
 	},
 	{
+		path: `${API_ENDPOINTS.common.specialties}/:slug`,
+		element: <SpecialtyDetail />,
+	},
+	{
 		path: API_ENDPOINTS.common.articles,
 		element: <Articles />,
 	},
@@ -25,7 +30,7 @@ const publicRoutes: RouteObject[] = [
 		element: <Professional />,
 	},
 	{
-		path: `${API_ENDPOINTS.common.professional}/:id`,
+		path: `${API_ENDPOINTS.common.professional}/:slug`,
 		element: <DoctorDetail />,
 	},
 ];
