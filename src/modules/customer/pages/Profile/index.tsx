@@ -15,7 +15,6 @@ const Profile: React.FC = () => {
 			if (!patient?.id) return;
 			try {
 				const response = await getProfile({ id: patient.id });
-				console.log(response);
 				setProfile(response[0] || null);
 			} catch (err: any) {
 				setError(err.message || "Có lỗi xảy ra khi lấy thông tin cá nhân");
@@ -26,60 +25,69 @@ const Profile: React.FC = () => {
 		fetchProfile();
 	}, [patient?.id]);
 
-	console.log("profile", profile);
-
-	const roleText = (role: number) => {
-		switch (role) {
-			case 1:
-				return "Admin";
-			case 2:
-				return "Doctor";
-			case 3:
-				return "Patient";
-			default:
-				return "Unknown";
-		}
-	};
-
 	if (loading) {
-		return <div>Loading...</div>;
+		return (
+			<div className="loading-container">
+				<div className="spinner-border text-primary" role="status">
+					<span className="visually-hidden">Loading...</span>
+				</div>
+			</div>
+		);
 	}
 
 	if (error) {
-		return <div>{error}</div>;
+		return (
+			<div className="error-container">
+				<i className="fas fa-exclamation-circle me-2"></i>
+				{error}
+			</div>
+		);
 	}
 
 	if (!profile) {
-		return <div>Profile not found.</div>;
+		return (
+			<div className="error-container">
+				<i className="fas fa-user-slash me-2"></i>
+				Không tìm thấy thông tin cá nhân
+			</div>
+		);
 	}
 
 	return (
 		<div className="content">
-			<h2>Thông tin cá nhân</h2>
-			<div className="profile-container">
-				<div className="avatar-container">
-					<img
-						src={profile.image || "/default-avatar.png"} // Avatar fallback
-						alt="Profile"
-						className="avatar"
-					/>
-				</div>
-				<div className="profile-details">
-					<div className="profile-item">
-						<strong>Họ và Tên:</strong> {profile.fullName}
+			<div className="profile-card">
+				<h2>Thông tin cá nhân</h2>
+				<div className="profile-container">
+					<div className="profile-avatar">
+						<img src={profile.image || "/default-avatar.png"} alt="Profile" />
 					</div>
-					<div className="profile-item">
-						<strong>Email:</strong> {profile.email}
-					</div>
-					<div className="profile-item">
-						<strong>Username:</strong> {profile.username}
-					</div>
-					<div className="profile-item">
-						<strong>Số điện thoại:</strong> {profile.phone || "Chưa có"}
-					</div>
-					<div className="profile-item">
-						<strong>Trạng thái:</strong>{" "}
-						{profile.isActive ? "Đang hoạt động" : "Ngừng hoạt động"}
+					<div className="profile-info">
+						<div className="profile-item">
+							<strong>Họ và Tên:</strong>
+							<span>{profile.fullName}</span>
+						</div>
+						<div className="profile-item">
+							<strong>Email:</strong>
+							<span>{profile.email}</span>
+						</div>
+						<div className="profile-item">
+							<strong>Username:</strong>
+							<span>{profile.username}</span>
+						</div>
+						<div className="profile-item">
+							<strong>Số điện thoại:</strong>
+							<span>{profile.phone || "Chưa có"}</span>
+						</div>
+						<div className="profile-item">
+							<strong>Trạng thái:</strong>
+							<span
+								className={`status-badge ${
+									profile.isActive ? "active" : "inactive"
+								}`}
+							>
+								{profile.isActive ? "Đang hoạt động" : "Ngừng hoạt động"}
+							</span>
+						</div>
 					</div>
 				</div>
 			</div>
