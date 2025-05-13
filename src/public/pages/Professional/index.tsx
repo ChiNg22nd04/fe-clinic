@@ -39,45 +39,52 @@ const Professional: React.FC = () => {
 					className="professional-banner"
 					alt={title}
 				/>
-				<div className="professional-list container">
-					{doctors.map((doctor) => (
-						<div className="professional-card" key={doctor.staffId}>
-							<img
-								src={`http://localhost:8055/assets/${doctor.thumbnail}`}
-								className="professional-avatar"
-								alt={doctor.fullName}
-							/>
-							<div className="professional-info">
-								<h3 className="professional-name">{doctor.fullName}</h3>
-								<div className="professional-title">
-									<span>Chuyên khoa: </span>
-									{doctor.specialtyName}
-								</div>
-								<div className="professional-hospital">{doctor.clinicName}</div>
-								<div className="professional-desc">
-									{doctor?.department || ""} - {doctor.yearsOfExperience} năm kinh
-									nghiệm - {doctor.education}
-								</div>
-								{doctor.introduce && (
-									<>
-										<div
-											className="professional-intro"
-											dangerouslySetInnerHTML={{ __html: doctor.introduce }}
-										/>
-									</>
-								)}
-								<div className="professional-actions">
-									<button className="btn btn-primary">ĐẶT LỊCH HẸN</button>
-									<button
-										className="btn btn-outline"
-										onClick={() => handleViewDetail(doctor)}
-									>
-										XEM CHI TIẾT
-									</button>
+				<div className="text-center">
+					<p className="professional-text">Chuyên gia - bác sĩ</p>
+				</div>
+				<div className="professional-list">
+					<div className="container">
+						{doctors.map((doctor) => (
+							<div className="professional-card" key={doctor.staffId}>
+								<img
+									src={`http://localhost:8055/assets/${doctor.thumbnail}`}
+									className="professional-avatar"
+									alt={doctor.fullName}
+								/>
+								<div className="professional-info">
+									<h3 className="professional-name">{doctor.fullName}</h3>
+									<div className="professional-title">
+										<span>Chuyên khoa: </span>
+										{doctor.specialtyName}
+									</div>
+									<div className="professional-hospital">{doctor.clinicName}</div>
+									<div className="professional-desc">
+										{doctor?.department || ""} - {doctor.yearsOfExperience} năm
+										kinh nghiệm - {doctor.education}
+									</div>
+									{doctor.introduce && (
+										<>
+											<div
+												className="professional-intro"
+												dangerouslySetInnerHTML={{
+													__html: doctor.introduce,
+												}}
+											/>
+										</>
+									)}
+									<div className="professional-actions">
+										<button className="btn btn-primary">ĐẶT LỊCH HẸN</button>
+										<button
+											className="btn btn-outline"
+											onClick={() => handleViewDetail(doctor)}
+										>
+											XEM CHI TIẾT
+										</button>
+									</div>
 								</div>
 							</div>
-						</div>
-					))}
+						))}
+					</div>
 				</div>
 			</div>
 		</div>

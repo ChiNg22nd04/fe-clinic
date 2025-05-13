@@ -42,14 +42,9 @@ const DoctorDetail: React.FC = () => {
 	return (
 		<div className="app">
 			<Header />
-			<div className="container">
-				<div className="doctor-detail">
+			<div className="doctor-page">
+				<div className="doctor-detail container">
 					<div className="doctor-header">
-						<img
-							src={`http://localhost:8055/assets/${doctor.thumbnail}`}
-							className="doctor-avatar"
-							alt={doctor.fullName}
-						/>
 						<div className="doctor-info">
 							<h1 className="doctor-name">{doctor.fullName}</h1>
 							<div className="doctor-title">
@@ -57,16 +52,18 @@ const DoctorDetail: React.FC = () => {
 								{doctor.specialtyName}
 							</div>
 							<div className="doctor-hospital">{doctor.clinicName}</div>
-						</div>
-					</div>
-					<div className="doctor-content">
-						<div className="doctor-section">
-							<h2>Thông tin chuyên môn</h2>
 							<div className="doctor-desc">
 								{doctor?.department || ""} - {doctor.yearsOfExperience} năm kinh
 								nghiệm - {doctor.education}
 							</div>
 						</div>
+						<img
+							src={`http://localhost:8055/assets/${doctor.thumbnail}`}
+							className="doctor-avatar"
+							alt={doctor.fullName}
+						/>
+					</div>
+					<div className="doctor-content">
 						{doctor.introduce && (
 							<div className="doctor-section">
 								<h2>Giới thiệu</h2>
