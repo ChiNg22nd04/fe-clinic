@@ -4,6 +4,7 @@ import Header from "~/shared/components/Header";
 import { getAllDoctor } from "~/public/services";
 import "./Professional.scss";
 import { DoctorPayload } from "~/shared/interfaces";
+import { slugify } from "~/shared/utils/slugify";
 
 const Professional: React.FC = () => {
 	const [doctors, setDoctors] = useState<DoctorPayload[]>([]);
@@ -24,8 +25,9 @@ const Professional: React.FC = () => {
 		fetchData();
 	}, []);
 
-	const handleViewDetail = (doctorId: number) => {
-		navigate(`/professional/${doctorId}`);
+	const handleViewDetail = (doctor: DoctorPayload) => {
+		const slug = slugify(doctor.fullName);
+		navigate(`/professional/${slug}`, { state: { doctorId: doctor.staffId } });
 	};
 
 	return (
@@ -68,7 +70,7 @@ const Professional: React.FC = () => {
 									<button className="btn btn-primary">ĐẶT LỊCH HẸN</button>
 									<button
 										className="btn btn-outline"
-										onClick={() => handleViewDetail(doctor.staffId)}
+										onClick={() => handleViewDetail(doctor)}
 									>
 										XEM CHI TIẾT
 									</button>

@@ -5,6 +5,7 @@ import HomePage from "~/public/pages/Home";
 import Specialties from "~/public/pages/Specialties";
 import Articles from "~/public/pages/Articles";
 import Professional from "~/public/pages/Professional";
+import DoctorDetail from "~/public/pages/Professional/DoctorDetail";
 
 const publicRoutes: RouteObject[] = [
 	{
@@ -22,6 +23,10 @@ const publicRoutes: RouteObject[] = [
 	{
 		path: API_ENDPOINTS.common.professional,
 		element: <Professional />,
+	},
+	{
+		path: `${API_ENDPOINTS.common.professional}/:id`,
+		element: <DoctorDetail />,
 	},
 ];
 export default publicRoutes;
