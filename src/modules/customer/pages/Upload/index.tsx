@@ -112,56 +112,41 @@ const Upload: React.FC = () => {
 	return (
 		<div className="content content-customer">
 			<div className="profile-container">
-				<div className="avatar-container">
-					<img
-						src={formData.image || "/default-avatar.png"}
-						alt="Profile"
-						className="avatar"
-					/>
-					<input type="file" name="avatar" accept="image/*" onChange={handleFileChange} />
-				</div>
-				<div className="profile-details">
-					<h2>Cập nhật thông tin cá nhân</h2>
-					<form onSubmit={handleSubmit} className="profile-form">
-						<div className="profile-item">
-							<label>Email:</label>
-							<input
-								type="email"
-								name="email"
-								value={formData.email}
-								onChange={handleChange}
-							/>
-						</div>
-						<div className="profile-item">
-							<label>Họ và Tên:</label>
-							<input
-								type="text"
-								name="full_name"
-								value={formData.full_name}
-								onChange={handleChange}
-							/>
-						</div>
-						<div className="profile-item">
-							<label>Tên người dùng:</label>
-							<input
-								type="text"
-								name="username"
-								value={formData.username}
-								onChange={handleChange}
-							/>
-						</div>
-						<div className="profile-item">
-							<label>Vai trò:</label>
-							<select name="role" value={formData.role} onChange={handleChange}>
-								<option value={0}>Admin</option>
-								<option value={1}>Doctor</option>
-								<option value={2}>Receptionist</option>
-								<option value={3}>Patient</option>
-							</select>
-						</div>
-						<button type="submit">Lưu thay đổi</button>
-					</form>
-				</div>
+				<h2>Cập nhật thông tin cá nhân</h2>
+				<form onSubmit={handleSubmit} className="profile-form">
+					<div className="profile-item">
+						<strong>Email:</strong>
+						<input
+							className="profile-input"
+							type="email"
+							name="email"
+							value={formData.email}
+							onChange={handleChange}
+						/>
+					</div>
+					<div className="profile-item">
+						<strong>Họ và Tên:</strong>
+						<input
+							className="profile-input"
+							type="text"
+							name="full_name"
+							value={formData.full_name}
+							onChange={handleChange}
+						/>
+					</div>
+					<div className="profile-item">
+						<strong>Tên người dùng:</strong>
+						<input
+							className="profile-input"
+							type="text"
+							name="username"
+							value={formData.username}
+							onChange={handleChange}
+						/>
+					</div>
+
+					<button type="submit">Lưu thay đổi</button>
+				</form>
 			</div>
 		</div>
 	);
