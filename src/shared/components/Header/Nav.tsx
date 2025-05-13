@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
+
 import { API_ENDPOINTS } from "~/config";
 
 import "./Header.scss";
@@ -34,7 +35,7 @@ const Nav: React.FC<NavProps> = ({ isVisible }) => {
 						</Link>
 					</li>
 					<li>
-						<Link to={API_ENDPOINTS.common.allSpecialtiesDoctor} onClick={toggleMenu}>
+						<Link to={API_ENDPOINTS.common.professional} onClick={toggleMenu}>
 							CHUYÊN GIA - BÁC SĨ
 						</Link>
 					</li>

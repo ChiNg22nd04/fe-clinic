@@ -8,6 +8,7 @@ import {
 	ProfileStaffPayload,
 	ArticlesPayload,
 	ArticlesFiles,
+	DoctorPayload,
 } from "~/shared/interfaces";
 
 export const getAllSpecialties = async (params?: Partial<SpecialtyPayload>) => {
@@ -60,16 +61,6 @@ export const getAllSpecialties = async (params?: Partial<SpecialtyPayload>) => {
 	}
 };
 
-// export const getAllClinics = async () => {
-// 	try {
-// 		const response = await axiosInstance.get(API_ENDPOINTS.common.clinics);
-// 		console.log(response.data.data);
-// 		return response.data.data;
-// 	} catch (error: any) {
-// 		throw error.response?.data || { message: "Unexpected error occurred" };
-// 	}
-// };
-
 export const getAllClinics = async () => {
 	try {
 		const response = await axiosInstance.get(API_ENDPOINTS.common.clinics);
@@ -99,20 +90,6 @@ export const getSpecialtiesByIDClinic = async (clinicId: number) => {
 		throw error.response?.data || { message: "Unexpected error occurred" };
 	}
 };
-
-// export const getAllShiftDoctor = async (staffId: number, specialtyId: number, clinicId: number) => {
-// 	try {
-// 		const response = await axiosInstance.post(API_ENDPOINTS.common.shiftDoctor, {
-// 			staffId,
-// 			specialtyId,
-// 			clinicId,
-// 		});
-// 		console.log(response.data.data);
-// 		return response.data.data;
-// 	} catch (error: any) {
-// 		throw error.response?.data || { message: "Unexpected error occurred" };
-// 	}
-// };
 
 export const getAllShiftDoctor = async (
 	staffId: number,
@@ -276,6 +253,31 @@ export const getArticleById = async (articleId: number): Promise<ArticlesPayload
 
 		console.log(articlesList);
 		return articlesList;
+	} catch (error: any) {
+		throw error.response?.data || { message: "Unexpected error occurred" };
+	}
+};
+
+export const getAllDoctor = async (): Promise<DoctorPayload[]> => {
+	try {
+		const response = await axiosInstance.get(API_ENDPOINTS.common.professional);
+		const rawData = response.data.data;
+		const data: DoctorPayload[] = rawData.map((item: any) => ({
+			staffId: item.staff_id,
+			thumbnail: item.thumbnail,
+			fullName: item.full_name,
+			specialtyId: item.specialty_id,
+			specialtyName: item.specialty_name,
+			clinicId: item.clinic_id,
+			clinicName: item.clinic_name,
+			department: item.department,
+			yearsOfExperience: item.years_of_experience,
+			education: item.education,
+			introduce: item.introduce,
+			member: item.member,
+			expert: item.expert,
+		}));
+		return data;
 	} catch (error: any) {
 		throw error.response?.data || { message: "Unexpected error occurred" };
 	}

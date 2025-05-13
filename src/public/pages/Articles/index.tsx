@@ -78,55 +78,57 @@ const Articles: React.FC = () => {
 				<div className="text-center">
 					<p className="articles-text">Tin Tức</p>
 				</div>
-				<div className="container articles-container">
-					{articles.map((article) => {
-						const firstImage = article.record?.[0];
-						return (
-							<div
-								className="article-card"
-								key={article.articleId}
-								onClick={() => handleArticleClick(article)}
-								style={{ cursor: "pointer" }}
-							>
-								{firstImage && (
-									<img
-										className="article-card_img"
-										src={`${API_BASE_BE}/assets/${firstImage.directusFilesId}`}
-										alt={firstImage.fileTitle || article.title}
-									/>
-								)}
-								<div className="article-content">
-									<div
-										className="article-title"
-										dangerouslySetInnerHTML={{ __html: article.title }}
-									/>
-									<div
-										style={{ fontStyle: "italic" }}
-										className="article-content-meta"
-										dangerouslySetInnerHTML={{
-											__html: article.subTitle || "",
-										}}
-									/>
-									<div className="article-meta">
-										<FontAwesomeIcon
-											className="article-meta-icon"
-											icon={faCalendarDays}
+				<div className="articles-container">
+					<div className="container">
+						{articles.map((article) => {
+							const firstImage = article.record?.[0];
+							return (
+								<div
+									className="article-card"
+									key={article.articleId}
+									onClick={() => handleArticleClick(article)}
+									style={{ cursor: "pointer" }}
+								>
+									{firstImage && (
+										<img
+											className="article-card_img"
+											src={`${API_BASE_BE}/assets/${firstImage.directusFilesId}`}
+											alt={firstImage.fileTitle || article.title}
 										/>
-										<span>
-											{article.publishedDate
-												? new Date(
-														article.publishedDate
-												  ).toLocaleDateString()
-												: ""}
-										</span>
-									</div>
-									<div className="article-tag">
-										<span>#{article.topicName}</span>
+									)}
+									<div className="article-content">
+										<div
+											className="article-title"
+											dangerouslySetInnerHTML={{ __html: article.title }}
+										/>
+										<div
+											style={{ fontStyle: "italic" }}
+											className="article-content-meta"
+											dangerouslySetInnerHTML={{
+												__html: article.subTitle || "",
+											}}
+										/>
+										<div className="article-meta">
+											<FontAwesomeIcon
+												className="article-meta-icon"
+												icon={faCalendarDays}
+											/>
+											<span>
+												{article.publishedDate
+													? new Date(
+															article.publishedDate
+													  ).toLocaleDateString()
+													: ""}
+											</span>
+										</div>
+										<div className="article-tag">
+											<span>#{article.topicName}</span>
+										</div>
 									</div>
 								</div>
-							</div>
-						);
-					})}
+							);
+						})}
+					</div>
 				</div>
 			</div>
 		</div>

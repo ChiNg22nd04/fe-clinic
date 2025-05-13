@@ -1,0 +1,228 @@
+@import "../../../shared/globalStyle/variables.scss";
+
+.professional {
+    margin-top: $height-header + 10px;
+    .text-center {
+        background: $white-color;
+        position: relative;
+        padding: 30px 0 60px 0;
+        margin-bottom: 20px;
+
+        .professional-text {
+            font-size: 24px;
+            text-align: center;
+            text-transform: uppercase;
+            color: $blue-medium;
+            font-weight: 700;
+            margin: 0;
+        }
+        .professional-text::after {
+            position: absolute;
+            content: "";
+            left: 0;
+            bottom: 30px;
+            border-bottom: 5px solid $text-sub;
+            width: 100px;
+            height: 1px;
+            left: calc(50% - 50px);
+        }
+    }
+    .professional-banner {
+        width: 100%;
+        object-fit: cover;
+    }
+    .professional-list {
+        background-color: $white-color;
+        padding-bottom: 100px;
+
+        .container {
+            padding-top: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            margin: 0 auto 0 auto;
+        }
+
+        .professional-card {
+            display: flex;
+            align-items: flex-start;
+            .professional-avatar {
+                width: 25%;
+                height: auto;
+                object-fit: cover;
+                background: $f5-color;
+                flex-shrink: 0;
+                box-shadow: 0 1px 3px $c-color;
+                overflow: hidden;
+                display: block;
+                border: 1px solid $c-color;
+            }
+
+            .professional-info {
+                width: 75%;
+                margin-left: 20px;
+                display: flex;
+                flex-direction: column;
+
+                .professional-name {
+                    font-size: 22px;
+                    font-weight: bold;
+                    margin: 0 0 14px 0;
+                    text-align: start;
+                }
+                .professional-title {
+                    font-size: 15px;
+                    color: $text-sub;
+                    font-weight: 500;
+                    margin-bottom: 7px;
+                    font-style: italic;
+                }
+
+                .professional-hospital {
+                    font-size: 15px;
+                    color: $text-sub;
+                    font-style: italic;
+                    margin-bottom: 7px;
+                }
+            }
+        }
+    }
+}
+
+.professional-desc {
+    font-size: 15px;
+    color: $text-dark;
+    margin-bottom: 14px;
+}
+
+.professional-intro {
+    font-size: 14px;
+    color: $text-sub;
+    margin-bottom: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4;
+    margin-bottom: 14px;
+    p {
+        margin: 5px 0;
+    }
+}
+
+.professional-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.btn {
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: background 0.2s, color 0.2s;
+}
+
+.btn-primary {
+    background: $blue-dark;
+    color: $white-color;
+    border: none;
+}
+
+.btn-primary:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.btn-outline {
+    background: #fff;
+    background-color: $blue-light;
+    color: $white-color;
+}
+
+.btn-outline:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.doctor-page {
+    margin-top: $height-header + 10px;
+    background-color: $white-color;
+    padding-bottom: 100px;
+
+    .doctor-header {
+        display: flex;
+        margin-bottom: 2rem;
+        .doctor-avatar {
+            width: 30%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+
+        .doctor-info {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            .doctor-name {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+                color: #333;
+            }
+
+            .doctor-title {
+                font-size: 1.1rem;
+                color: #666;
+                margin-bottom: 0.5rem;
+
+                span {
+                    font-weight: 600;
+                }
+            }
+            .doctor-desc {
+                font-size: 1.1rem;
+                color: #666;
+                line-height: 1.6;
+            }
+
+            .doctor-hospital {
+                font-size: 1.1rem;
+                color: #666;
+            }
+        }
+    }
+
+    .doctor-content {
+        .doctor-section {
+            margin-bottom: 2rem;
+
+            h2 {
+                font-size: 1.5rem;
+                color: #333;
+                margin-bottom: 1rem;
+                padding-bottom: 0.5rem;
+                border-bottom: 2px solid #eee;
+            }
+
+            .doctor-intro,
+            .doctor-member,
+            .doctor-expert {
+                font-size: 1.1rem;
+                color: #666;
+                line-height: 1.6;
+            }
+        }
+    }
+}
+
+.loading {
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.2rem;
+    color: #666;
+}
