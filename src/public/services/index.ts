@@ -341,3 +341,12 @@ export const getAllDoctor = async (): Promise<DoctorPayload[]> => {
 		throw error.response?.data || { message: "Unexpected error occurred" };
 	}
 };
+
+export const getIntroduction = async () => {
+	try {
+		const response = await axiosInstance.get(API_ENDPOINTS.common.home);
+		return response.data.data;
+	} catch (error: any) {
+		throw error.response?.data || { message: "Unexpected error occurred" };
+	}
+};
