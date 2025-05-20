@@ -1,0 +1,194 @@
+@import "../../../shared/globalStyle/variables.scss";
+
+.achievements {
+    margin-top: $height-header + 10px;
+    padding-bottom: 10px;
+    .text-center {
+        position: relative;
+        padding: 30px 0 60px 0;
+        margin-bottom: 20px;
+        background-color: $white-color;
+
+        .achievements-text {
+            font-size: 24px;
+            text-align: center;
+            text-transform: uppercase;
+            color: $blue-medium;
+            font-weight: 700;
+            margin: 0;
+        }
+        .achievements-text::after {
+            position: absolute;
+            content: "";
+            left: 0;
+            bottom: 30px;
+            border-bottom: 5px solid $text-sub;
+            width: 100px;
+            height: 1px;
+            left: calc(50% - 50px);
+        }
+    }
+
+    .achievements-container {
+        padding-top: 20px;
+        background-color: $white-color;
+        .achievement-card {
+            display: flex;
+            padding: 16px;
+            border-bottom: 1px solid #ccc;
+
+            .achievement-card_img {
+                width: 30%;
+            }
+            .achievement-content {
+                display: flex;
+                flex-direction: column;
+                margin-left: 20px;
+            }
+        }
+
+        .achievement-link {
+            text-decoration: none;
+            color: black;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+
+        .achievement-meta {
+            font-size: 14px;
+            color: gray;
+            margin-bottom: 10px;
+
+            .achievement-meta-icon {
+                margin-right: 5px;
+            }
+        }
+    }
+}
+
+.achievement-content-meta {
+    font-size: 14px;
+    color: $text-sub;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+// Achievement Detail Styles
+.achievement-detail {
+    margin-top: $height-header + 10px;
+    padding: 40px 0;
+    background: $white-color;
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .achievement-detail-header {
+        margin-bottom: 15px;
+
+        .achievement-detail-title h2 {
+            font-weight: 500;
+            color: $blue-dark;
+            margin-bottom: 16px;
+            margin: 0;
+            font-size: 22px;
+            text-transform: uppercase;
+        }
+
+        .achievement-detail-meta {
+            display: flex;
+            justify-content: space-between;
+            gap: 24px;
+            color: $text-sub;
+            font-size: 14px;
+
+            .meta-item {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            .border-circle {
+                color: $white-color;
+                padding: 5px 12px;
+                border: 1px solid $blue-dark;
+                border-radius: 20px;
+                background-color: $blue-dark;
+            }
+        }
+    }
+
+    .achievement-detail-content {
+        .achievement-detail-images {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            position: relative;
+            width: 100%;
+
+            img {
+                width: 100%;
+                height: auto;
+                object-fit: cover;
+                display: block;
+            }
+
+            .image-caption {
+                margin-top: 8px;
+                font-size: 14px;
+                color: $text-sub;
+                font-style: italic;
+                text-align: center;
+            }
+        }
+
+        .achievement-detail-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: $text-dark;
+            margin-top: 10px;
+            h4 {
+                margin: 0;
+                text-align: start;
+                color: $text-dark;
+                font-weight: 500;
+                font-size: 16px;
+                line-height: 1.8;
+            }
+            h3 {
+                font-size: 22px;
+                font-weight: 500;
+                color: $blue-dark;
+                margin-top: 10px;
+                text-align: start;
+            }
+            p {
+                margin: 5px 0;
+            }
+            img {
+                max-width: 100%;
+                height: auto;
+            }
+
+            ul,
+            ol {
+                margin: 16px 0;
+                padding-left: 24px;
+
+                li {
+                    margin-bottom: 8px;
+                }
+            }
+
+            blockquote {
+                border-left: 4px solid $blue-medium;
+                padding: 16px;
+                margin: 24px 0;
+                background: #f8f9fa;
+                font-style: italic;
+            }
+        }
+    }
+}

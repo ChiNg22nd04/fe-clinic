@@ -5,6 +5,7 @@ import HomePage from "~/public/pages/Home";
 import Specialties from "~/public/pages/Specialties";
 import SpecialtyDetail from "~/public/pages/Specialties/SpecialtiesDetail";
 import Articles from "~/public/pages/Articles";
+import Achievements from "~/public/pages/Achievements";
 import Professional from "~/public/pages/Professional";
 import DoctorDetail from "~/public/pages/Professional/DoctorDetail";
 
@@ -24,6 +25,10 @@ const publicRoutes: RouteObject[] = [
 	{
 		path: API_ENDPOINTS.common.articles,
 		element: <Articles />,
+	},
+	{
+		path: API_ENDPOINTS.common.achievements,
+		element: <Achievements />,
 	},
 	{
 		path: API_ENDPOINTS.common.professional,
