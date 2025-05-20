@@ -30,7 +30,7 @@
     }
 
     .articles-container {
-        padding-top: 20px;
+        padding: 20px 0 100px 0;
         background-color: $white-color;
         .article-card {
             display: flex;
@@ -56,6 +56,9 @@
                 display: inline-block;
                 margin-top: 3px;
                 width: 20%;
+            }
+            &:last-child {
+                border-bottom: none;
             }
         }
 

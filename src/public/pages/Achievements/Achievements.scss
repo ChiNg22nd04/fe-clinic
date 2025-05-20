@@ -30,13 +30,15 @@
     }
 
     .achievements-container {
-        padding-top: 20px;
+        padding: 20px 0 100px 0;
         background-color: $white-color;
         .achievement-card {
             display: flex;
             padding: 16px;
             border-bottom: 1px solid #ccc;
-
+            &:last-child {
+                border-bottom: none;
+            }
             .achievement-card_img {
                 width: 30%;
             }
