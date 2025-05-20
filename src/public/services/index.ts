@@ -197,6 +197,65 @@ export const getAllArticles = async (): Promise<ArticlesPayload[]> => {
 	}
 };
 
+export const getAllAchievements = async (): Promise<ArticlesPayload[]> => {
+	try {
+		const response = await axiosInstance.get(API_ENDPOINTS.common.achievements);
+		const rawData = response.data.data;
+
+		// Map & group by article_id
+		const articlesMap = new Map<number, ArticlesPayload>();
+
+		rawData.forEach((item: any) => {
+			const articleId = item.article_id;
+
+			// Nếu bài viết chưa tồn tại trong map, tạo mới
+			if (!articlesMap.has(articleId)) {
+				articlesMap.set(articleId, {
+					articleId,
+					title: item.title,
+					subTitle: item.sub_title,
+					content: item.content,
+					author: item.author,
+					publishedDate: item.published_date,
+					topicId: item.topic_id,
+					topicName: item.topic_name,
+					record: [],
+				});
+			}
+
+			// Nếu có thông tin file, thêm vào record
+			if (item.file_id) {
+				const fileRecord: ArticlesFiles = {
+					id: 0, // hoặc set null/undefined nếu không có ID cụ thể trong response
+					articlesArticleId: articleId,
+					directusFilesId: item.file_id,
+
+					fileId: item.file_id,
+					filenameDownload: item.filename_download,
+					fileTitle: item.file_title,
+					fileType: item.file_type,
+					filesize: Number(item.filesize),
+					width: item.width,
+					height: item.height,
+				};
+
+				const article = articlesMap.get(articleId);
+				if (article) {
+					article.record?.push(fileRecord);
+				}
+			}
+		});
+
+		// Trả về danh sách bài viết
+		const articlesList = Array.from(articlesMap.values());
+
+		console.log(articlesList);
+		return articlesList;
+	} catch (error: any) {
+		throw error.response?.data || { message: "Unexpected error occurred" };
+	}
+};
+
 export const getArticleById = async (articleId: number): Promise<ArticlesPayload[]> => {
 	try {
 		const response = await axiosInstance.post(API_ENDPOINTS.common.articles, {

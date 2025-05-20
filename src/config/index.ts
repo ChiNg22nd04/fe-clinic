@@ -13,6 +13,7 @@ export const API_ENDPOINTS = {
 		specialties: "/specialties",
 		clinics: "/clinics",
 		articles: "/articles",
+		achievements: "/achievements",
 		specialtiesClinicId: "/specialties/clinic-id",
 		shiftDoctor: "/shifts-all",
 		allSpecialtiesDoctor: "/specialties/doctor-all",

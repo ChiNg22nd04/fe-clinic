@@ -1,6 +1,6 @@
 @import "../../../shared/globalStyle/variables.scss";
 
-.articles {
+.achievements {
     margin-top: $height-header + 10px;
     padding-bottom: 10px;
     .text-center {
@@ -9,7 +9,7 @@
         margin-bottom: 20px;
         background-color: $white-color;
 
-        .articles-text {
+        .achievements-text {
             font-size: 24px;
             text-align: center;
             text-transform: uppercase;
@@ -17,7 +17,7 @@
             font-weight: 700;
             margin: 0;
         }
-        .articles-text::after {
+        .achievements-text::after {
             position: absolute;
             content: "";
             left: 0;
@@ -29,40 +29,27 @@
         }
     }
 
-    .articles-container {
+    .achievements-container {
         padding: 20px 0 100px 0;
         background-color: $white-color;
-        .article-card {
+        .achievement-card {
             display: flex;
             padding: 16px;
             border-bottom: 1px solid #ccc;
-
-            .article-card_img {
+            &:last-child {
+                border-bottom: none;
+            }
+            .achievement-card_img {
                 width: 30%;
             }
-            .article-content {
+            .achievement-content {
                 display: flex;
                 flex-direction: column;
                 margin-left: 20px;
             }
-            .article-tag {
-                font-size: 14px;
-                background: #f6f6f7;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                color: $text-dark;
-                padding: 5px 5px;
-                margin-right: 3px;
-                display: inline-block;
-                margin-top: 3px;
-                width: 20%;
-            }
-            &:last-child {
-                border-bottom: none;
-            }
         }
 
-        .article-link {
+        .achievement-link {
             text-decoration: none;
             color: black;
             &:hover {
@@ -70,25 +57,27 @@
             }
         }
 
-        .article-meta {
+        .achievement-meta {
             font-size: 14px;
             color: gray;
             margin-bottom: 10px;
 
-            .article-meta-icon {
+            .achievement-meta-icon {
                 margin-right: 5px;
             }
         }
     }
 }
-.article-content-meta {
+
+.achievement-content-meta {
     font-size: 14px;
     color: $text-sub;
     font-style: italic;
     margin-bottom: 10px;
 }
-// Article Detail Styles
-.article-detail {
+
+// Achievement Detail Styles
+.achievement-detail {
     margin-top: $height-header + 10px;
     padding: 40px 0;
     background: $white-color;
@@ -99,10 +88,10 @@
         padding: 0 20px;
     }
 
-    .article-detail-header {
+    .achievement-detail-header {
         margin-bottom: 15px;
 
-        .article-detail-title h2 {
+        .achievement-detail-title h2 {
             font-weight: 500;
             color: $blue-dark;
             margin-bottom: 16px;
@@ -111,7 +100,7 @@
             text-transform: uppercase;
         }
 
-        .article-detail-meta {
+        .achievement-detail-meta {
             display: flex;
             justify-content: space-between;
             gap: 24px;
@@ -133,8 +122,8 @@
         }
     }
 
-    .article-detail-content {
-        .article-detail-images {
+    .achievement-detail-content {
+        .achievement-detail-images {
             display: flex;
             flex-direction: column;
             gap: 24px;
@@ -157,7 +146,7 @@
             }
         }
 
-        .article-detail-text {
+        .achievement-detail-text {
             font-size: 16px;
             line-height: 1.8;
             color: $text-dark;
