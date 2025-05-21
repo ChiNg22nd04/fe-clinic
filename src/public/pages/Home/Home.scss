@@ -1,8 +1,83 @@
 @import "../../../shared/globalStyle/variables.scss";
 
+.home-bg {
+    background: #f7fafc;
+    min-height: 100vh;
+}
+
 .home {
     font-family: "Arial", sans-serif;
-    margin-top: $height-header + 10px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 16px 60px 16px;
+
+    &__section {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+        margin-bottom: 48px;
+        padding: 36px 32px;
+        gap: 40px;
+        transition: box-shadow 0.2s;
+
+        &:hover {
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.13);
+        }
+
+        &.reverse {
+            flex-direction: row-reverse;
+        }
+
+        @media (max-width: 900px) {
+            flex-direction: column;
+            gap: 24px;
+            padding: 24px 10px;
+        }
+    }
+
+    &__section-media {
+        flex: 1 1 350px;
+        max-width: 400px;
+        min-width: 260px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img,
+        video {
+            width: 100%;
+            max-width: 380px;
+            border-radius: 14px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            background: #eee;
+            object-fit: cover;
+        }
+    }
+
+    &__section-content {
+        flex: 2 1 0;
+        min-width: 0;
+    }
+
+    &__section-title {
+        color: $blue-dark;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 18px;
+        line-height: 1.2;
+        letter-spacing: -0.5px;
+    }
+
+    &__section-text {
+        color: #444;
+        font-size: 1.15rem;
+        line-height: 1.7;
+        margin: 0;
+        text-align: justify;
+    }
 
     &__banner {
         position: relative;
