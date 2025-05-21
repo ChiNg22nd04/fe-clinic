@@ -5,6 +5,7 @@ import { Outlet, useNavigate, useMatches } from "react-router-dom";
 import Header from "~/shared/components/Header";
 import { API_ENDPOINTS } from "~/config";
 import Sidebar from "./Sidebar";
+import Footer from "~/shared/components/Footer";
 
 import "./CustomerLayout.scss";
 
@@ -30,13 +31,14 @@ const CustomerLayout: React.FC = () => {
 	}, []);
 
 	return (
-		<div className="customer-main">
+		<>
 			<Header />
 			<div className="layout">
 				{!hideSidebar && <Sidebar />}
 				<Outlet />
 			</div>
-		</div>
+			<Footer />
+		</>
 	);
 };
 

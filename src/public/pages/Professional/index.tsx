@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "~/shared/components/Header";
+import Footer from "~/shared/components/Footer";
 import { getAllDoctor } from "~/public/services";
 import { DoctorPayload } from "~/shared/interfaces";
 import { slugify } from "~/shared/utils/slugify";
@@ -33,7 +34,7 @@ const Professional: React.FC = () => {
 	};
 
 	return (
-		<div className="app">
+		<>
 			<Header />
 			<div className="professional">
 				<img
@@ -89,7 +90,8 @@ const Professional: React.FC = () => {
 					</div>
 				</div>
 			</div>
-		</div>
+			<Footer />
+		</>
 	);
 };
 

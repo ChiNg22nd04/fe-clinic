@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "~/shared/components/Header";
+import Footer from "~/shared/components/Footer";
+
 import { getAllAchievements } from "~/public/services";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
@@ -75,7 +77,7 @@ const Achievements: React.FC = () => {
 	}
 
 	return (
-		<div className="app">
+		<>
 			<Header />
 			<div className="achievements">
 				<div className="text-center">
@@ -132,7 +134,8 @@ const Achievements: React.FC = () => {
 					</div>
 				</div>
 			</div>
-		</div>
+			<Footer />
+		</>
 	);
 };
 

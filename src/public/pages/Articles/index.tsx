@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "~/shared/components/Header";
+import Footer from "~/shared/components/Footer";
+
 import { getAllArticles } from "~/public/services";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
@@ -64,10 +66,11 @@ const Articles: React.FC = () => {
 
 	if (selectedArticle) {
 		return (
-			<div className="app">
+			<>
 				<Header />
 				<ArticleDetail article={selectedArticle} onBack={handleBackToList} />
-			</div>
+				<Footer />
+			</>
 		);
 	}
 

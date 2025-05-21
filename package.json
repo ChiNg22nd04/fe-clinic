@@ -19,6 +19,7 @@
         "dayjs": "^1.11.13",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
+        "react-parallax": "^3.5.2",
         "react-scripts": "5.0.1",
         "router": "^2.2.0",
         "sass": "^1.86.3",
