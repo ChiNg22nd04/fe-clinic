@@ -1,6 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+
 import Header from "~/shared/components/Header";
+import Footer from "~/shared/components/Footer";
+
 import { useSpecialties } from "~/shared/hooks/useSpecialties";
 import "./Specialties.scss";
 import { ContentItem, SubContentItem } from "~/shared/interfaces";
@@ -17,7 +20,7 @@ const Specialties: React.FC = () => {
 	};
 
 	return (
-		<div className="app">
+		<>
 			<Header />
 			<div className="specialties">
 				<img
@@ -59,7 +62,8 @@ const Specialties: React.FC = () => {
 					</div>
 				</div>
 			</div>
-		</div>
+			<Footer />
+		</>
 	);
 };
 
