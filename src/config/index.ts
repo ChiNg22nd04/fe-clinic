@@ -27,7 +27,8 @@ export const API_ENDPOINTS = {
 		profile: `${USER_BASE}/profile`,
 		updateUserInfo: `${USER_BASE}/upload-profile`,
 		updateUserAvatar: `${USER_BASE}/upload-avatar`,
-		medicalReport: `${USER_BASE}/appointment/get-all`,
+		appointments: `${USER_BASE}/appointments`,
+		examination: `${USER_BASE}/medical-history`,
 	},
 	receptionist: {
 		shifts: `${RECEPTIONIST_BASE}/shifts`,

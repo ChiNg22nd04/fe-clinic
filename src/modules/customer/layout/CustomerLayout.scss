@@ -1,8 +1,10 @@
 @import "../../../shared/globalStyle/variables.scss";
 
-.layout {
+.layout__customer {
     margin-top: $height-header + 10px;
     display: flex;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 // Dashboard

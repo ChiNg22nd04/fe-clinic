@@ -8,7 +8,7 @@ import ScheduleAppointment from "~/modules/customer/pages/Appointment";
 import Profile from "~/modules/customer/pages/Profile";
 import MedicalReport from "~/modules/customer/pages/MedicalReport";
 import Upload from "../pages/Upload";
-
+import Examination from "~/modules/customer/pages/Examination";
 const USER_BASE = "/user";
 
 const customerRoutes: RouteObject[] = [
@@ -26,9 +26,10 @@ const customerRoutes: RouteObject[] = [
 				handle: { hideSidebar: true },
 			},
 			{ path: "profile", element: <Profile /> },
-			{ path: "appointment/get-all", element: <MedicalReport /> },
+			{ path: "appointments", element: <MedicalReport /> },
 			{ path: "upload-profile", element: <Upload /> },
 			{ path: "upload-avatar", element: <Upload /> },
+			{ path: "medical-history", element: <Examination /> },
 		],
 	},
 ];
