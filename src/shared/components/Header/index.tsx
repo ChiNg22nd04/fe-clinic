@@ -17,8 +17,7 @@ import "./Header.scss";
 const Header: React.FC = () => {
 	const navigate = useNavigate();
 	const menuItems = [
-		{ to: API_ENDPOINTS.user.profile, label: "Hồ sơ bệnh nhân" },
-		{ to: API_ENDPOINTS.user.medicalReport, label: "Lịch sử khám bệnh" },
+		{ to: API_ENDPOINTS.user.profile, label: "Hồ sơ bệnh án" },
 		{ to: "/", label: "Thông báo" },
 	];
 	const [showDropdown, setShowDropdown] = useState(false);

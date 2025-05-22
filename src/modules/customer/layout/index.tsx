@@ -33,7 +33,7 @@ const CustomerLayout: React.FC = () => {
 	return (
 		<>
 			<Header />
-			<div className="layout">
+			<div className="layout__customer">
 				{!hideSidebar && <Sidebar />}
 				<Outlet />
 			</div>

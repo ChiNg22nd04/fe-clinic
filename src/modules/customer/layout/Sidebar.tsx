@@ -14,22 +14,32 @@ const Sidebar: React.FC = () => {
 	return (
 		<div className="dashboard-cards">
 			<div className="dashboard-card">
-				<Link className="dashboard-card_link" to={API_ENDPOINTS.user.updateUserInfo}>
+				<Link className="dashboard-card_link" to={API_ENDPOINTS.user.profile}>
 					<div className="dashboard-card_icon">
 						<FontAwesomeIcon icon={faClipboardList} className="card-icon" />
 					</div>
 					<div className="title">
-						<p className="title-main">Cập nhập thông tin cá nhân</p>
+						<p className="title-main">Thông tin cá nhân</p>
 					</div>
 				</Link>
 			</div>
 			<div className="dashboard-card">
-				<Link className="dashboard-card_link" to={API_ENDPOINTS.user.medicalReport}>
+				<Link className="dashboard-card_link" to={API_ENDPOINTS.user.appointments}>
 					<div className="dashboard-card_icon">
 						<FontAwesomeIcon icon={faClipboardList} className="card-icon" />
 					</div>
 					<div className="title">
-						<p className="title-main">Xem hồ sơ bệnh án</p>
+						<p className="title-main">Lịch sử đặt lịch</p>
+					</div>
+				</Link>
+			</div>
+			<div className="dashboard-card">
+				<Link className="dashboard-card_link" to={API_ENDPOINTS.user.examination}>
+					<div className="dashboard-card_icon">
+						<FontAwesomeIcon icon={faClipboardList} className="card-icon" />
+					</div>
+					<div className="title">
+						<p className="title-main">Lịch sử khám bệnh</p>
 					</div>
 				</Link>
 			</div>

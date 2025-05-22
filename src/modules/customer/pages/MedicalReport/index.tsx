@@ -41,7 +41,7 @@ const ScheduleAppointment: React.FC = () => {
 	}, [patient?.id]);
 
 	return (
-		<div className="container">
+		<div className="content">
 			{loading && <p>Đang tải...</p>}
 			{error && <p className="error">{error}</p>}
 			{!loading && !error && (
