@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "~/assets/images/logo.app.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faCalendarDays } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { logout } from "~/modules/auth/services";
 import { API_ENDPOINTS } from "~/config";
 import UserMenu from "~/shared/components/UserMenu";

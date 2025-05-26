@@ -10,18 +10,18 @@ interface Props {
 	onRefresh?: () => void; // callback để reload lại danh sách nếu cần
 }
 
-const getStatusText = (status?: string | number) => {
-	switch (status) {
-		case 0:
-			return "Chờ xác nhận";
-		case 1:
-			return "Chờ khám";
-		case 2:
-			return "Đã hoàn thành";
-		default:
-			return "Không rõ";
-	}
-};
+// const getStatusText = (status?: string | number) => {
+// 	switch (status) {
+// 		case 0:
+// 			return "Chờ xác nhận";
+// 		case 1:
+// 			return "Chờ khám";
+// 		case 2:
+// 			return "Đã hoàn thành";
+// 		default:
+// 			return "Không rõ";
+// 	}
+// };
 
 const AppointmentDetailModal: React.FC<Props> = ({ appointment, onClose, onRefresh }) => {
 	if (!appointment) return null;

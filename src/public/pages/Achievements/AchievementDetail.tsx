@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "~/shared/components/Header";
 import { ArticlesPayload } from "~/shared/interfaces";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDays, faUser } from "@fortawesome/free-solid-svg-icons";

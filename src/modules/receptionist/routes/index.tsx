@@ -1,5 +1,4 @@
 import { RouteObject } from "react-router-dom";
-import { API_ENDPOINTS } from "~/config";
 import Receptionist from "~/modules/receptionist/layout";
 import Shifts from "../page/Shifts";
 import Appointment from "../page/Appointment";

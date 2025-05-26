@@ -1,4 +1,3 @@
-import { Console } from "console";
 import axiosInstance from "~/Axios/axiosInstance";
 import { API_ENDPOINTS } from "~/config";
 import {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import {  useLocation } from "react-router-dom";
 import Header from "~/shared/components/Header";
 import { getAllDoctor } from "~/public/services";
 import { DoctorPayload } from "~/shared/interfaces";

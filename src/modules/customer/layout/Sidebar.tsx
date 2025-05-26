@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import { API_ENDPOINTS } from "~/config";
-
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarCheck, faUserPlus, faClipboardList } from "@fortawesome/free-solid-svg-icons";
+import { faClipboardList } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
 import "./CustomerLayout.scss";

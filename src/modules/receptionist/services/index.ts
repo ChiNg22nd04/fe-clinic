@@ -8,7 +8,7 @@ import {
 	ShiftsPayload,
 } from "~/shared/interfaces";
 
-const today = dayjs().format("YYYY-MM-DD");
+// const today = dayjs().format("YYYY-MM-DD");
 
 export const listAppointment = async (params?: Partial<AppointmentPayload>) => {
 	try {

@@ -1,5 +1,4 @@
 import { RouteObject } from "react-router-dom";
-import { API_ENDPOINTS } from "~/config";
 import Doctor from "~/modules/doctor/layout";
 import ExaminationForm from "../page/ExaminationForm";
 import ExaminationDetailModal from "~/modules/doctor/page/ExaminationForm";
