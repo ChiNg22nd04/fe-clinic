@@ -1,15 +1,13 @@
 // modules/customer/layout/CustomerLayout.tsx
 
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { API_ENDPOINTS } from "~/config";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-	faCalendarDays,
 	faScroll,
 	faUserPlus,
-	faClipboardList,
 	faRectangleList,
 	faFileLines,
 } from "@fortawesome/free-solid-svg-icons";

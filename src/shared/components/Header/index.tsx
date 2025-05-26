@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import images from "~/assets/images";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRightFromBracket, faUser, faCalendarDays } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 
 import { logout } from "~/modules/auth/services";
 
@@ -20,7 +20,6 @@ const Header: React.FC = () => {
 		{ to: API_ENDPOINTS.user.profile, label: "Hồ sơ bệnh án" },
 		{ to: "/", label: "Thông báo" },
 	];
-	const [showDropdown, setShowDropdown] = useState(false);
 
 	const user = useUser();
 

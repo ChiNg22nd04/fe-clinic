@@ -6,8 +6,6 @@ import Footer from "~/shared/components/Footer";
 
 import { useSpecialties } from "~/shared/hooks/useSpecialties";
 import "./Specialties.scss";
-import { ContentItem, SubContentItem } from "~/shared/interfaces";
-import { API_BASE_BE } from "~/config";
 import images from "~/assets/images";
 import { slugify } from "~/shared/utils/slugify";
 

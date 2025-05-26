@@ -3,7 +3,6 @@
 import React from "react";
 import { Outlet, useNavigate, useMatches } from "react-router-dom";
 import Header from "~/shared/components/Header";
-import { API_ENDPOINTS } from "~/config";
 import Sidebar from "./Sidebar";
 import Footer from "~/shared/components/Footer";
 

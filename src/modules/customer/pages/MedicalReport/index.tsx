@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useUser } from "~/shared/hooks";
-import Header from "~/shared/components/Header";
 import { getAllAppointment } from "~/modules/customer/services";
-import { AppointmentPayload } from "~/shared/interfaces";
 
 import "./MedicalReport.scss";
 const renderStatus = (status: number) => {

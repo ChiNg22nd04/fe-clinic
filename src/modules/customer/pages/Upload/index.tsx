@@ -48,18 +48,18 @@ const Upload: React.FC = () => {
 		setFormData({ ...formData, [name]: value });
 	};
 
-	const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (e.target.files && e.target.files[0]) {
-			const file = e.target.files[0];
+	// const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+	// 	if (e.target.files && e.target.files[0]) {
+	// 		const file = e.target.files[0];
 
-			try {
-				const compressed = await compressImage(file);
-				setAvatarFile(compressed);
-			} catch (error) {
-				console.error("Không thể nén ảnh:", error);
-			}
-		}
-	};
+	// 		try {
+	// 			const compressed = await compressImage(file);
+	// 			setAvatarFile(compressed);
+	// 		} catch (error) {
+	// 			console.error("Không thể nén ảnh:", error);
+	// 		}
+	// 	}
+	// };
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -90,20 +90,6 @@ const Upload: React.FC = () => {
 		}
 	};
 
-	const roleText = (role: number) => {
-		switch (role) {
-			case 0:
-				return "Admin";
-			case 1:
-				return "Doctor";
-			case 2:
-				return "Receptionist";
-			case 3:
-				return "Patient";
-			default:
-				return "Unknown";
-		}
-	};
 
 	if (loading) return <div>Loading...</div>;
 	if (error) return <div>{error}</div>;

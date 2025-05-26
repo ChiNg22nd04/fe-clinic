@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
-import Header from "~/shared/components/Header";
 
 import { useUser, useClinics, useSpecialties, useDoctors, useShiftSchedule } from "~/shared/hooks";
 import { scheduleAppointment } from "~/modules/customer/services";

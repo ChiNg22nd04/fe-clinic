@@ -1,5 +1,4 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
-// import publicRoutes from "../public/routes";
+import { createBrowserRouter } from "react-router-dom";
 import publicRoutes from "~/public/routes";
 import authRoutes from "~/modules/auth/router";
 import customerRoutes from "~/modules/customer/routes";
