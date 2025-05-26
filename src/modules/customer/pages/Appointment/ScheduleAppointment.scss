@@ -100,3 +100,41 @@
         opacity: 0.6;
     }
 }
+
+.submit-button {
+    margin-top: 20px;
+    text-align: center;
+
+    button {
+        padding: 12px 30px;
+        font-size: 16px;
+        font-weight: 600;
+        color: $white-color;
+        background-color: $blue-dark;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        &:hover {
+            scale: 1.05;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        &:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        &:disabled {
+            background-color: $text-sub;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+    }
+}
