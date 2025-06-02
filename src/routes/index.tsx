@@ -4,7 +4,6 @@ import authRoutes from "~/modules/auth/router";
 import customerRoutes from "~/modules/customer/routes";
 import receptionistRoutes from "~/modules/receptionist/routes";
 import doctorRoutes from "~/modules/doctor/routes";
-import adminRoutes from "~/modules/admin/routes";
 
 import HomePage from "~/public/pages/Home";
 
@@ -18,5 +17,4 @@ export const router = createBrowserRouter([
 	...customerRoutes,
 	...receptionistRoutes,
 	...doctorRoutes,
-	...adminRoutes,
 ]);
