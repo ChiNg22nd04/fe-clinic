@@ -33,6 +33,16 @@ const Professional: React.FC = () => {
 		navigate(`/professional/${slug}`, { state: { doctorId: doctor.staffId } });
 	};
 
+	const handleScheduleAppointment = (doctor: DoctorPayload) => {
+		navigate("/user/schedule-appointment", {
+			state: {
+				clinicId: doctor.clinicId,
+				specialtyId: doctor.specialtyId,
+				staffId: doctor.staffId,
+			},
+		});
+	};
+
 	return (
 		<>
 			<Header />
@@ -76,7 +86,12 @@ const Professional: React.FC = () => {
 										</>
 									)}
 									<div className="professional-actions">
-										<button className="btn btn-primary">ĐẶT LỊCH HẸN</button>
+										<button
+											className="btn btn-primary"
+											onClick={() => handleScheduleAppointment(doctor)}
+										>
+											ĐẶT LỊCH HẸN
+										</button>
 										<button
 											className="btn btn-outline"
 											onClick={() => handleViewDetail(doctor)}
