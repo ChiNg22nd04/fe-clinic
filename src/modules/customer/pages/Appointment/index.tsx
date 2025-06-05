@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 
@@ -9,12 +9,22 @@ import { AppointmentPayload } from "~/shared/interfaces";
 
 import "./ScheduleAppointment.scss";
 
+interface LocationState {
+	clinicId?: number;
+	specialtyId?: number;
+	staffId?: number;
+}
+
 const ScheduleAppointment: React.FC = () => {
 	const navigate = useNavigate();
+	const location = useLocation();
+	const { clinicId, specialtyId, staffId } = (location.state as LocationState) || {};
 
-	const [selectedClinicId, setSelectedClinicId] = useState<number | null>(null);
-	const [selectedSpecialtyId, setSelectedSpecialtyId] = useState<number | null>(null);
-	const [selectedDoctor, setSelectedDoctor] = useState<number | null>(null);
+	const [selectedClinicId, setSelectedClinicId] = useState<number | null>(clinicId || null);
+	const [selectedSpecialtyId, setSelectedSpecialtyId] = useState<number | null>(
+		specialtyId || null
+	);
+	const [selectedDoctor, setSelectedDoctor] = useState<number | null>(staffId || null);
 	const [selectedShiftId, setSelectedShiftId] = useState<number | null>(null);
 	const [symptoms, setSymptoms] = useState<string>("");
 
@@ -24,6 +34,18 @@ const ScheduleAppointment: React.FC = () => {
 	const { specialties, allSpecialties } = useSpecialties(selectedClinicId);
 	const doctors = useDoctors(selectedClinicId, selectedSpecialtyId);
 	const shiftSchedule = useShiftSchedule(selectedClinicId, selectedSpecialtyId, selectedDoctor);
+
+	useEffect(() => {
+		if (clinicId) {
+			setSelectedClinicId(clinicId);
+		}
+		if (specialtyId) {
+			setSelectedSpecialtyId(specialtyId);
+		}
+		if (staffId) {
+			setSelectedDoctor(staffId);
+		}
+	}, [clinicId, specialtyId, staffId]);
 
 	const handleClinicChange = async (clinicId: number) => {
 		setSelectedClinicId(clinicId);
