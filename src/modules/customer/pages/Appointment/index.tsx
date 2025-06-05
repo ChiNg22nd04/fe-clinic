@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 
 import { useUser, useClinics, useSpecialties, useDoctors, useShiftSchedule } from "~/shared/hooks";
 import { scheduleAppointment } from "~/modules/customer/services";
@@ -25,6 +27,7 @@ const ScheduleAppointment: React.FC = () => {
 		specialtyId || null
 	);
 	const [selectedDoctor, setSelectedDoctor] = useState<number | null>(staffId || null);
+	const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 	const [selectedShiftId, setSelectedShiftId] = useState<number | null>(null);
 	const [symptoms, setSymptoms] = useState<string>("");
 
@@ -50,17 +53,28 @@ const ScheduleAppointment: React.FC = () => {
 	const handleClinicChange = async (clinicId: number) => {
 		setSelectedClinicId(clinicId);
 	};
+
+	const handleDateChange = (date: Date) => {
+		setSelectedDate(date);
+		setSelectedShiftId(null); // Reset shift selection when date changes
+	};
+
 	const handleSubmit = async () => {
-		if (!selectedClinicId || !selectedSpecialtyId || !selectedDoctor || !selectedShiftId) {
+		if (
+			!selectedClinicId ||
+			!selectedSpecialtyId ||
+			!selectedDoctor ||
+			!selectedShiftId ||
+			!selectedDate
+		) {
 			alert("Vui lòng chọn đầy đủ thông tin trước khi đăng ký.");
 			return;
 		}
 
 		const selectedShift = shiftSchedule.find((shift) => shift.id === selectedShiftId);
 		dayjs.extend(utc);
-		console.log(selectedShift.start_time);
 		const newdate = dayjs.utc(selectedShift.start_time).format("HH:mm:ss");
-		console.log(newdate);
+
 		if (!selectedShift) {
 			alert("Không tìm thấy ca làm việc được chọn.");
 			return;
@@ -84,12 +98,52 @@ const ScheduleAppointment: React.FC = () => {
 			setSelectedClinicId(null);
 			setSelectedSpecialtyId(null);
 			setSelectedDoctor(null);
+			setSelectedDate(null);
 			setSelectedShiftId(null);
 			setSymptoms("");
 			navigate("/");
 		} catch (error: any) {
 			alert(error.message || "Đã xảy ra lỗi khi đặt lịch khám.");
 		}
+	};
+
+	// Get available dates from shift schedule
+	const getAvailableDates = () => {
+		const dates = new Set<string>();
+		shiftSchedule.forEach((shift) => {
+			if (shift.status !== 2) {
+				// Only include dates with available shifts
+				dates.add(shift.work_date);
+			}
+		});
+		return Array.from(dates);
+	};
+
+	// Get shifts for selected date
+	const getShiftsForDate = (date: Date) => {
+		return shiftSchedule.filter(
+			(shift) => shift.work_date === dayjs(date).format("YYYY-MM-DD") && shift.status !== 2
+		);
+	};
+
+	// Check if date has available shifts
+	const hasAvailableShifts = (date: Date) => {
+		return getShiftsForDate(date).length > 0;
+	};
+
+	// Tile content for calendar
+	const tileContent = ({ date }: { date: Date }) => {
+		if (hasAvailableShifts(date)) {
+			return <div className="available-date" />;
+		}
+		return null;
+	};
+
+	// Disable dates that are in the past or have no available shifts
+	const tileDisabled = ({ date }: { date: Date }) => {
+		const today = new Date();
+		today.setHours(0, 0, 0, 0);
+		return date < today || !hasAvailableShifts(date);
 	};
 
 	return (
@@ -180,32 +234,41 @@ const ScheduleAppointment: React.FC = () => {
 							))}
 						</select>
 					</div>
-					<div className="shift-schedule">
-						<h3>Chọn lịch làm việc của bác sĩ</h3>
-						{shiftSchedule.length > 0 && (
-							<div className="shifts-radio">
-								{shiftSchedule.map((shift) => (
-									<label
-										key={shift.id}
-										className={`shift-option ${
-											shift.status === 2 ? "disabled" : ""
-										}`}
-									>
-										<input
-											type="radio"
-											name="shift"
-											value={shift.id}
-											checked={selectedShiftId === shift.id}
-											onChange={() => setSelectedShiftId(shift.id)}
-											disabled={shift.status === 2}
-										/>
-										Ngày: {shift.work_date} - Ca: {shift.shift_name}{" "}
-										{shift.status === 2 && "(Đã kín lịch)"}
-									</label>
-								))}
+					{selectedDoctor && (
+						<div className="shift-schedule">
+							<h3>Chọn ngày khám</h3>
+							<div className="calendar-container">
+								<Calendar
+									onChange={(date) => handleDateChange(date as Date)}
+									value={selectedDate}
+									tileContent={tileContent}
+									tileDisabled={tileDisabled}
+									minDate={new Date()}
+									locale="vi-VN"
+								/>
 							</div>
-						)}
-					</div>
+							{selectedDate && (
+								<div className="shifts-container">
+									<h3>Chọn ca khám</h3>
+									<div className="shifts-radio">
+										{getShiftsForDate(selectedDate).map((shift) => (
+											<label key={shift.id} className="shift-option">
+												<input
+													type="radio"
+													name="shift"
+													value={shift.id}
+													checked={selectedShiftId === shift.id}
+													onChange={() => setSelectedShiftId(shift.id)}
+												/>
+												Ca: {shift.shift_name} (
+												{dayjs.utc(shift.start_time).format("HH:mm")})
+											</label>
+										))}
+									</div>
+								</div>
+							)}
+						</div>
+					)}
 					<div className="symptoms-input">
 						<h3>Nhập triệu chứng</h3>
 						<input
