@@ -360,8 +360,8 @@ npm test -- --watch
 ## 📞 Liên hệ
 
 -   **Tác giả**: [Nguyễn Lan Chi]
--   **Email**: [chiinglan4464@gmail.com]
--   **GitHub**: [github.com/ChiNg22nd04]
+-   **Email**: [chiinglan4464@gmail.com](chiinglan4464@gmail.com)
+-   **GitHub**: [ChiNg22nd04](https://github.com/ChiNg22nd04)
 
 ## 🙏 Cảm ơn
 
@@ -369,4 +369,3 @@ Cảm ơn bạn đã quan tâm đến Clinic Management System Frontend! Nếu c
 
 ---
 
-**Được xây dựng với ❤️ cho quản lý chăm sóc sức khỏe tốt hơn**
